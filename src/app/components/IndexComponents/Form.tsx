@@ -25,14 +25,14 @@ const Form = () => {
     <form
       onSubmit={handleFormSubmit}
       method="post"
-      className="max-w-lg mx-auto p-4 bg-white shadow-md rounded-lg"
+      className=" mx-auto p-6 bg-white shadow-md rounded-lg"
     >
       <div className="mb-4">
         <label
           htmlFor="fullname"
           className="block text-gray-700 font-semibold mb-2"
         >
-          Nombre Completo *
+          Your Name *
         </label>
         <input
           type="text"
@@ -41,7 +41,7 @@ const Form = () => {
           value={formData.fullname}
           onChange={handleChange}
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-          placeholder="Nombre completo"
+          placeholder="Jon Doe"
           required
         />
       </div>
@@ -50,7 +50,7 @@ const Form = () => {
           htmlFor="email"
           className="block text-gray-700 font-semibold mb-2"
         >
-          Correo Electrónico *
+          Your Email *
         </label>
         <input
           type="email"
@@ -59,42 +59,8 @@ const Form = () => {
           value={formData.email}
           onChange={handleChange}
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-          placeholder="Correo electrónico"
+          placeholder="jondoe@example.com"
           required
-        />
-      </div>
-      <div className="mb-4">
-        <label
-          htmlFor="phone"
-          className="block text-gray-700 font-semibold mb-2"
-        >
-          Teléfono
-        </label>
-        <input
-          type="tel"
-          id="phone"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-          placeholder="Teléfono"
-        />
-      </div>
-      <div className="mb-4">
-        <label
-          htmlFor="service"
-          className="block text-gray-700 font-semibold mb-2"
-        >
-          Servicio
-        </label>
-        <input
-          type="text"
-          id="service"
-          name="service"
-          value={formData.service}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-          placeholder="Servicio"
         />
       </div>
       <div className="mb-4">
@@ -102,7 +68,7 @@ const Form = () => {
           htmlFor="message"
           className="block text-gray-700 font-semibold mb-2"
         >
-          Mensaje *
+          Message*
         </label>
         <textarea
           id="message"
@@ -111,7 +77,7 @@ const Form = () => {
           onChange={handleChange}
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
           rows={4}
-          placeholder="Mensaje"
+          placeholder=" Message"
           required
         ></textarea>
       </div>
@@ -120,7 +86,7 @@ const Form = () => {
           type="submit"
           className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-md transition-colors duration-300"
         >
-          Enviar Mensaje
+          Send Mail
         </button>
       </div>
       {response.loading && (

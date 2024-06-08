@@ -2,13 +2,13 @@ import React from "react";
 
 const FeaturesSection = () => {
   return (
-    <section className="bg-gradient-to-br from-accent/80 via-primary/90 to-primary py-16 h-screen overflow-hidden">
+    <section className="bg-gradient-to-br from-accent via-primary/90 to-primary py-16 h-full lg:h-screen overflow-hidden">
       <div className="container m-auto px-6 space-y-8 text-accent md:px-12">
         <div>
-          <span className="text-accent text-lg font-semibold">
+          <span className="text-secondary text-lg font-semibold">
             Main features
           </span>
-          <h2 className="mt-4 text-2xl text-accent font-bold md:text-4xl">
+          <h2 className="mt-4 text-2xl text-secondary font-bold md:text-4xl">
             A technology-first approach to payments{" "}
             <br className="lg:block" hidden />
             and finance

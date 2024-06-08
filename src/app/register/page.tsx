@@ -1,7 +1,12 @@
 import React from "react";
+import RegisterView from "../views/RegisterView/RegisterView";
 
 const page = () => {
-  return <div>page</div>;
+  return (
+    <>
+      <RegisterView />
+    </>
+  );
 };
 
 export default page;

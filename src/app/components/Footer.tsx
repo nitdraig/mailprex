@@ -13,6 +13,7 @@ const Footer = () => {
               src="/logo.png"
               alt="Mailprex Logo"
               className="h-12 md:h-16 float"
+              loading="lazy"
             />
             <p className="mt-2 md:mt-0 md:ml-4 text-accent text-center md:text-left">
               Mailprex - your definitive solution for sending email from the
@@ -39,25 +40,25 @@ const Footer = () => {
           <div className="flex justify-center text-center mb-4 mt-2">
             <a
               href="#"
-              className="mx-2 text-3xl text-accent hover:text-secondary transition  "
+              className="mx-2 text-3xl text-accent hover:text-secondary transition  duration-300  "
             >
               <FaLinkedin />
             </a>
             <a
               href="#"
-              className="mx-2 text-3xl  text-accent hover:text-secondary"
+              className="mx-2 text-3xl  text-accent hover:text-secondary  transition duration-300"
             >
               <FaGithub />
             </a>
             <a
               href="#"
-              className="mx-2 text-3xl text-accent hover:text-secondary"
+              className="mx-2 text-3xl text-accent hover:text-secondary transition duration-300"
             >
               <IoDocumentTextSharp />
             </a>
             <a
               href="#"
-              className="mx-2 text-3xl  text-accent hover:text-secondary"
+              className="mx-2 text-3xl  text-accent hover:text-secondary transition duration-300"
             >
               <FaNpm />
             </a>
@@ -67,7 +68,7 @@ const Footer = () => {
               &copy; 2024 Mailprex. All rights reserved.
             </p>
           </div>
-          <div className="flex justify-center text-center">
+          <div className="flex justify-center text-center transition duration-300">
             <Terms />
           </div>
         </div>

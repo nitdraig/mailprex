@@ -2,13 +2,17 @@ import React from "react";
 
 const HeroSection = () => {
   return (
-    <section className="bg-gradient-to-br from-primary via-primary/90 to-accent text-white h-full lg:h-screen w-full py-20 md:py-32">
+    <section
+      className="bg-gradient-to-br from-primary via-primary/90 to-accent text-white h-full lg:h-screen w-full py-20 md:py-32"
+      id="home"
+    >
       <div className="mx-auto lg:px-20 flex flex-col md:flex-row items-center">
         <div className="md:w-1/2 lg:hidden md:hidden flex justify-center">
           <img
             src="/email-bg.svg"
             alt="Mailprex illustration"
-            className="rounded-lg w-full md:max-w-lg  float "
+            className="rounded-lg w-full md:max-w-lg  float"
+            loading="lazy"
           />
         </div>
         <div className="md:w-1/2 md:text-left text-center md:mx-2 lg:mt-0 mt-10 mb-8 md:mb-0">

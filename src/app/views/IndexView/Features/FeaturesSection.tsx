@@ -7,8 +7,11 @@ import { MdQueryStats } from "react-icons/md";
 
 const FeaturesSection = () => {
   return (
-    <section className="bg-gradient-to-br from-accent via-primary/90 to-primary py-16 h-full lg:h-screen overflow-hidden">
-      <div className="container m-auto px-6 space-y-8 text-accent md:px-12">
+    <section
+      className="bg-gradient-to-br from-accent via-primary/90 to-primary py-16 h-full lg:h-screen overflow-hidden"
+      id="features"
+    >
+      <div className="container m-auto px-6 space-y-8  md:px-12">
         <div>
           <span className="text-secondary uppercase text-lg font-semibold">
             Main features

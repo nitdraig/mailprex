@@ -2,10 +2,18 @@ import React from "react";
 
 const AboutSection = () => {
   return (
-    <section className="py-16 bg-gradient-to-tl from-accent via-primary/90 to-primary/80  h-full w-full">
+    <section
+      className=" bg-gradient-to-tl from-accent via-primary/90 to-primary/80  h-full w-full"
+      id="about"
+    >
       <div className="container lg:mx-auto  flex flex-col lg:flex-row items-center justify-between lg:px4 px-8">
         <div className="lg:w-1/2 mb-8 lg:mb-0">
-          <img src="/grades.svg" alt="About Mailprex" className="" />
+          <img
+            src="/grades.svg"
+            alt="About Mailprex"
+            className="float"
+            loading="lazy"
+          />
         </div>
         <div className="lg:w-1/2">
           <h3 className="text-3xl lg:text-4xl font-bold mb-6 uppercase text-accent">

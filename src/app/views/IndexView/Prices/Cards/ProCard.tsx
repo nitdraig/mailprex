@@ -1,3 +1,5 @@
+import SVGArrowCheck from "@/app/components/IndexComponents/SVGArrowCheck";
+import SVGCheck from "@/app/components/IndexComponents/SVGCheck";
 import React from "react";
 
 const ProCard = () => {
@@ -11,120 +13,29 @@ const ProCard = () => {
         </div>
       </div>
       <div className="flex items-center mb-2">
-        <svg
-          width="24"
-          height="24"
-          fill="none"
-          className="text-green-500 mr-1"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-            d="M5.75 12.8665L8.33995 16.4138C9.15171 17.5256 10.8179 17.504 11.6006 16.3715L18.25 6.75"
-          ></path>
-        </svg>
+        <SVGCheck />
         2000 sends per month
       </div>
       <div className="flex items-center mb-2">
-        <svg
-          width="24"
-          height="24"
-          fill="none"
-          className="text-green-500 mr-1"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-            d="M5.75 12.8665L8.33995 16.4138C9.15171 17.5256 10.8179 17.504 11.6006 16.3715L18.25 6.75"
-          ></path>
-        </svg>
-        10 Funnels, 100 Pages
+        <SVGCheck />
+        Ilimited creation and delete of tokens
       </div>
       <div className="flex items-center mb-2">
-        <svg
-          width="24"
-          height="24"
-          fill="none"
-          className="text-green-500 mr-1"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-            d="M5.75 12.8665L8.33995 16.4138C9.15171 17.5256 10.8179 17.504 11.6006 16.3715L18.25 6.75"
-          ></path>
-        </svg>
-        Unlimited Transactions
+        <SVGCheck />
+        Control your remaining shipments
       </div>
       <div className="flex items-center mb-2">
-        <svg
-          width="24"
-          height="24"
-          fill="none"
-          className="text-green-500 mr-1"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-            d="M5.75 12.8665L8.33995 16.4138C9.15171 17.5256 10.8179 17.504 11.6006 16.3715L18.25 6.75"
-          ></path>
-        </svg>
+        <SVGCheck />
         Analytics
       </div>
       <div className="flex items-center mb-5">
-        <svg
-          width="24"
-          height="24"
-          fill="none"
-          className="text-green-500 mr-1"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-            d="M5.75 12.8665L8.33995 16.4138C9.15171 17.5256 10.8179 17.504 11.6006 16.3715L18.25 6.75"
-          ></path>
-        </svg>
-        lnstegrations
+        <SVGCheck />
+        Free Forms Templates
       </div>
       <div className="mt-auto w-full">
         <button className="bg-primary hover:bg-accent hover:text-secondary transition duration-300 rounded-xl cursor-pointer text-white py-2 border-none w-full flex items-center px-3">
           Get Pro
-          <svg
-            className="ml-auto"
-            width="24"
-            height="24"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.5"
-              d="M13.75 6.75L19.25 12L13.75 17.25"
-            ></path>
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.5"
-              d="M19 12H4.75"
-            ></path>
-          </svg>
+          <SVGArrowCheck />
         </button>
       </div>
     </div>

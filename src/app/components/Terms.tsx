@@ -14,8 +14,11 @@ export default function Terms() {
 
   return (
     <>
-      <Button onPress={onOpen} className="bg-transparent text-accent">
-        Términos y condiciones
+      <Button
+        onPress={onOpen}
+        className="bg-transparent text-accent  transition  "
+      >
+        Terms and Conditions
       </Button>
       <Modal
         size={"lg"}
@@ -50,101 +53,126 @@ export default function Terms() {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Términos y Condiciones de Mascocuidado
+                Terms and Conditions of MAILPREX
               </ModalHeader>
               <ModalBody>
                 <p>
-                  <span className="font-bold">¡Bienvenido a Mascocuidado!</span>
+                  <span className="font-bold">
+                    Mailprex Terms and Conditions
+                  </span>
                   <br />
-                  Te agradecemos por elegir nuestra plataforma para el cuidado
-                  integral de tus mascotas. Antes de comenzar a utilizar
-                  nuestros servicios, es importante que leas y comprendas
-                  nuestros términos y condiciones detallados a continuación:
+                  Welcome to Mailprex. By using our platform, you agree to
+                  comply with and be bound by the following terms and conditions
+                  (Terms of Service). Please read them carefully before using
+                  our service.
                 </p>
                 <p>
-                  <span className="font-bold">
-                    - Aceptación de los Términos y Condiciones:
-                  </span>
-                  Al acceder y utilizar los servicios ofrecidos por
-                  Mascocuidado, aceptas cumplir con todos los términos y
-                  condiciones establecidos en este documento, así como con
-                  nuestras políticas de privacidad y cualquier otro documento
-                  vinculado. Si no estás de acuerdo con alguno de estos
+                  <span className="font-bold">1. Acceptance of Terms: </span>
+                  By accessing and using the Mailprex platform, you accept and
+                  agree to be bound by these Terms of Service. If you do not
+                  agree to these terms, you should not use our platform.
                   términos, te pedimos que no utilices nuestros servicios.
                   <br />
-                  <span className="font-bold">- Descripción del Servicio:</span>
-                  Mascocuidado es una plataforma en línea que ofrece una
-                  variedad de servicios para el cuidado integral de mascotas.
-                  Estos servicios pueden incluir, entre otros, cuidado
-                  veterinario, servicios de alojamiento, paseos y cuidado
-                  diario. Nos esforzamos por proporcionar servicios de alta
-                  calidad que garanticen el bienestar y la felicidad de tus
-                  mascotas. <br />
-                  <span className="font-bold">- Registro de Usuarios:</span>Para
-                  utilizar nuestros servicios, es posible que debas registrarte
-                  como usuario en nuestra plataforma. Debes proporcionar
-                  información precisa y actualizada durante el proceso de
-                  registro, y eres responsable de mantener la confidencialidad
-                  de tu cuenta y contraseña. Nos reservamos el derecho de
-                  suspender o cancelar tu cuenta si creemos que has
-                  proporcionado información falsa o incumplido nuestros términos
-                  y condiciones. <br />
+                  <span className="font-bold">2. Service Description: </span>
+                  Mailprex provides a platform for sending emails through forms
+                  on the front end of websites. We offer different subscription
+                  plans with specific features and usage limits. <br />
                   <span className="font-bold">
-                    - Responsabilidades del Usuario:
+                    3. Registration and Security:
                   </span>
-                  Al utilizar nuestros servicios, aceptas ser el único
-                  responsable de tus acciones y del bienestar de tus mascotas.
-                  Debes garantizar que tus mascotas estén adecuadamente
-                  vacunadas, sean amigables con otros animales y personas, y no
-                  representen ningún riesgo para la salud o seguridad de
-                  terceros. <br />
+                  To use Mailprex, you must register by providing accurate and
+                  complete information. You are responsible for maintaining the
+                  confidentiality of your account and password and are
+                  responsible for all activities that occur under your account.
+                  You must immediately notify Mailprex of any unauthorized use
+                  of your account. <br />
+                  <span className="font-bold">4. Acceptable Use: </span>
+                  You agree to use Mailprex only for lawful purposes and in
+                  accordance with these Terms of Service. Is prohibited: * Send
+                  spam or unsolicited emails. * Use the service to transmit
+                  content that is illegal, harmful, threatening, abusive,
+                  defamatory, vulgar, obscene, invasive of the privacy of
+                  others, hateful or racially, ethnically or otherwise
+                  objectionable. * Interfere with the operation of the Mailprex
+                  platform or with the use of it by other users.
+                  <br />
                   <span className="font-bold">
-                    - Responsabilidades de Mascocuidado:
+                    5. Pricing and Payment Plans:
                   </span>
-                  Nos comprometemos a proporcionar servicios de alta calidad y a
-                  garantizar la seguridad y el bienestar de tus mascotas
-                  mientras estén bajo nuestra custodia. Sin embargo, no nos
-                  hacemos responsables de cualquier daño o lesión que pueda
-                  ocurrir durante la prestación de nuestros servicios, a menos
-                  que sea causado por nuestra negligencia demostrable. <br />{" "}
-                  <span className="font-bold"> - Cancelación y Reembolso:</span>{" "}
-                  En caso de que necesites cancelar un servicio reservado, te
-                  pedimos que lo hagas con la mayor antelación posible. Los
-                  reembolsos están sujetos a nuestras políticas de cancelación y
-                  pueden variar según el tipo de servicio y el tiempo de
-                  anticipación con el que se cancele la reserva. <br />{" "}
-                  <span className="font-bold">
-                    -Derechos de Propiedad Intelectual:
-                  </span>{" "}
-                  Todos los derechos de propiedad intelectual relacionados con
-                  nuestra plataforma y servicios, incluidos, entre otros, los
-                  derechos de autor, marcas comerciales y patentes, son
-                  propiedad exclusiva de Mascocuidado. No está permitido
-                  utilizar, reproducir o distribuir ningún contenido de nuestra
-                  plataforma sin nuestro consentimiento expreso por escrito.{" "}
+                  Mailprex offers different subscription plans: * Basic Plan:
+                  Includes 200 emails per month. * Professional Plan: Includes
+                  2000 emails per month. * Business Plan: Includes 5000 emails
+                  per month. Payments are made according to the selected plan.
+                  Mailprex reserves the right to change rates at any time,
+                  notifying users affected by such changes in advance.
                   <br />{" "}
                   <span className="font-bold">
-                    - Modificaciones de los Términos y Condiciones:
+                    6. Cancellation and Refunds:
                   </span>{" "}
-                  Nos reservamos el derecho de modificar estos términos y
-                  condiciones en cualquier momento, sin previo aviso. Te
-                  recomendamos que revises regularmente esta sección para estar
-                  al tanto de cualquier cambio. El uso continuado de nuestros
-                  servicios después de la publicación de cambios constituirá tu
-                  aceptación de dichos cambios.
-                </p>
-                <p className="font-thin">
-                  Al utilizar los servicios de Mascocuidado, reconoces haber
-                  leído, comprendido y aceptado estos términos y condiciones en
-                  su totalidad. Si tienes alguna pregunta o inquietud con
-                  respecto a estos términos, no dudes en contactarnos. ¡Gracias
-                  por confiar en nosotros para el cuidado de tus queridas
-                  mascotas!
+                  You can cancel your subscription at any time. Refunds for
+                  payments made will be issued in accordance with our refund
+                  policy, which is detailed on our website.
+                  <span className="font-bold">
+                    6. Cancellation and Refunds:{" "}
+                  </span>
+                  You can cancel your subscription at any time. Refunds for
+                  payments made will be issued in accordance with our refund
+                  policy, which is detailed on our website.
+                  <br />
+                  <span className="font-bold"> 7. Security and Privacy: </span>
+                  Mailprex implements robust security measures to protect user
+                  information. However, You acknowledge that the use of the
+                  Internet involves certain risks and that the complete security
+                  of the data transmitted cannot be guaranteed.
+                  <br />
+                  <span className="font-bold"> 8. Intellectual Property: </span>
+                  All intellectual property rights related to the Mailprex
+                  platform, including software, content, graphics and logos, are
+                  the exclusive property of Mailprex or its licensors. You may
+                  not copy, modify, distribute, sell or lease any part of our
+                  services or software.
+                  <span className="font-bold">9. Limitation of Liability:</span>
+                  Mailprex will not be liable for any indirect, incidental,
+                  special, consequential or punitive damages, nor for any loss
+                  of profits or revenue, whether incurred directly or
+                  indirectly, nor for any loss of data, use, goodwill or other
+                  intangible losses, resulting from: <br />
+                  Your access to or use of or inability to access or use the
+                  Platform. Any conduct or content of any third party on the
+                  platform. Any content obtained from the platform. Unauthorized
+                  access, use or alteration of your transmissions or content.
+                  <br />
+                  <span className="font-bold">
+                    10. Modifications to the Terms of Service:
+                  </span>
+                  Mailprex reserves the right to modify these Terms of Service
+                  at any time. Modifications will be effective once posted on
+                  our website. It is your responsibility to periodically review
+                  these Terms of Service to be aware of any changes.
+                  <br /> <span className="font-bold"> 11. Termination:</span>
+                  Mailprex may suspend or terminate your access to the Platform
+                  at any time, without notice, for any reason, including breach
+                  of these Terms of Service.
+                  <br />
+                  <span className="font-bold">
+                    12. Applicable Law and Jurisdiction:
+                  </span>
+                  These Terms of Service shall be governed by and construed in
+                  accordance with the laws of the country in which Mailprex is
+                  located. Any dispute arising out of or in connection with
+                  these Terms of Service shall be subject to the exclusive
+                  jurisdiction of the courts of that country.
+                  <br />
+                  <span className="font-bold">
+                    13. Contact If you have any questions about these Terms of
+                    Service, please contact our support team via:
+                    support@mailprex.top
+                  </span>
                 </p>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
-                  Cerrar
+                  Close
                 </Button>
               </ModalFooter>
             </>

@@ -6,8 +6,8 @@ const ProCard = () => {
       <div className="pb-3 mb-4 border-b border-gray-200">
         <div className="text-xs text-slate-800 mb-2">PRO</div>
         <div className="flex items-center">
-          <h2 className="text-5xl m-0 font-normal">$38</h2>
-          <span className="text-slate-300 ml-1">/mo</span>
+          <h2 className="text-5xl m-0 font-normal">$10</h2>
+          <span className="text-slate-800 ml-1">/mo</span>
         </div>
       </div>
       <div className="flex items-center mb-2">
@@ -26,7 +26,7 @@ const ProCard = () => {
             d="M5.75 12.8665L8.33995 16.4138C9.15171 17.5256 10.8179 17.504 11.6006 16.3715L18.25 6.75"
           ></path>
         </svg>
-        10k Visitors/mo
+        2000 sends per month
       </div>
       <div className="flex items-center mb-2">
         <svg
@@ -101,7 +101,7 @@ const ProCard = () => {
         lnstegrations
       </div>
       <div className="mt-auto w-full">
-        <button className="bg-teal-500 rounded-xl cursor-pointer text-white py-2 border-none w-full flex items-center px-3">
+        <button className="bg-primary hover:bg-accent hover:text-secondary transition duration-300 rounded-xl cursor-pointer text-white py-2 border-none w-full flex items-center px-3">
           Get Pro
           <svg
             className="ml-auto"
@@ -126,9 +126,6 @@ const ProCard = () => {
             ></path>
           </svg>
         </button>
-        <div className="text-xs mt-3 text-slate-600 line-height-2">
-          Literally you probably havent heard of them jean shorts.
-        </div>
       </div>
     </div>
   );

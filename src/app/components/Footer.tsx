@@ -9,7 +9,11 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0 md:flex md:items-center lg:flex ">
-            <img src="/logo.png" alt="Mailprex Logo" className="h-12 md:h-16" />
+            <img
+              src="/logo.png"
+              alt="Mailprex Logo"
+              className="h-12 md:h-16 float"
+            />
             <p className="mt-2 md:mt-0 md:ml-4 text-accent text-center md:text-left">
               Mailprex - your definitive solution for sending email from the
               web.

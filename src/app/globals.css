@@ -46,3 +46,48 @@ p {
     url(https://images.unsplash.com/photo-1650825556125-060e52d40bd0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80)
       center center;
 }
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.float {
+  animation: float 4s ease-in-out infinite;
+}
+@keyframes colorChange {
+  0% {
+    color: #2b4c7e;
+  }
+  14% {
+    color: #dce0e6;
+  }
+  28% {
+    color: #1a3559;
+  }
+  42% {
+    color: #1f1f20;
+  }
+  57% {
+    color: #f1f3f7;
+  }
+  71% {
+    color: #0d0d0e;
+  }
+  85% {
+    color: #476b9b;
+  }
+  100% {
+    color: #f1f3f7;
+  }
+}
+
+.color-changing-text {
+  animation: colorChange 8s infinite;
+}

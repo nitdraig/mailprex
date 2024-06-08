@@ -23,7 +23,7 @@ const FreeCard = () => {
             d="M5.75 12.8665L8.33995 16.4138C9.15171 17.5256 10.8179 17.504 11.6006 16.3715L18.25 6.75"
           ></path>
         </svg>
-        10k Visitors/mo
+        200 sends per month
       </div>
       <div className="flex items-center mb-2">
         <svg
@@ -41,7 +41,7 @@ const FreeCard = () => {
             d="M5.75 12.8665L8.33995 16.4138C9.15171 17.5256 10.8179 17.504 11.6006 16.3715L18.25 6.75"
           ></path>
         </svg>
-        10 Funnels, 50 Pages
+        Private token
       </div>
       <div className="flex items-center mb-5">
         <svg
@@ -59,10 +59,10 @@ const FreeCard = () => {
             d="M5.75 12.8665L8.33995 16.4138C9.15171 17.5256 10.8179 17.504 11.6006 16.3715L18.25 6.75"
           ></path>
         </svg>
-        Unlimited Transactions
+        Control your remaining shipments
       </div>
       <div className="mt-auto w-full">
-        <button className="bg-secondary rounded-xl cursor-pointer text-white py-2 border-none w-full flex items-center px-3">
+        <button className="bg-secondary hover:bg-primary transition duration-300 rounded-xl cursor-pointer text-white py-2 border-none w-full flex items-center px-3">
           Get Free
           <svg
             className="ml-auto"
@@ -87,9 +87,6 @@ const FreeCard = () => {
             ></path>
           </svg>
         </button>
-        <div className="text-xs mt-3 text-slate-600 line-height-2">
-          Literally you probably havent heard of them jean shorts.
-        </div>
       </div>
     </div>
   );

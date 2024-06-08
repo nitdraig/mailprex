@@ -8,16 +8,20 @@ const HeroSection = () => {
           <img
             src="/email-bg.svg"
             alt="Mailprex illustration"
-            className="rounded-lg w-full md:max-w-lg "
+            className="rounded-lg w-full md:max-w-lg  float "
           />
         </div>
         <div className="md:w-1/2 md:text-left text-center md:mx-2 lg:mt-0 mt-10 mb-8 md:mb-0">
-          <h1 className="text-5xl  lg:text-6xl font-bold mb-6 ">Mailprex</h1>
+          <h1 className="text-5xl  lg:text-6xl font-bold mb-6 uppercase ">
+            Mailprex
+          </h1>
           <p className="text-lg md:text-xl mb-8 mx-6 lg:mx-0">
             We take care of making it easier for you to send forms from your
             website, import the hook, add the data and{" "}
-            <span className="font-bold text-2xl ">voilà!</span> Direct to your
-            email!
+            <span className="font-bold text-2xl color-changing-text">
+              voilà!
+            </span>{" "}
+            Direct to your email!
           </p>
           <div className="flex flex-col md:flex-row lg:mx-0 mx-8 md:space-x-4">
             <a
@@ -38,7 +42,7 @@ const HeroSection = () => {
           <img
             src="/email-bg.svg"
             alt="Mailprex illustration"
-            className="rounded-lg w-full md:max-w-lg"
+            className="rounded-lg w-full md:max-w-lg float"
           />
         </div>
       </div>

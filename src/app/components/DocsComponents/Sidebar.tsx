@@ -34,7 +34,7 @@ const Sidebar: FC<SidebarProps> = ({ toggleDarkMode, darkMode }) => {
     <aside
       className={`fixed pt-20  ${
         isOpen ? "w-36" : "w-16"
-      }  lg:relative lg:w-60  h-screen shadow-md px-1 lg:transform lg:translate-x-0 transform z-10 bg-accent/80 dark:bg-secondary/90 flex flex-col justify-between`}
+      }  lg:relative lg:w-60 lg:h-screen h-full    shadow-md px-1 lg:transform lg:translate-x-0 transform z-10 bg-accent/80 dark:bg-secondary dark:shadow-accent flex flex-col justify-between`}
     >
       <div>
         <button
@@ -69,16 +69,16 @@ const Sidebar: FC<SidebarProps> = ({ toggleDarkMode, darkMode }) => {
                 href="/docs/introduction"
                 className="sidebar-link block py-4 px-6 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700 transition duration-300 ease-in-out"
               >
-                Introducción
+                Introduction
               </Link>
             </li>
             <li className="relative">
               <Link
                 prefetch
-                href="/docs/installation"
+                href="/docs/integration"
                 className="sidebar-link block py-4 px-6 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700 transition duration-300 ease-in-out"
               >
-                Instalación
+                Integration
               </Link>
             </li>
             <li className="relative">
@@ -96,7 +96,17 @@ const Sidebar: FC<SidebarProps> = ({ toggleDarkMode, darkMode }) => {
                 href="/docs/examples"
                 className="sidebar-link block py-4 px-6 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700 transition duration-300 ease-in-out"
               >
-                Ejemplos
+                Examples
+              </Link>
+            </li>
+
+            <li className="relative">
+              <Link
+                prefetch
+                href="/docs/guide"
+                className="sidebar-link block py-4 px-6 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700 transition duration-300 ease-in-out"
+              >
+                Guide
               </Link>
             </li>
             <li className="relative">

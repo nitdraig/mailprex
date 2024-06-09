@@ -15,14 +15,12 @@ const DocsLayout = ({ children }: LayoutProps) => {
   };
 
   return (
-    <div
-      className={`flex min-h-screen bg-accent dark:bg-secondary z-0  ${
-        darkMode ? "dark" : ""
-      }`}
-    >
-      <Sidebar toggleDarkMode={toggleDarkMode} darkMode={darkMode} />
-      <div className="flex-1 pt-28 p-8 bg-accent dark:bg-secondary text-secondary dark:text-accent">
-        {children}
+    <div className={darkMode ? "dark" : ""}>
+      <div className={`flex min-h-screen bg-accent dark:bg-secondary z-0`}>
+        <Sidebar toggleDarkMode={toggleDarkMode} darkMode={darkMode} />
+        <div className="flex-1 pt-28 p-8 bg-accent dark:bg-secondary text-secondary dark:text-accent">
+          {children}
+        </div>
       </div>
     </div>
   );

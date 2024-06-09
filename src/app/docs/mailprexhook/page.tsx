@@ -1,14 +1,12 @@
+import CopyButton from "@/app/components/CopyButton";
 import DocsLayout from "@/app/components/DocsComponents/DocsLayout";
 import Head from "next/head";
-
-const Page = () => {
+const Page: React.FC = () => {
   return (
     <DocsLayout>
-      <Head>
-        <title>Using the useMailprexForm Hook</title>
-      </Head>
+      <title>Using the useMailprexForm Hook | Mailprex Docs</title>
       <div className="lg:pl-0 pl-10">
-        <h1 className="text-4xl font-bold">Using the useMailprexForm Hook</h1>
+        <h2 className="text-4xl font-bold">Using the useMailprexForm Hook</h2>
         <section>
           <h2 className="text-2xl font-semibold mt-6">Introduction</h2>
           <p className="mt-4 text-lg">
@@ -21,8 +19,13 @@ const Page = () => {
             To use the <code>useMailprexForm</code> hook, you must first install
             it from npm:
           </p>
-          <pre className="bg-white dark:bg-accent text-secondary  p-4 rounded-lg ">
-            <code>npm install mailprex</code>
+          <pre className="bg-white dark:bg-accent text-secondary p-4 rounded-lg overflow-x-auto">
+            <CopyButton code={`npm install mailprex`} />
+            <code>
+              {`
+            
+npm install mailprex`}
+            </code>
           </pre>
         </section>
 
@@ -34,15 +37,29 @@ const Page = () => {
           <p className="mt-4 text-lg">
             First, import the hook into your component:
           </p>
-          <pre className="bg-white dark:bg-accent text-secondary p-4 rounded-lg ">
-            <code>import useMailprexForm from `mailprex`</code>
+          <pre className="bg-white dark:bg-accent text-secondary p-4 rounded-lg overflow-x-auto">
+            <CopyButton code={`import useMailprexForm from 'mailprex';`} />
+            <code>{`
+            
+import useMailprexForm from mailprex;`}</code>
           </pre>
           <p className="mt-4 text-lg">
             Then, configure the hook in your component:
           </p>
-          <pre className="bg-white dark:bg-accent text-secondary p-4 rounded-lg ">
+          <pre className="bg-white dark:bg-accent text-secondary p-4 rounded-lg overflow-x-auto">
+            <CopyButton
+              code={`
+const { formData, handleChange, handleSubmit, response } = useMailprexForm({
+  url: "https://api.mailprex.com/sendEmail",
+  webName: "YourWebName",
+  emailDestiny: "destiny@example.com",
+});`}
+            />
             <code>
-              {`const { formData, handleChange, handleSubmit, response } = useMailprexForm({
+              {`
+              
+              
+const { formData, handleChange, handleSubmit, response } = useMailprexForm({
   url: "https://api.mailprex.com/sendEmail",
   webName: "YourWebName",
   emailDestiny: "destiny@example.com",
@@ -57,9 +74,10 @@ const Page = () => {
             Implement the form in your component using the methods provided by
             the hook:
           </p>
-          <pre className="bg-white dark:bg-accent text-secondary p-4 rounded-lg ">
-            <code>
-              {`return (
+          <pre className="bg-white dark:bg-accent text-secondary p-4 rounded-lg overflow-x-auto">
+            <CopyButton
+              code={`
+return (
   <form onSubmit={handleSubmit}>
     <input
       type="text"
@@ -68,34 +86,25 @@ const Page = () => {
       onChange={handleChange}
       placeholder="Nombre Completo"
     />
-    <input
-      type="email"
-      name="email"
-      value={formData.email}
-      onChange={handleChange}
-      placeholder="Correo Electrónico"
-    />
-    <textarea
-      name="message"
-      value={formData.message}
-      onChange={handleChange}
-      placeholder="Mensaje"
-    ></textarea>
+    {/* Rest of the form */}
+    <button type="submit">Submit</button>
+  </form>
+);`}
+            />
+            <code>
+              {`
+              
+return (
+  <form onSubmit={handleSubmit}>
     <input
       type="text"
-      name="phone"
-      value={formData.phone}
+      name="fullname"
+      value={formData.fullname}
       onChange={handleChange}
-      placeholder="Teléfono"
+      placeholder="Nombre Completo"
     />
-    <input
-      type="text"
-      name="service"
-      value={formData.service}
-      onChange={handleChange}
-      placeholder="Servicio"
-    />
-    <button type="submit">Enviar</button>
+    {/* Rest of the form */}
+    <button type="submit">Submit</button>
   </form>
 );`}
             </code>
@@ -108,9 +117,27 @@ const Page = () => {
             The hook also provides the status of the API response, which you can
             use to display success or error messages:
           </p>
-          <pre className="bg-white dark:bg-accent text-secondary p-4 rounded-lg ">
+          <pre className="bg-white dark:bg-accent text-secondary p-4 rounded-lg overflow-x-auto mb-4">
+            <CopyButton
+              code={`
+
+
+if (response.loading) {
+  return <p>Enviando...</p>;
+}
+
+if (response.error) {
+  return <p>Error: {response.error.message}</p>;
+}
+
+if (response.data) {
+  return <p>Correo enviado exitosamente!</p>;
+}`}
+            />
             <code>
-              {`if (response.loading) {
+              {`
+              
+  if (response.loading) {
   return <p>Enviando...</p>;
 }
 

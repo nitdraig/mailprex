@@ -1,44 +1,79 @@
+import CopyButton from "@/app/components/CopyButton";
 import DocsLayout from "@/app/components/DocsComponents/DocsLayout";
 import Head from "next/head";
 
-const page = () => {
+const Page = () => {
   return (
     <DocsLayout>
+      <title>API Reference | Mailprex Docs</title>
+
       <div className="lg:pl-0 pl-10">
-        <h1 className="text-4xl font-bold"> API Reference </h1>
-        <p className="mt-4 text-lg">
-          The API Reference provides complete documentation on Mailprex API
-          endpoints, including request and response parameters, and usage
-          examples.
-        </p>
-        <p>
-          Endpoint: /sendEmail Description: Sends an email using the specified
-          parameters.
-        </p>
-        <ul>
-          <li>
-            Request Parameters: to: (String) Email address of the recipient.
-          </li>
-          <li> subject: (String) Subject of the email.</li>
-          <li>body: (String) Body of the email.</li>
-        </ul>
-        <p>Request Example:</p>´
-        {/* <p>
-          {
+        <h1 className="text-4xl font-bold">API Reference</h1>
+        <section>
+          <h2 className="text-2xl font-semibold mt-6">Introduction</h2>
+          <p className="mt-4 text-lg">
+            The API Reference provides complete documentation on Mailprex API
+            endpoints, including request and response parameters, and usage
+            examples.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-semibold mt-6">Endpoint: /sendEmail</h2>
+          <p className="mt-4 text-lg">
+            <strong>Description:</strong> Sends an email using the specified
+            parameters.
+          </p>
+          <h3 className="text-xl font-semibold mt-4">Request Parameters:</h3>
+          <ul className="list-disc list-inside mt-2 text-lg">
+            <li>
+              <strong>to</strong>: (String) Email address of the recipient.
+            </li>
+            <li>
+              <strong>subject</strong>: (String) Subject of the email.
+            </li>
+            <li>
+              <strong>body</strong>: (String) Body of the email.
+            </li>
+          </ul>
+
+          <h3 className="text-xl font-semibold mt-4">Request Example:</h3>
+          <pre className="bg-white dark:bg-accent text-secondary p-4 rounded-lg">
+            <CopyButton
+              code={`{
   "to": "destinatario@example.com",
-  "subject": "¡Hola desde Mailprex!",
-  "body": "Este es un correo electrónico de prueba enviado desde Mailprex."
-}
-        </p>
-        <p>Successful Response:</p>
-        <p>{
+  "subject": "¡Hi, from Mailprex!",
+  "body": "This is a test email sent from Mailprex."
+}`}
+            />
+            <code>
+              {`{
+  "to": "destinatario@example.com",
+  "subject": "¡Hi, from Mailprex!",
+  "body": "This is a test email sent from Mailprex."
+}`}
+            </code>
+          </pre>
+
+          <h3 className="text-xl font-semibold mt-4">Successful Response:</h3>
+          <pre className="bg-white dark:bg-accent text-secondary p-4 rounded-lg">
+            <CopyButton
+              code={`{
   "success": true,
-  "message": "Correo electrónico enviado exitosamente."
-}
-</p> */}
+  "body": "Email sent successfully."
+}`}
+            />
+            <code>
+              {`{
+  "success": true,
+  "message": "Email sent successfully."
+}`}
+            </code>
+          </pre>
+        </section>
       </div>
     </DocsLayout>
   );
 };
 
-export default page;
+export default Page;

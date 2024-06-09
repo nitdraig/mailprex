@@ -74,7 +74,7 @@ const RegisterView = () => {
         </div>
       </div>
       <div
-        className="hidden lg:flex w-full lg:w-1/2 login_img_section
+        className="hidden lg:flex w-full lg:w-1/2 register_img_section
           justify-around items-center"
       >
         <div
@@ -91,7 +91,7 @@ const RegisterView = () => {
           </p>
           <div className="flex justify-center lg:justify-start mt-6">
             <a
-              href="/docs/installation"
+              href="/docs/introduction"
               className="hover:bg-primary hover:text-white hover:-translate-y-1 transition-all duration-500 bg-white text-indigo-800 mt-4 px-4 py-2 rounded-lg font-bold mb-2"
             >
               Read Docs

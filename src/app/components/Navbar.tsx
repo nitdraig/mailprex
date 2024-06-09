@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import logo from "./logo.png";
 import logowhite from "../assets/logos/white.png";
 import defaultAvatar from "../assets/defaultAvatar.svg";
 import {
@@ -26,14 +27,14 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-primary/75 w-screen fixed top-0 z-50">
+    <nav className="bg-primary w-screen fixed top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
         <div className="flex items-center justify-between">
           <div>
             <a href="/#">
               <img
-                className="rounded-full w-14"
-                src="./logo.png"
+                className="rounded-full w-14 "
+                src="https://res.cloudinary.com/draig/image/upload/v1717633081/mailprex/iwzlpdbt3uclxt5mwll3.png"
                 alt="Mailprex Logo"
               />
             </a>

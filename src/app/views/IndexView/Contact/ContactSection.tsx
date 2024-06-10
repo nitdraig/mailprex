@@ -1,7 +1,5 @@
 import Form from "@/app/components/IndexComponents/Form";
 import React from "react";
-import { BsTwitter } from "react-icons/bs";
-import { FaGithub, FaLinkedin, FaNpm } from "react-icons/fa";
 
 const ContactSection = () => {
   return (

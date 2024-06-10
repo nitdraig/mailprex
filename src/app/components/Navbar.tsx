@@ -13,17 +13,24 @@ import {
 import Link from "next/link";
 import HamburguerMenu from "./HamburguerMenu";
 import SVGHamburger from "./SVGHamburger";
+import { useAuth } from "../api/AuthContext";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const { isAuthenticated, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-
+  const router = useRouter();
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
   };
 
   const toggleProfileMenu = () => {
     setShowMenu(!showMenu);
+  };
+  const handleLogout = () => {
+    logout();
+    return router.push("/login");
   };
 
   return (
@@ -75,6 +82,12 @@ const Navbar = () => {
             >
               Start
             </Link>
+            <button
+              onClick={handleLogout}
+              className="text-accent bg-secondary hover:text-accent/80 px-6 py-2 rounded-lg text-lg font-medium"
+            >
+              Out
+            </button>
           </div>
 
           <div className="-mr-2 flex md:hidden">

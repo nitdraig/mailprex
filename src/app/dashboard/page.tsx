@@ -1,12 +1,13 @@
 import React from "react";
 import DashboardView from "../views/DashboardView/DashboardView";
+import { AuthProvider } from "../api/AuthContext";
 
-const page = () => {
+const Page: React.FC = () => {
   return (
-    <div>
+    <>
       <DashboardView />
-    </div>
+    </>
   );
 };
 
-export default page;
+export default Page;

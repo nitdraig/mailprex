@@ -5,7 +5,7 @@ const Form = () => {
   const webName = "Mailprex Landing";
   const emailDestiny = "agustin2051@gmail.com";
   const url = "http://localhost:5000/email/send";
-  const formToken = "d1ec4948-bd7e-411e-a446-181ff5fa4533";
+  const formToken = process.env.NEXT_PUBLIC_MAILPREX_FORM_TOKEN || "";
   const { formData, handleChange, handleSubmit, response } = useMailprex({
     url,
     webName,
@@ -32,9 +32,10 @@ const Form = () => {
             onChange={handleChange}
             required
             className="peer block w-full appearance-none border-0 border-b border-accent bg-transparent py-2.5 px-0 text-sm text-accent focus:border-secondary focus:outline-none focus:ring-0"
+            placeholder=" "
           />
           <label className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-accent duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-accent ">
-            Your name
+            Your FullName
           </label>
         </div>
         <div className="relative z-0">

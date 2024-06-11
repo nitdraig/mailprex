@@ -124,7 +124,7 @@ const Navbar = () => {
                     onClick={handleLogout}
                     color="danger"
                   >
-                    Cerrar sesión
+                    Log Out
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
@@ -134,7 +134,7 @@ const Navbar = () => {
                   href="/login"
                   className="text-accent bg-secondary hover:text-accent/80 px-6 py-2 rounded-lg text-lg font-medium"
                 >
-                  Ingresar
+                  Login
                 </Link>
               </div>
             )}

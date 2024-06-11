@@ -20,7 +20,7 @@ const DashboardSideBar = ({ toggleDarkMode, darkMode }: any) => {
           </Link>
         </li>
 
-        <li
+        {/* <li
           className="mt-3 p-2 hover:text-blue-600 dark-hover:text-blue-300
 				rounded-lg"
         >
@@ -32,7 +32,7 @@ const DashboardSideBar = ({ toggleDarkMode, darkMode }: any) => {
             <CgProfile />
             <span className="text-xs text-center mt-2">Profile & Stats</span>
           </Link>
-        </li>
+        </li> */}
 
         <li
           className="mt-3 p-2 hover:text-blue-600 dark-hover:text-blue-300

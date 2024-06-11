@@ -12,7 +12,7 @@ const TokenDisplay: React.FC<TokenDisplayProps> = ({
   formToken,
   deleteFormToken,
 }) => (
-  <div className="dark:bg-accent bg-primary shadow-md rounded-lg p-6 w-full max-w-lg mx-auto">
+  <div className="dark:bg-accent bg-primary shadow-md rounded-lg p-4 w-full max-w-lg mx-auto">
     <p className="dark:text-gray-700 text-white font-semibold mb-4 break-words">
       Your Form Token: <strong>{formToken}</strong>
     </p>

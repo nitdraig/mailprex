@@ -1,7 +1,5 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
-import TokenActions from "../Components/TokenActions";
 import {
   deleteFormToken,
   generateFormToken,
@@ -9,6 +7,7 @@ import {
 } from "@/app/api/api";
 import { useAuth } from "@/app/api/AuthContext";
 import Link from "next/link";
+import TokenActions from "@/app/components/DashboardComponents/TokenActions";
 
 const FormTokenManager: React.FC = () => {
   const [formToken, setFormToken] = useState<string | null>(null);

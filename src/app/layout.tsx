@@ -1,12 +1,19 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import {
+  IBM_Plex_Sans,
+  Inter,
+  Playfair_Display,
+  Quicksand,
+} from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { AuthProvider } from "./api/AuthContext";
 
 const inter = Inter({ subsets: ["latin"] });
-
+const pair = Playfair_Display({ subsets: ["latin"] });
+const ibm = IBM_Plex_Sans({ subsets: ["latin"], weight: ["400", "700"] });
+const quik = Quicksand({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Mailprex | Send Emails from your Website with Ease",
   description:
@@ -20,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={quik.className}>
         <AuthProvider>
           <Navbar />
           {children}

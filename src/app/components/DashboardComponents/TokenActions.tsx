@@ -13,7 +13,7 @@ const TokenActions: React.FC<TokenActionsProps> = ({
   deleteFormToken,
 }) => {
   return (
-    <div className="dark:bg-accent/60 bg-primary/60  p-6 rounded-lg shadow-md">
+    <div className=" w-full  ">
       {formToken ? (
         <TokenDisplay formToken={formToken} deleteFormToken={deleteFormToken} />
       ) : (

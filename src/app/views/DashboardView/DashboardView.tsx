@@ -1,12 +1,12 @@
 import React from "react";
-import FormTokenManager from "./FormTokenManager/FormTokenManager";
+import ProfileandStatisticsView from "../ProfileandStatisticsView/ProfileandStatisticsView";
 
 const DashboardView = () => {
   return (
     <>
       <title>Dashboard | Mailprex</title>
-      <section className="h-screen w-full flex  justify-center bg-accent dark:bg-secondary">
-        <FormTokenManager />
+      <section className="h-screen w-full flex mb-10  justify-center bg-accent dark:bg-secondary">
+        <ProfileandStatisticsView />
       </section>
     </>
   );

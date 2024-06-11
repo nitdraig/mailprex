@@ -6,8 +6,8 @@ const Page = () => {
     <DocsLayout>
       <title>API Reference | Mailprex Docs</title>
 
-      <div className="lg:pl-0 pl-10">
-        <h1 className="text-4xl font-bold">API Reference</h1>
+      <div className="lg:pl-4 pl-20 mt-24 mx-2 lg:mb-4 mb-8">
+        <h1 className="lg:text-4xl text-3xl font-bold">API Reference</h1>
         <section>
           <h2 className="text-2xl font-semibold mt-6">Introduction</h2>
           <p className="mt-4 text-lg">
@@ -37,7 +37,7 @@ const Page = () => {
           </ul>
 
           <h3 className="text-xl font-semibold mt-4">Request Example:</h3>
-          <pre className="bg-white dark:bg-accent text-secondary p-4 rounded-lg">
+          <pre className="bg-white dark:bg-accent text-secondary p-4 rounded-lg overflow-x-auto">
             <CopyButton
               code={`{
   "to": "destinatario@example.com",
@@ -55,7 +55,7 @@ const Page = () => {
           </pre>
 
           <h3 className="text-xl font-semibold mt-4">Successful Response:</h3>
-          <pre className="bg-white dark:bg-accent text-secondary p-4 rounded-lg">
+          <pre className="bg-white dark:bg-accent text-secondary p-4 rounded-lg overflow-x-auto">
             <CopyButton
               code={`{
   "success": true,

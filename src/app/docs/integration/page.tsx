@@ -5,8 +5,8 @@ const Page = () => {
     <DocsLayout>
       <title>Integration Guide | Mailprex Docs</title>
 
-      <div className="lg:pl-0 pl-10">
-        <h1 className="text-4xl font-bold">Integration Guide</h1>
+      <div className="lg:pl-4 pl-20 mt-24 mx-2 lg:mb-0 mb-6">
+        <h3 className="text-4xl font-bold">Integration Guide</h3>
         <section>
           <h2 className="text-2xl font-semibold mt-6">Introduction</h2>
           <p className="mt-4 text-lg">

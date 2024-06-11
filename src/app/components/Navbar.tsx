@@ -112,7 +112,11 @@ const Navbar = () => {
                   <DropdownItem href="/dashboard" key="dashboard">
                     Dashboard
                   </DropdownItem>
-                  <DropdownItem href="/profile" key="profile" color="default">
+                  <DropdownItem
+                    href="/dashboard/profile"
+                    key="profile"
+                    color="default"
+                  >
                     Profile
                   </DropdownItem>
                   <DropdownItem
@@ -150,6 +154,8 @@ const Navbar = () => {
       <div className={`${isOpen ? "block" : "hidden"} md:hidden`}>
         <HamburguerMenu
           handleLogout={handleLogout}
+          userData={userData}
+          loading={loading}
           isAuthenticated={isAuthenticated}
         />
       </div>

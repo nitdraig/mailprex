@@ -1,12 +1,13 @@
 import DashboardLayout from "@/app/layouts/DashboardLayout";
-import ProfileView from "@/app/views/ProfileView/ProfileView";
+import ProfileandStatisticsView from "@/app/views/ProfileandStatisticsView/ProfileandStatisticsView";
+
 import React from "react";
 
 const page = () => {
   return (
     <>
       <DashboardLayout>
-        <ProfileView />
+        <ProfileandStatisticsView />
       </DashboardLayout>
       ;
     </>

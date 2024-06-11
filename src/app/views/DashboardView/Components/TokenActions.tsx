@@ -13,17 +13,19 @@ const TokenActions: React.FC<TokenActionsProps> = ({
   deleteFormToken,
 }) => {
   return (
-    <div className="bg-gray-100 p-6 rounded-lg shadow-md">
+    <div className="dark:bg-accent/60 bg-primary/60  p-6 rounded-lg shadow-md">
       {formToken ? (
         <TokenDisplay formToken={formToken} deleteFormToken={deleteFormToken} />
       ) : (
         <div>
-          <p className="text-gray-700 font-semibold mb-4">No hay Form Token</p>
+          <p className="dark:text-gray-700 text-white font-semibold mb-4">
+            There is no Form Token
+          </p>
           <button
             onClick={generateFormToken}
             className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-300"
           >
-            Generar Form Token
+            Generate Form Token
           </button>
         </div>
       )}

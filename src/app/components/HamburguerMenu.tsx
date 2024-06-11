@@ -8,7 +8,12 @@ import {
 import Link from "next/link";
 import React from "react";
 
-const HamburguerMenu = ({ isAuthenticated, handleLogout }: any) => {
+const HamburguerMenu = ({
+  isAuthenticated,
+  handleLogout,
+  loading,
+  userData,
+}: any) => {
   return (
     <div className="px-1 pt-2 pb-3 space-y-1 sm:px-3 list-none text-center">
       <ul className=" ml-6 space-x-4">
@@ -37,11 +42,11 @@ const HamburguerMenu = ({ isAuthenticated, handleLogout }: any) => {
           </a>
         </li>
 
-        {isAuthenticated ? (
+        {isAuthenticated && !loading ? (
           <Dropdown className="rounded-lg">
             <DropdownTrigger>
               <Avatar
-                src="https://cdn.pixabay.com/photo/2016/11/21/12/42/beard-1845166_1280.jpg"
+                name={userData ? `${userData.name} ` : "Profile"}
                 alt="Profile"
                 isBordered
                 size="md"
@@ -60,7 +65,7 @@ const HamburguerMenu = ({ isAuthenticated, handleLogout }: any) => {
             </DropdownMenu>
           </Dropdown>
         ) : (
-          <div className=" m-2  items-center space-x-1">
+          <div className="hidden md:flex items-center space-x-2">
             <Link
               href="/login"
               className="text-accent bg-secondary hover:text-accent/80 px-6 py-2 rounded-lg text-lg font-medium"

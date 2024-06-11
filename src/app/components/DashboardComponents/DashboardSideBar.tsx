@@ -1,14 +1,13 @@
 import Link from "next/link";
 import React from "react";
-import { CgProfile } from "react-icons/cg";
+import { CgProfile, CgTemplate } from "react-icons/cg";
 import { FaMoon } from "react-icons/fa";
-import { ImStatsBars } from "react-icons/im";
 import { IoSunnyOutline } from "react-icons/io5";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 
 const DashboardSideBar = ({ toggleDarkMode, darkMode }: any) => {
   return (
-    <aside className="w-24 mt-10 flex flex-col items-center  py-4">
+    <aside className="lg:w-24 w-20 mt-10 flex flex-col items-center  py-4">
       <ul className="mt-2 text-gray-700 dark:text-gray-400 capitalize">
         <li className="mt-3 p-2 text-blue-600 dark:text-blue-300 rounded-lg">
           <Link
@@ -31,7 +30,7 @@ const DashboardSideBar = ({ toggleDarkMode, darkMode }: any) => {
             className=" flex flex-col items-center"
           >
             <CgProfile />
-            <span className="text-xs mt-2">Profile</span>
+            <span className="text-xs text-center mt-2">Profile & Stats</span>
           </Link>
         </li>
 
@@ -41,11 +40,11 @@ const DashboardSideBar = ({ toggleDarkMode, darkMode }: any) => {
         >
           <Link
             prefetch
-            href="/dashboard/statistics"
+            href="/dashboard/templates"
             className=" flex flex-col items-center"
           >
-            <ImStatsBars />
-            <span className="text-xs mt-2">Statistics</span>
+            <CgTemplate />
+            <span className="text-xs mt-2">Templates</span>
           </Link>
         </li>
       </ul>

@@ -4,7 +4,7 @@ const Page = () => {
   return (
     <DocsLayout>
       <title>User Fields Guide | Mailprex Docs</title>
-      <section className="max-w-3xl lg:mx-auto lg:pl-0 pl-14 p-4">
+      <section className="lg:pl-4 pl-20 mt-24 mx-2 lg:mb-4 mb-8">
         <h2 className="text-4xl font-bold mb-4">
           User Fields Guide in Mailprex
         </h2>

@@ -5,8 +5,10 @@ const Page: React.FC = () => {
   return (
     <DocsLayout>
       <title>Using the useMailprexForm Hook | Mailprex Docs</title>
-      <div className="lg:pl-0 pl-10">
-        <h2 className="text-4xl font-bold">Using the useMailprexForm Hook</h2>
+      <div className="lg:pl-4 pl-20 mt-24 mx-2 lg:mb-4 mb-8">
+        <h3 className="lg:text-4xl text-3xl font-bold">
+          Using the useMailprexForm Hook
+        </h3>
         <section>
           <h2 className="text-2xl font-semibold mt-6">Introduction</h2>
           <p className="mt-4 text-lg">

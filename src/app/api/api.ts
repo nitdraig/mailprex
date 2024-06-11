@@ -1,6 +1,6 @@
-const API_URL = "http://localhost:5000";
+import { AuthContextType } from "../types/Types";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-// Función para obtener el formToken del backend utilizando solo el token JWT
 export const getFormToken = async (JWT: string) => {
   try {
     const response = await fetch(`${API_URL}/token/getFormToken`, {

@@ -33,7 +33,7 @@ const LoginView = () => {
       setShowSuccess(true);
       setTimeout(() => {
         router.push("/dashboard");
-      }, 3000);
+      }, 2000);
     } catch (error) {
       setError("Error al iniciar sesión");
       console.error(error);

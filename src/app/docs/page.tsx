@@ -1,9 +1,9 @@
-import React from "react";
-import DocsLayout from "../components/DocsComponents/DocsLayout";
+import DocsLayout from "../layouts/DocsLayout";
 
 const page = () => {
   return (
     <DocsLayout>
+      <title>Mailprex Documentation | Mailprex Docs</title>
       <div className="lg:pl-0 pl-10">
         <h3 className="text-4xl font-bold">Introduction</h3>
         <p className="mt-4 text-lg">

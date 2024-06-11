@@ -1,6 +1,6 @@
 import CopyButton from "@/app/components/CopyButton";
-import DocsLayout from "@/app/components/DocsComponents/DocsLayout";
-import Head from "next/head";
+import DocsLayout from "@/app/layouts/DocsLayout";
+
 const Page: React.FC = () => {
   return (
     <DocsLayout>

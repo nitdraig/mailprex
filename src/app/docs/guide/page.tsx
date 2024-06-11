@@ -1,4 +1,4 @@
-import DocsLayout from "@/app/components/DocsComponents/DocsLayout";
+import DocsLayout from "@/app/layouts/DocsLayout";
 
 const Page = () => {
   return (

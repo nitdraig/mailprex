@@ -5,12 +5,12 @@ import { useState, useEffect, useRef, FC } from "react";
 import { FaMoon } from "react-icons/fa";
 import { IoSunnyOutline } from "react-icons/io5";
 
-interface SidebarProps {
+interface DocSidebarProps {
   toggleDarkMode: () => void;
   darkMode: boolean;
 }
 
-const Sidebar: FC<SidebarProps> = ({ toggleDarkMode, darkMode }) => {
+const DocSidebar: FC<DocSidebarProps> = ({ toggleDarkMode, darkMode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -135,4 +135,4 @@ const Sidebar: FC<SidebarProps> = ({ toggleDarkMode, darkMode }) => {
   );
 };
 
-export default Sidebar;
+export default DocSidebar;

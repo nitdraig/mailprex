@@ -1,32 +1,24 @@
 "use client";
-
 import React, { createContext, useContext, useEffect, useState } from "react";
-
-type AuthContextType = {
-  isAuthenticated: boolean;
-  token: string | null;
-  email: string | null;
-  login: (email: string, password: string) => Promise<void>;
-  register: (
-    email: string,
-    password: string,
-    name: string,
-    lastName: string
-  ) => Promise<void>;
-  logout: () => void;
-};
-
+import { AuthContextType, UserData } from "../types/Types";
+import {
+  getFormToken as apiGetFormToken,
+  generateFormToken as apiGenerateFormToken,
+  deleteFormToken as apiDeleteFormToken,
+} from "../api/api";
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
-  const REALAPI = "http://localhost:5000";
+  const REALAPI = process.env.NEXT_PUBLIC_API_URL;
 
   const [email, setEmail] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("token")
   );
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [formToken, setFormToken] = useState<string | null>(null);
   const isAuthenticated = !!token;
 
   useEffect(() => {
@@ -61,6 +53,25 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
       throw new Error("Failed to login");
     }
   };
+
+  const getUserData = async () => {
+    if (!token) return;
+
+    try {
+      const response = await fetch(`${REALAPI}/auth/user`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch user data");
+      }
+      const data = await response.json();
+      setUserData(data);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
   const register = async (
     name: string,
     lastName: string,
@@ -68,7 +79,6 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     password: string
   ) => {
     try {
-      // Realiza la solicitud POST al endpoint de registro
       const response = await fetch(`${REALAPI}/auth/register`, {
         method: "POST",
         headers: {
@@ -77,32 +87,121 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
         body: JSON.stringify({ name, lastName, email, password }),
       });
 
-      // Convierte la respuesta en un objeto JSON
       const data = await response.json();
 
-      // Si la respuesta no es exitosa, lanza un error
       if (!response.ok) {
         throw new Error(data.message || "Failed to register");
       }
-
-      // Extrae el mensaje de la respuesta
       const { message } = data;
-
-      // Opcional: puedes manejar el mensaje de éxito aquí, por ejemplo, mostrarlo al usuario
-      console.log("Registration successful:", message);
     } catch (error) {
-      // Maneja los errores que puedan surgir durante la solicitud
       console.error("Error during registration:", error);
       throw new Error("Failed to register");
     }
   };
+
+  const updateUser = async (userData: UserData) => {
+    if (!token) return;
+
+    try {
+      const response = await fetch(`${REALAPI}/auth/update`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update user");
+      }
+
+      const data = await response.json();
+    } catch (error) {
+      console.error("Error updating user:", error);
+      throw new Error("Failed to update user");
+    }
+  };
+
+  const deleteUser = async () => {
+    if (!token) return;
+
+    try {
+      const response = await fetch(`${REALAPI}/auth/delete`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete user");
+      }
+
+      logout();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      throw new Error("Failed to delete user");
+    }
+  };
+
+  const getFormToken = async () => {
+    if (!token) return;
+
+    try {
+      const formToken = await apiGetFormToken(token);
+      setFormToken(formToken);
+    } catch (error) {
+      console.error("Error fetching form token:", error);
+    }
+  };
+  const generateFormToken = async (email: string) => {
+    if (!token) return;
+
+    try {
+      const formToken = await apiGenerateFormToken(token, email);
+      setFormToken(formToken);
+    } catch (error) {
+      console.error("Error generating form token:", error);
+    }
+  };
+  const deleteFormToken = async () => {
+    if (!token) return;
+
+    try {
+      await apiDeleteFormToken(token, email!);
+      setFormToken(null);
+    } catch (error) {
+      console.error("Error deleting form token:", error);
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem("token");
+    setToken(null);
+    setEmail(null);
+    setUserData(null);
   };
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, token, email, login, logout, register }}
+      value={{
+        isAuthenticated,
+        token,
+        email,
+        formToken,
+        setFormToken,
+        getFormToken,
+        generateFormToken,
+        deleteFormToken,
+        updateUser,
+        deleteUser,
+        login,
+        logout,
+        register,
+        getUserData,
+        userData,
+      }}
     >
       {children}
     </AuthContext.Provider>

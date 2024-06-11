@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import TokenActions from "../Components/TokenActions";
 import {
@@ -33,6 +34,7 @@ const FormTokenManager: React.FC = () => {
 
     fetchData();
   }, []);
+
   const generateToken = async () => {
     setLoading(true);
     try {
@@ -40,17 +42,25 @@ const FormTokenManager: React.FC = () => {
       setFormToken(token);
       setError(null);
     } catch (error) {
+      console.error("Error al generar el token del formulario:", error);
+      setError("Error al generar el token del formulario");
     } finally {
       setLoading(false);
     }
   };
 
   const handleDeleteToken = async () => {
+    setLoading(true);
     try {
       await deleteFormToken(JWT, EMAIL);
       setFormToken(null);
       setError(null);
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error al eliminar el token del formulario:", error);
+      setError("Error al eliminar el token del formulario");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

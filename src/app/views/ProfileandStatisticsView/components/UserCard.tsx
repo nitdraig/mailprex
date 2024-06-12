@@ -6,7 +6,7 @@ const UserCard = ({ userData, lastEmailDate }: any) => {
       <div className="relative aspect-square rounded-full size-32 flex border mx-auto dark:bg-white/5 dark:border-white/10 before:absolute before:-inset-2 before:border dark:before:border-white/5 dark:before:bg-white/5 before:rounded-full">
         <img
           className="w-32 h-32 rounded-full mx-auto"
-          src="https://picsum.photos/200"
+          src={userData?.photo}
           alt="Profile picture"
         />
       </div>

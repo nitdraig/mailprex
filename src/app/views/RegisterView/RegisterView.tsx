@@ -37,7 +37,7 @@ const RegisterView = () => {
   return (
     <div className="h-screen flex">
       <div className="flex w-full lg:w-1/2 justify-center items-center bg-accent space-y-8">
-        <div className="w-full px-8 md:px-32 lg:px-24">
+        <div className="w-full mt-14 px-8 md:px-32 lg:px-24">
           <RegisterForm
             handleSubmit={handleSubmit}
             error={error}

@@ -102,7 +102,7 @@ const Navbar = () => {
               <Dropdown className="rounded-lg">
                 <DropdownTrigger>
                   <Avatar
-                    name={userData ? `${userData.name} ` : "Profile"}
+                    src={userData?.photo}
                     alt="Profile"
                     isBordered
                     size="md"

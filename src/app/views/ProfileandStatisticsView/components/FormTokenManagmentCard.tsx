@@ -20,7 +20,7 @@ const FormTokenManagmentCard = ({
             <p className="dark:text-gray-200 text-lg font-thin text-secondary text-center mb-4">
               Remember see the {""}
               <Link
-                className="text-blue-500 pointer"
+                className="text-blue-700 dark:text-blue-300 pointer"
                 prefetch
                 href="/docs/introduction"
               >

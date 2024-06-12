@@ -20,7 +20,6 @@ const ProfileandStatisticsView = () => {
   const [remainingEmails, setRemainingEmails] = useState<string | number>(0);
   const [lastEmailDate, setLastEmailDate] = useState("");
   const [formToken, setFormToken] = useState<string | null>(null);
-  const [userPlan, setUserPlan] = useState("Free");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -72,13 +71,7 @@ const ProfileandStatisticsView = () => {
       setLoading(false);
     }
   };
-  const upgradePlan = () => {
-    if (userPlan === "Free") {
-      setUserPlan("Standard");
-    } else if (userPlan === "Standard") {
-      setUserPlan("Business");
-    }
-  };
+  const upgradePlan = () => {};
 
   useEffect(() => {
     if (userData) {
@@ -129,7 +122,10 @@ const ProfileandStatisticsView = () => {
                 />
               </div>
               <div className="col-span-full lg:col-span-2 overflow-hidden flex relative p-8 rounded-lg bg-white border border-gray-200 dark:border-gray-800 dark:bg-primary">
-                <UserPlanCard userPlan={userPlan} upgradePlan={upgradePlan} />
+                <UserPlanCard
+                  userPlan={userData?.userType}
+                  upgradePlan={upgradePlan}
+                />
               </div>
               <div className="col-span-full sm:col-span-3 lg:col-span-2 overflow-hidden relative p-8 rounded-lg bg-white border border-gray-200 dark:border-gray-800 dark:bg-primary">
                 <LastSentCard lastEmailDate={lastEmailDate} />

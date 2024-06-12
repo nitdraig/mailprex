@@ -18,7 +18,7 @@ const UserPlanCard = ({ userPlan, upgradePlan }: any) => {
             fill="currentColor"
           ></path>
         </svg>
-        <span className="w-fit block mx-auto text-5xl font-semibold text-transparent bg-clip-text bg-gradient-to-br from-blue-300 to-pink-600 dark:from-blue-400 dark:to-pink-400">
+        <span className="w-fit block mx-auto text-4xl uppercase font-semibold text-transparent bg-clip-text bg-gradient-to-br from-blue-300 to-pink-600 dark:from-blue-400 dark:to-pink-400">
           {userPlan}
         </span>
       </div>

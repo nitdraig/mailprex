@@ -3,6 +3,7 @@ export type UserData = {
   _id: string;
   lastName: string;
   email: string;
+  photo: string;
   userType: "free" | "standard" | "business";
   requestCount: number;
   lastRequest: Date;

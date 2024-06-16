@@ -4,7 +4,7 @@ import { useMailprex } from "usemailprex-react";
 const Form = () => {
   const webName = "Mailprex Landing";
   const emailDestiny = "agustin2051@gmail.com";
-  const url = "http://localhost:5000/email/send";
+  const url = process.env.NEXT_PUBLIC_API_URL || "";
   const formToken = process.env.NEXT_PUBLIC_MAILPREX_FORM_TOKEN || "";
   const { formData, handleChange, handleSubmit, response } = useMailprex({
     url,

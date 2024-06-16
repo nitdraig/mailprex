@@ -123,7 +123,7 @@ const Navbar = () => {
                 </DropdownMenu>
               </Dropdown>
             ) : (
-              <div className="lg:hidden flex items-center space-x-2">
+              <div className="hidden md:flex items-center space-x-2">
                 <Link
                   href="/login"
                   className="text-accent bg-secondary hover:text-accent/80 px-6 py-2 rounded-lg text-lg font-medium"

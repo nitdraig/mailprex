@@ -112,13 +112,7 @@ const Navbar = () => {
                   <DropdownItem href="/dashboard" key="dashboard">
                     Dashboard
                   </DropdownItem>
-                  <DropdownItem
-                    href="/dashboard/profile"
-                    key="profile"
-                    color="default"
-                  >
-                    Profile
-                  </DropdownItem>
+
                   <DropdownItem
                     key="logout"
                     onClick={handleLogout}
@@ -145,7 +139,7 @@ const Navbar = () => {
               onClick={toggleNavbar}
               className="inline-flex items-center justify-center p-2 rounded-md text-accent focus:outline-none focus:ring-2 focus:ring-inset focus:ring-black/40"
             >
-              <span className="sr-only">Menú</span>
+              <span className="sr-only">Menu</span>
               <SVGHamburger isOpen={isOpen} />
             </button>
           </div>

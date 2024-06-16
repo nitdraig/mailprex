@@ -71,7 +71,7 @@ const RegisterView = () => {
           </p>
           <div className="flex justify-center lg:justify-start mt-6">
             <a
-              href="/#"
+              href="https://docs.mailprex.top"
               target="_blank"
               className="hover:bg-primary hover:text-white hover:-translate-y-1 transition-all duration-500 bg-white text-indigo-800 mt-4 px-4 py-2 rounded-lg font-bold mb-2"
             >

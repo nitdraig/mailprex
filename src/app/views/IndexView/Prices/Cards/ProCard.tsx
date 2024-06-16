@@ -8,8 +8,9 @@ const ProCard = () => {
       <div className="pb-3 mb-4 border-b border-gray-200">
         <div className="text-xs text-slate-800 mb-2">PRO</div>
         <div className="flex items-center">
-          <h2 className="text-5xl m-0 font-normal">$10</h2>
-          <span className="text-slate-800 ml-1">/mo</span>
+          {/* <h2 className="text-5xl m-0 font-normal">$10</h2>
+           <span className="text-slate-800 ml-1">/mo</span> */}
+          <h2 className="text-5xl m-0 font-normal">Coming Soon</h2>
         </div>
       </div>
       <div className="flex items-center mb-2">
@@ -33,7 +34,10 @@ const ProCard = () => {
         Free Forms Templates
       </div>
       <div className="mt-auto w-full">
-        <button className="bg-primary hover:bg-accent hover:text-secondary transition duration-300 rounded-xl cursor-pointer text-white py-2 border-none w-full flex items-center px-3">
+        <button
+          disabled
+          className="bg-primary hover:bg-accent hover:text-secondary transition duration-300 rounded-xl cursor-pointer text-white py-2 border-none w-full flex items-center px-3"
+        >
           Get Pro
           <SVGArrowCheck />
         </button>

@@ -5,7 +5,7 @@ import Terms from "./Terms";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-tl -z-10 from-primary/70  via-primary to-primary/60 text-white py-8">
+    <footer className="bg-gradient-to-tl z-10 from-primary/70  via-primary to-primary/60 text-white py-8">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0 md:flex md:items-center lg:flex ">
@@ -22,16 +22,16 @@ const Footer = () => {
           </div>
 
           <div className="lg:flex hidden flex-col md:flex-row md:space-x-8 text-center md:text-left">
-            <a href="#features" className="mb-2 md:mb-0 hover:underline">
+            <a href="/#features" className="mb-2 md:mb-0 hover:underline">
               Features
             </a>
-            <a href="#pricing" className="mb-2 md:mb-0 hover:underline">
+            <a href="/#pricing" className="mb-2 md:mb-0 hover:underline">
               Pricing
             </a>
-            <a href="#about" className="mb-2 md:mb-0 hover:underline">
+            <a href="/#about" className="mb-2 md:mb-0 hover:underline">
               About Us
             </a>
-            <a href="#contact" className="hover:underline">
+            <a href="/#contact" className="hover:underline">
               Contact
             </a>
           </div>
@@ -39,25 +39,29 @@ const Footer = () => {
         <div className="border-t border-white mt-8 pt-4 text-center md:text-left">
           <div className="flex justify-center text-center mb-4 mt-2">
             <a
-              href="#"
+              href="https://www.linkedin.com/in/avellaneda-agustín-tns/"
+              target="_blank"
               className="mx-2 text-3xl text-accent hover:text-secondary transition  duration-300  "
             >
               <FaLinkedin />
             </a>
             <a
-              href="#"
+              href="https://www.github.com/nitdraig"
+              target="_blank"
               className="mx-2 text-3xl  text-accent hover:text-secondary  transition duration-300"
             >
               <FaGithub />
             </a>
             <a
-              href="#"
+              href="https://docs.mailprex.top"
+              target="_blank"
               className="mx-2 text-3xl text-accent hover:text-secondary transition duration-300"
             >
               <IoDocumentTextSharp />
             </a>
             <a
-              href="#"
+              href="https://www.npmjs.com/package/usemailprex-react"
+              target="_blank"
               className="mx-2 text-3xl  text-accent hover:text-secondary transition duration-300"
             >
               <FaNpm />

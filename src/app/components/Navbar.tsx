@@ -94,14 +94,6 @@ const Navbar = () => {
                   Contact
                 </a>
               </li>
-              <li>
-                <a
-                  href="/login"
-                  className="text-accent bg-secondary                   hover:text-accent/70 px-3 py-2 text-lg font-medium"
-                >
-                  Login
-                </a>
-              </li>
             </ul>
           </div>
 
@@ -131,7 +123,7 @@ const Navbar = () => {
                 </DropdownMenu>
               </Dropdown>
             ) : (
-              <div className="hidden md:flex items-center space-x-2">
+              <div className="lg:hidden flex items-center space-x-2">
                 <Link
                   href="/login"
                   className="text-accent bg-secondary hover:text-accent/80 px-6 py-2 rounded-lg text-lg font-medium"

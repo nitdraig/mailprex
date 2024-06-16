@@ -1,5 +1,5 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "./../../assets/success.svg";
@@ -7,14 +7,16 @@ import "./../../assets/success.svg";
 const VerifyView = () => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
-  const REALAPI = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
+
   useEffect(() => {
-    if (token) {
-      const verifyToken = async () => {
+    const verifyToken = async () => {
+      const searchParams = new URLSearchParams(window.location.search);
+      const token = searchParams.get("token");
+
+      if (token) {
         try {
+          const REALAPI = process.env.NEXT_PUBLIC_API_URL;
           const response = await fetch(`${REALAPI}/auth/verify?token=${token}`);
           const data = await response.json();
 
@@ -47,16 +49,19 @@ const VerifyView = () => {
             progress: undefined,
           });
         }
-      };
+      }
+    };
 
+    if (typeof window !== "undefined") {
       verifyToken();
     }
-  }, [token]);
+  }, []);
+
   return (
     <section className="w-full bg-accent h-full pt-20 pb-8  flex flex-col items-center justify-center">
       <img
         src="https://res.cloudinary.com/draig/image/upload/v1718503129/mailprex/njnaga8qv9y5zy0v3rhr.svg"
-        alt="Acount Verified"
+        alt="Account Verified"
         className="h-96 float"
         loading="lazy"
       />
@@ -73,9 +78,9 @@ const VerifyView = () => {
             fill="currentColor"
           >
             <path
-              fill-rule="evenodd"
+              fillRule="evenodd"
               d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z"
-              clip-rule="evenodd"
+              clipRule="evenodd"
             ></path>
           </svg>
           <span>Go to Login</span>
@@ -84,4 +89,5 @@ const VerifyView = () => {
     </section>
   );
 };
+
 export default VerifyView;

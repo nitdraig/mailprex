@@ -14,17 +14,23 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   const REALAPI = process.env.NEXT_PUBLIC_API_URL;
 
   const [email, setEmail] = useState<string | null>(null);
-  const [token, setToken] = useState<string | null>(
-    localStorage.getItem("token")
-  );
+  const [token, setToken] = useState<string | null>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("token");
+    }
+    return null;
+  });
+
   const [userData, setUserData] = useState<UserData | null>(null);
   const [formToken, setFormToken] = useState<string | null>(null);
   const isAuthenticated = !!token;
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      setToken(storedToken);
+    if (typeof window !== "undefined") {
+      const storedToken = localStorage.getItem("token");
+      if (storedToken) {
+        setToken(storedToken);
+      }
     }
   }, []);
 
@@ -45,8 +51,10 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
 
       const { token, message } = data;
 
-      setToken(token);
-      localStorage.setItem("token", token);
+      if (typeof window !== "undefined") {
+        setToken(token);
+        localStorage.setItem("token", token);
+      }
       setEmail(email);
     } catch (error) {
       console.error("Error during login:", error);
@@ -203,7 +211,9 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("token");
+    }
     setToken(null);
     setEmail(null);
     setUserData(null);

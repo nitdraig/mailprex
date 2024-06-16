@@ -28,14 +28,11 @@ const BusinessCard = () => {
       <div className="mt-auto w-full">
         <button
           disabled
-          className="bg-secondary hover:bg-primary transition duration-300 rounded-xl cursor-pointer text-white py-2 border-none w-full flex items-center px-3"
+          className="bg-secondary hover:bg-primary transition duration-300 rounded-xl cursor-no-drop text-white py-2 border-none w-full flex items-center px-3"
         >
           Get Business
           <SVGArrowCheck />
         </button>
-        <div className="text-xs mt-3 text-slate-600 line-height-2">
-          Literally you probably havent heard of them jean shorts.
-        </div>
       </div>
     </div>
   );

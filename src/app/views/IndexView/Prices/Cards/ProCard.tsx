@@ -36,7 +36,7 @@ const ProCard = () => {
       <div className="mt-auto w-full">
         <button
           disabled
-          className="bg-primary hover:bg-accent hover:text-secondary transition duration-300 rounded-xl cursor-pointer text-white py-2 border-none w-full flex items-center px-3"
+          className="bg-primary cursor-no-drop  hover:bg-accent hover:text-secondary transition duration-300 rounded-xl  text-white py-2 border-none w-full flex items-center px-3"
         >
           Get Pro
           <SVGArrowCheck />

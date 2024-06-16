@@ -22,10 +22,13 @@ const FreeCard = () => {
         Control your remaining shipments
       </div>
       <div className="mt-auto w-full">
-        <button className="bg-secondary hover:bg-primary transition duration-300 rounded-xl cursor-pointer text-white py-2 border-none w-full flex items-center px-3">
+        <a
+          href="/register"
+          className="bg-secondary hover:bg-primary transition duration-300 rounded-xl cursor-pointer text-white py-2 border-none w-full flex items-center px-3"
+        >
           Get Free
           <SVGArrowCheck />
-        </button>
+        </a>
       </div>
     </div>
   );

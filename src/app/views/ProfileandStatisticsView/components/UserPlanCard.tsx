@@ -24,8 +24,9 @@ const UserPlanCard = ({ userPlan, upgradePlan }: any) => {
       </div>
       <div>
         <button
+          disabled
           onClick={upgradePlan}
-          className="bg-blue-500 text-white text-sm py-2 px-4 rounded-lg mt-4"
+          className="bg-blue-500 cursor-no-drop text-white disabled:bg-blue-300 text-sm py-2 px-4 rounded-lg mt-4"
         >
           Upgrade
         </button>

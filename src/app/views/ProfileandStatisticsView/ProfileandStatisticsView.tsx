@@ -7,11 +7,12 @@ import {
   generateFormToken,
   getFormToken,
 } from "@/app/api/api";
-import UserCard from "./components/UserCard";
+
 import FormTokenManagmentCard from "./components/FormTokenManagmentCard";
 import LastSentCard from "./components/LastSentCard";
 import UserPlanCard from "./components/UserPlanCard";
 import EmailStats from "./components/EmailStatsCard";
+import UserCard from "./UserCard/UserCard";
 
 const ProfileandStatisticsView = () => {
   const { userData, token, email } = useAuth();
@@ -34,8 +35,7 @@ const ProfileandStatisticsView = () => {
         setFormToken(token);
         setError(null);
       } catch (error) {
-        console.error("Error al obtener el token del formulario:", error);
-        setError("Error al obtener el token del formulario");
+        console.error("Error getting token from form:", error);
       } finally {
         setLoading(false);
       }

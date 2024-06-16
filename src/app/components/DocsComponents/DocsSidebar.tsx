@@ -34,7 +34,7 @@ const DocSidebar: FC<DocSidebarProps> = ({ toggleDarkMode, darkMode }) => {
     <aside
       className={`fixed pt-20  ${
         isOpen ? "w-36" : "w-16"
-      }  lg:relative lg:w-60 lg:h-screen h-full    shadow-md px-1 lg:transform lg:translate-x-0 transform z-10 bg-accent/80 dark:bg-secondary dark:shadow-accent flex flex-col justify-between`}
+      }  lg:relative lg:w-60 lg:h-screen h-full     px-1 lg:transform lg:translate-x-0 transform z-10 bg-accent/80 dark:bg-secondary/80  flex flex-col justify-between`}
     >
       <div>
         <button

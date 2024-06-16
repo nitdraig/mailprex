@@ -18,7 +18,7 @@ const TokenActions: React.FC<TokenActionsProps> = ({
         <TokenDisplay formToken={formToken} deleteFormToken={deleteFormToken} />
       ) : (
         <div>
-          <p className="dark:text-gray-700 text-white font-semibold mb-4">
+          <p className="dark:text-gray-200 text-white font-semibold mb-4">
             There is no Form Token
           </p>
           <button

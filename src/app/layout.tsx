@@ -9,6 +9,8 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { AuthProvider } from "./api/AuthContext";
+import { ToastContainer } from "react-toastify";
+import ToastProvider from "./ToastProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 const pair = Playfair_Display({ subsets: ["latin"] });
@@ -29,9 +31,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={quik.className}>
         <AuthProvider>
-          <Navbar />
-          {children}
-          <Footer />
+          <ToastProvider>
+            <Navbar />
+
+            {children}
+            <Footer />
+          </ToastProvider>
         </AuthProvider>
       </body>
     </html>

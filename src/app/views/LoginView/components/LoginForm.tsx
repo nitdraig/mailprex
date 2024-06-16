@@ -62,9 +62,9 @@ const LoginForm = ({
           Login
         </button>
         <div className="flex justify-between mt-4">
-          <a className="text-sm ml-2 hover:text-primary cursor-pointer hover:-translate-y-1 duration-500 transition-all">
+          {/* <a className="text-sm ml-2 hover:text-primary cursor-pointer hover:-translate-y-1 duration-500 transition-all">
             <span> Forgot Password?</span>
-          </a>
+          </a> */}
           <a
             href="/register"
             className="text-sm ml-2 hover:text-primary cursor-pointer hover:-translate-y-1 duration-500 transition-all"

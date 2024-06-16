@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
-
 import { useAuth } from "@/app/api/AuthContext";
 import RegisterForm from "./components/RegisterForm";
+import { toast } from "react-toastify";
 
 const RegisterView = () => {
   const { register } = useAuth();
@@ -16,16 +16,23 @@ const RegisterView = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (password !== repeatPassword) {
       setError("Passwords do not match");
       return;
     }
-
     try {
       await register(name, lastName, email, password);
-      setSuccess(
-        "Registration successful. Please check your email to verify your account."
+      toast.success(
+        "Registration successful. Please check your email to verify your account.",
+        {
+          position: "bottom-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          pauseOnHover: false,
+          closeOnClick: true,
+          draggable: true,
+          progress: undefined,
+        }
       );
       setError(null);
     } catch (error) {
@@ -64,7 +71,8 @@ const RegisterView = () => {
           </p>
           <div className="flex justify-center lg:justify-start mt-6">
             <a
-              href="/docs/introduction"
+              href="/#"
+              target="_blank"
               className="hover:bg-primary hover:text-white hover:-translate-y-1 transition-all duration-500 bg-white text-indigo-800 mt-4 px-4 py-2 rounded-lg font-bold mb-2"
             >
               Read Docs

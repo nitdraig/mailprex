@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "@/app/api/AuthContext";
 import { useRouter } from "next/navigation";
 import LoginForm from "./components/LoginForm";
+import { toast } from "react-toastify";
 
 const LoginView = () => {
   const { login } = useAuth();
@@ -39,7 +40,14 @@ const LoginView = () => {
         router.push("/dashboard");
       }, 1000);
     } catch (error: any) {
-      setError(error.message || "Failed to login");
+      toast.error("Bad credentials, try again", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+      });
       console.error("Error during login:", error.message);
     }
   };

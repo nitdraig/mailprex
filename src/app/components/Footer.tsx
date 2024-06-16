@@ -5,7 +5,7 @@ import Terms from "./Terms";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-tl from-primary/70  via-primary to-primary/60 text-white py-8">
+    <footer className="bg-gradient-to-tl -z-10 from-primary/70  via-primary to-primary/60 text-white py-8">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0 md:flex md:items-center lg:flex ">

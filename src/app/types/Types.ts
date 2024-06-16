@@ -24,6 +24,10 @@ export type AuthContextType = {
   logout: () => void;
   getUserData: () => Promise<void>;
   updateUser: (userData: UserData) => Promise<void>;
+  changePassword: (
+    currentPassword: string,
+    newPassword: string
+  ) => Promise<void>;
   deleteUser: () => Promise<void>;
   formToken: string | null;
   setFormToken: React.Dispatch<React.SetStateAction<string | null>>;

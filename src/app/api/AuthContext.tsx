@@ -103,7 +103,7 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     if (!token) return;
 
     try {
-      const response = await fetch(`${REALAPI}/auth/update`, {
+      const response = await fetch(`${REALAPI}/auth/user/${userData._id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -142,6 +142,32 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     } catch (error) {
       console.error("Error deleting user:", error);
       throw new Error("Failed to delete user");
+    }
+  };
+  const changePassword = async (
+    currentPassword: string,
+    newPassword: string
+  ) => {
+    if (!token) return;
+
+    try {
+      const response = await fetch(`${REALAPI}/auth/changePassword`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to change password");
+      }
+
+      const data = await response.json();
+    } catch (error) {
+      console.error("Error changing password:", error);
+      throw new Error("Failed to change password");
     }
   };
 
@@ -187,6 +213,7 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     <AuthContext.Provider
       value={{
         isAuthenticated,
+        changePassword,
         token,
         email,
         formToken,

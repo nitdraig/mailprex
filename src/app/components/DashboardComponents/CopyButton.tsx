@@ -1,5 +1,6 @@
 import React from "react";
 import { IoCopyOutline } from "react-icons/io5";
+import { toast } from "react-toastify";
 
 interface CopyButtonDashboardProps {
   code: string;
@@ -9,7 +10,15 @@ const CopyButtonDashboard: React.FC<CopyButtonDashboardProps> = ({ code }) => {
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(code);
-      alert("Copied to clipboard!");
+      toast("🦄 Copied To Clipboard!", {
+        position: "top-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } catch (err) {
       console.error("Failed to copy: ", err);
     }

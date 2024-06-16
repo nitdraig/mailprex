@@ -94,6 +94,14 @@ const Navbar = () => {
                   Contact
                 </a>
               </li>
+              <li>
+                <a
+                  href="/login"
+                  className="text-accent bg-secondary                   hover:text-accent/70 px-3 py-2 text-lg font-medium"
+                >
+                  Login
+                </a>
+              </li>
             </ul>
           </div>
 

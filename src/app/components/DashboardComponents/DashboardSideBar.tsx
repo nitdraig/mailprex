@@ -10,29 +10,11 @@ const DashboardSideBar = ({ toggleDarkMode, darkMode }: any) => {
     <aside className="lg:w-24 w-20 mt-10 flex flex-col items-center  py-4">
       <ul className="mt-2 text-gray-700 dark:text-gray-400 capitalize">
         <li className="mt-3 p-2 text-blue-600 dark:text-blue-300 rounded-lg">
-          <Link
-            prefetch
-            href="/dashboard"
-            className=" flex flex-col items-center"
-          >
+          <Link href="/dashboard" className=" flex flex-col items-center">
             <MdOutlineSpaceDashboard />
             <span className="text-xs mt-2">DashBoard</span>
           </Link>
         </li>
-
-        {/* <li
-          className="mt-3 p-2 hover:text-blue-600 dark-hover:text-blue-300
-				rounded-lg"
-        >
-          <Link
-            prefetch
-            href="/dashboard/profile"
-            className=" flex flex-col items-center"
-          >
-            <CgProfile />
-            <span className="text-xs text-center mt-2">Profile & Stats</span>
-          </Link>
-        </li> */}
 
         <li
           className="mt-3 p-2 hover:text-blue-600 dark-hover:text-blue-300

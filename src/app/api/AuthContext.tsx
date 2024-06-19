@@ -6,7 +6,6 @@ import {
   generateFormToken as apiGenerateFormToken,
   deleteFormToken as apiDeleteFormToken,
 } from "../api/api";
-
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
@@ -15,15 +14,23 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   const REALAPI = process.env.NEXT_PUBLIC_API_URL;
 
   const [email, setEmail] = useState<string | null>(null);
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("token");
+    }
+    return null;
+  });
+
   const [userData, setUserData] = useState<UserData | null>(null);
   const [formToken, setFormToken] = useState<string | null>(null);
   const isAuthenticated = !!token;
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      setToken(storedToken);
+    if (typeof window !== "undefined") {
+      const storedToken = localStorage.getItem("token");
+      if (storedToken) {
+        setToken(storedToken);
+      }
     }
   }, []);
 
@@ -36,15 +43,18 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
         },
         body: JSON.stringify({ email, password }),
       });
-
       const data = await response.json();
+
       if (!response.ok) {
         throw new Error(data.message || "Failed to login");
       }
 
-      const { token } = data;
-      setToken(token);
-      localStorage.setItem("token", token);
+      const { token, message } = data;
+
+      if (typeof window !== "undefined") {
+        setToken(token);
+        localStorage.setItem("token", token);
+      }
       setEmail(email);
     } catch (error) {
       console.error("Error during login:", error);
@@ -61,18 +71,15 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
           Authorization: `Bearer ${token}`,
         },
       });
-
       if (!response.ok) {
         throw new Error("Failed to fetch user data");
       }
-
       const data = await response.json();
       setUserData(data);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
   };
-
   const register = async (
     name: string,
     lastName: string,
@@ -89,9 +96,11 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
       });
 
       const data = await response.json();
+
       if (!response.ok) {
         throw new Error(data.message || "Failed to register");
       }
+      const { message } = data;
     } catch (error) {
       console.error("Error during registration:", error);
       throw new Error("Failed to register");
@@ -114,6 +123,8 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
       if (!response.ok) {
         throw new Error("Failed to update user");
       }
+
+      const data = await response.json();
     } catch (error) {
       console.error("Error updating user:", error);
       throw new Error("Failed to update user");
@@ -141,7 +152,6 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
       throw new Error("Failed to delete user");
     }
   };
-
   const changePassword = async (
     currentPassword: string,
     newPassword: string
@@ -161,6 +171,8 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
       if (!response.ok) {
         throw new Error("Failed to change password");
       }
+
+      const data = await response.json();
     } catch (error) {
       console.error("Error changing password:", error);
       throw new Error("Failed to change password");
@@ -177,7 +189,6 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
       console.error("Error fetching form token:", error);
     }
   };
-
   const generateFormToken = async (email: string) => {
     if (!token) return;
 
@@ -188,12 +199,11 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
       console.error("Error generating form token:", error);
     }
   };
-
   const deleteFormToken = async () => {
-    if (!token || !email) return;
+    if (!token) return;
 
     try {
-      await apiDeleteFormToken(token, email);
+      await apiDeleteFormToken(token, email!);
       setFormToken(null);
     } catch (error) {
       console.error("Error deleting form token:", error);
@@ -201,7 +211,9 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("token");
+    }
     setToken(null);
     setEmail(null);
     setUserData(null);

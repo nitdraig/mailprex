@@ -32,7 +32,7 @@ const UserCard = ({ userData, lastEmailDate }: any) => {
 
   const handleSaveChanges = async () => {
     try {
-      const avatarUrl = selectedAvatar || userData.photo;
+      const avatarUrl = selectedAvatar || userData?.photo;
       await updateUser({
         _id: userData._id,
         email: userData.email,

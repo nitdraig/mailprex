@@ -45,7 +45,12 @@ const HamburguerMenu = ({
         {isAuthenticated && !loading ? (
           <Dropdown className="rounded-lg">
             <DropdownTrigger>
-              <Avatar src={userData.photo} alt="Profile" isBordered size="md" />
+              <Avatar
+                src={userData?.photo}
+                alt="Profile"
+                isBordered
+                size="md"
+              />
             </DropdownTrigger>
             <DropdownMenu aria-label="Link Actions">
               <DropdownItem href="/dashboard" key="dashboard">

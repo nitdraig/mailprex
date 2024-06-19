@@ -35,7 +35,6 @@ const ProfileandStatisticsView = () => {
         setFormToken(token);
         setError(null);
       } catch (error) {
-        console.error("Error getting token from form:", error);
       } finally {
         setLoading(false);
       }
@@ -51,7 +50,6 @@ const ProfileandStatisticsView = () => {
       setFormToken(token);
       setError(null);
     } catch (error) {
-      console.error("Error al generar el token del formulario:", error);
       setError("Error al generar el token del formulario");
     } finally {
       setLoading(false);
@@ -65,7 +63,6 @@ const ProfileandStatisticsView = () => {
       setFormToken(null);
       setError(null);
     } catch (error) {
-      console.error("Error al eliminar el token del formulario:", error);
       setError("Error al eliminar el token del formulario");
     } finally {
       setLoading(false);

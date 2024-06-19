@@ -1,4 +1,3 @@
-import { AuthContextType } from "../types/Types";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const getFormToken = async (JWT: string) => {
@@ -17,7 +16,6 @@ export const getFormToken = async (JWT: string) => {
       throw new Error(data.message);
     }
   } catch (error) {
-    console.error("Error al traer el token:", error);
     throw new Error("Error al traer el token");
   }
 };
@@ -39,7 +37,6 @@ export const generateFormToken = async (JWT: string, email: string) => {
       throw new Error(data.message);
     }
   } catch (error) {
-    console.error("Error al generar el token:", error);
     throw new Error("Error al generar el token");
   }
 };
@@ -59,7 +56,6 @@ export const deleteFormToken = async (JWT: string, email: string) => {
       throw new Error(data.message);
     }
   } catch (error) {
-    console.error("Error al eliminar el token:", error);
     throw new Error("Error al eliminar el token");
   }
 };

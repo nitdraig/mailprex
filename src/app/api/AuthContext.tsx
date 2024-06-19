@@ -24,7 +24,6 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   const [userData, setUserData] = useState<UserData | null>(null);
   const [formToken, setFormToken] = useState<string | null>(null);
   const isAuthenticated = !!token;
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedToken = localStorage.getItem("token");
@@ -32,7 +31,7 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
         setToken(storedToken);
       }
     }
-  }, []);
+  }, [token]);
 
   const login = async (email: string, password: string) => {
     try {

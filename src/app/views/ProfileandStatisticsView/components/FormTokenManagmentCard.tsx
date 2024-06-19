@@ -1,5 +1,5 @@
 import TokenActions from "@/app/components/DashboardComponents/TokenActions";
-import Link from "next/link";
+
 import React from "react";
 
 const FormTokenManagmentCard = ({
@@ -19,13 +19,13 @@ const FormTokenManagmentCard = ({
           <div>
             <p className="dark:text-gray-200 text-lg font-thin text-secondary text-center mb-4">
               Remember see the {""}
-              <Link
+              <a
                 className="text-blue-700 dark:text-blue-300 pointer"
-                prefetch
-                href="/docs/introduction"
+                target="_blank"
+                href="https://docs.mailprex.top"
               >
                 Mailprex Docs
-              </Link>
+              </a>
               , and not share your form token, is private.
             </p>
           </div>

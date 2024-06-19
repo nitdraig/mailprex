@@ -64,13 +64,13 @@ const DocSidebar: FC<DocSidebarProps> = ({ toggleDarkMode, darkMode }) => {
         >
           <ul>
             <li className="relative">
-              <Link
-                prefetch
-                href="/docs/introduction"
+              <a
+                target="_blank"
+                href="https://docs.mailprex.top"
                 className="sidebar-link block py-4 px-6 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700 transition duration-300 ease-in-out"
               >
-                Introduction
-              </Link>
+                Docs
+              </a>
             </li>
             <li className="relative">
               <Link

@@ -71,13 +71,12 @@ const FormTokenManager: React.FC = () => {
         </h3>
         <p className="dark:text-gray-200 text-lg font-serif text-secondary text-center mb-4">
           Remember see the{""}
-          <Link
+          <a
             className="text-blue-500 pointer"
-            prefetch
-            href="/docs/introduction"
+            href="https://docs.mailprex.top/"
           >
             {""}Mailprex Docs
-          </Link>
+          </a>
           , and not share your form token, is private.
         </p>
         <h4 className="lg:text-3xl text-2xl dark:text-accent text-center font-bold mb-4">

@@ -38,14 +38,14 @@ const DashboardSideBar = ({ toggleDarkMode, darkMode }: any) => {
           className="mt-3 p-2 hover:text-blue-600 dark-hover:text-blue-300
 				rounded-lg"
         >
-          <Link
-            prefetch
-            href="/dashboard/templates"
+          <a
+            target="_blank"
+            href="https://mailprex.top"
             className=" flex flex-col items-center"
           >
             <CgTemplate />
-            <span className="text-xs mt-2">Templates</span>
-          </Link>
+            <span className="text-xs mt-2">Docs</span>
+          </a>
         </li>
       </ul>
       <button className="p-2 m-4   focus:outline-none" onClick={toggleDarkMode}>

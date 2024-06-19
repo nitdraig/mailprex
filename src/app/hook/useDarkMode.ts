@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from "react";
 
 export const useDarkMode = () => {
@@ -6,7 +7,7 @@ export const useDarkMode = () => {
       const storedDarkMode = localStorage.getItem("darkMode");
       return storedDarkMode ? JSON.parse(storedDarkMode) : false;
     }
-    return false; // Fallback in case localStorage is not available
+    return false;
   });
 
   useEffect(() => {

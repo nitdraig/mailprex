@@ -7,14 +7,13 @@ import {
   generateFormToken,
   getFormToken,
 } from "@/app/api/api";
-
 import FormTokenManagmentCard from "./components/FormTokenManagmentCard";
 import LastSentCard from "./components/LastSentCard";
 import UserPlanCard from "./components/UserPlanCard";
 import EmailStats from "./components/EmailStatsCard";
-import UserCard from "./UserCard/UserCard";
+import UserCard from "./components/UserCard/UserCard";
 
-const ProfileandStatisticsView = () => {
+const ProfileAndStadisticView = () => {
   const { userData, token, email } = useAuth();
 
   const [sentEmails, setSentEmails] = useState(0);
@@ -135,4 +134,4 @@ const ProfileandStatisticsView = () => {
   );
 };
 
-export default ProfileandStatisticsView;
+export default ProfileAndStadisticView;

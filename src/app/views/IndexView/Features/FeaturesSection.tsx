@@ -37,7 +37,8 @@ const FeaturesSection = () => {
                 </p>
               </div>
               <a
-                href="#"
+                href="https://docs.mailprex.top"
+                target="_blank"
                 className="flex hover:bg-primary py-3 px-2 rounded-lg text-secondary hover:text-accent  justify-between items-center "
               >
                 Read more
@@ -61,7 +62,8 @@ const FeaturesSection = () => {
                 </p>
               </div>
               <a
-                href="#"
+                href="https://docs.mailprex.top"
+                target="_blank"
                 className="flex hover:bg-primary py-3 px-2 rounded-lg text-secondary hover:text-accent  justify-between items-center "
               >
                 Read more
@@ -85,7 +87,8 @@ const FeaturesSection = () => {
                 </p>
               </div>
               <a
-                href="#"
+                href="https://docs.mailprex.top"
+                target="_blank"
                 className="flex hover:bg-primary py-3 px-2 rounded-lg text-secondary hover:text-accent  justify-between items-center "
               >
                 Read more
@@ -98,7 +101,6 @@ const FeaturesSection = () => {
           <div className="relative group bg-gray-100 transition hover:z-[1] hover:shadow-2xl lg:hidden xl:block">
             <div className="relative p-8 space-y-8 border-dashed rounded-lg transition duration-300 group-hover:bg-white group-hover:border group-hover:scale-90">
               <IoDocumentText className="w-16 h-16 text-primary" />
-
               <div className="space-y-2">
                 <h5 className="text-xl text-gray-800 font-medium transition ">
                   Read Documentation
@@ -109,7 +111,8 @@ const FeaturesSection = () => {
                 </p>
               </div>
               <a
-                href="#"
+                href="https://docs.mailprex.top"
+                target="_blank"
                 className="flex hover:bg-primary py-3 px-2 rounded-lg text-secondary hover:text-accent  justify-between items-center "
               >
                 Read more

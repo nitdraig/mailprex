@@ -17,6 +17,7 @@
     "react-dom": "^18",
     "react-icons": "^5.2.1",
     "react-toastify": "^10.0.5",
+    "sweetalert2": "^11.12.2",
     "usemailprex-react": "^1.0.17"
   },
   "devDependencies": {

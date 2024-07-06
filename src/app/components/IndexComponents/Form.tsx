@@ -1,4 +1,5 @@
 "use client";
+import Swal from "sweetalert2";
 import { useMailprex } from "usemailprex-react";
 
 const Form = () => {
@@ -16,9 +17,12 @@ const Form = () => {
     e.preventDefault();
     await handleSubmit(e);
     if (response.error) {
-      Error("Error al enviar el mensaje. Inténtalo de nuevo más tarde.");
+      Swal.fire({
+        title: "Error sending message. Try again later.",
+        icon: "error",
+      });
     } else {
-      ("¡Mensaje enviado con éxito!");
+      Swal.fire({ title: "Message sent succesfully!", icon: "success" });
     }
   };
   return (
@@ -76,18 +80,6 @@ const Form = () => {
       >
         Send Message
       </button>
-
-      {response.loading && (
-        <p className="mt-4 text-blue-100">Enviando correo electrónico...</p>
-      )}
-      {response.error && (
-        <p className="mt-4 text-red-300">
-          Error al enviar el correo electrónico: {response.error.message}
-        </p>
-      )}
-      {response.data && (
-        <p className="mt-4 text-green-500">{response.data.message}</p>
-      )}
     </form>
   );
 };

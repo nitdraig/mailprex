@@ -1,0 +1,8 @@
+import { Request } from "express";
+import { IUser } from "../models/userModel";
+
+export interface CustomRequest extends Request {
+  email?: string;
+  userId?: string;
+  user?: IUser | null;
+}

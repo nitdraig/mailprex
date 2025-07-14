@@ -77,7 +77,7 @@ export const metadata: Metadata = {
 
   openGraph: {
     type: "website",
-    url: "https://mailprex.top",
+    url: "https://mailprex.excelso.xyz",
     title: "Mailprex  | Send Emails from your Website with Ease ",
     description:
       "Mailprex is the ideal platform for sending emails from your website. Our user-friendly API integrates into your front end, enabling quick and secure form submissions. We offer advanced customization and robust security to protect your data. Simplify your email sending process with Mailprex, your reliable and efficient solution.",
@@ -98,7 +98,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={quik.className}>
-        <link rel="canonical" href="https://www.mailprex.top" />
+        <link rel="canonical" href="https://www.mailprex.excelso.xyz" />
         <AuthProvider>
           <ToastProvider>
             <Navbar />

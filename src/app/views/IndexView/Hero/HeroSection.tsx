@@ -35,7 +35,7 @@ const HeroSection = () => {
               Get Started
             </a>
             <a
-              href="https://docs.mailprex.top"
+              href="https://docs.mailprex.excelso.xyz"
               target="_blank"
               className="inline-block bg-transparent border-2 border-white text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-accent hover:text-secondary transition duration-300"
             >

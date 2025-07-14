@@ -165,8 +165,7 @@ export default function Terms() {
                   <br />
                   <span className="font-bold">
                     13. Contact If you have any questions about these Terms of
-                    Service, please contact our support team via:
-                    support@mailprex.top
+                    Service, please contact our support team via: me@agustin.top
                   </span>
                 </p>
               </ModalBody>

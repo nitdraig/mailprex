@@ -22,7 +22,7 @@ const FormTokenManagmentCard = ({
               <a
                 className="text-blue-700 dark:text-blue-300 pointer"
                 target="_blank"
-                href="https://docs.mailprex.top"
+                href="https://docs.mailprex.excelso.xyz"
               >
                 Mailprex Docs
               </a>

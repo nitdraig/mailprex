@@ -53,7 +53,7 @@ const Footer = () => {
               <FaGithub />
             </a>
             <a
-              href="https://docs.mailprex.top"
+              href="https://docs.mailprex.excelso.xyz"
               target="_blank"
               className="mx-2 text-3xl text-accent hover:text-secondary transition duration-300"
             >

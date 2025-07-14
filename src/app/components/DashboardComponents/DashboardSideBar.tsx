@@ -22,7 +22,7 @@ const DashboardSideBar = ({ toggleDarkMode, darkMode }: any) => {
         >
           <a
             target="_blank"
-            href="https://docs.mailprex.top"
+            href="https://docs.mailprex.excelso.xyz"
             className=" flex flex-col items-center"
           >
             <CgTemplate />

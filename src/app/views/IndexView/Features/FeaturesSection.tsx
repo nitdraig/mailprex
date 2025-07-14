@@ -37,7 +37,7 @@ const FeaturesSection = () => {
                 </p>
               </div>
               <a
-                href="https://docs.mailprex.top"
+                href="https://docs.mailprex.excelso.xyz"
                 target="_blank"
                 className="flex hover:bg-primary py-3 px-2 rounded-lg text-secondary hover:text-accent  justify-between items-center "
               >
@@ -62,7 +62,7 @@ const FeaturesSection = () => {
                 </p>
               </div>
               <a
-                href="https://docs.mailprex.top"
+                href="https://docs.mailprex.excelso.xyz"
                 target="_blank"
                 className="flex hover:bg-primary py-3 px-2 rounded-lg text-secondary hover:text-accent  justify-between items-center "
               >
@@ -87,7 +87,7 @@ const FeaturesSection = () => {
                 </p>
               </div>
               <a
-                href="https://docs.mailprex.top"
+                href="https://docs.mailprex.excelso.xyz"
                 target="_blank"
                 className="flex hover:bg-primary py-3 px-2 rounded-lg text-secondary hover:text-accent  justify-between items-center "
               >
@@ -111,7 +111,7 @@ const FeaturesSection = () => {
                 </p>
               </div>
               <a
-                href="https://docs.mailprex.top"
+                href="https://docs.mailprex.excelso.xyz"
                 target="_blank"
                 className="flex hover:bg-primary py-3 px-2 rounded-lg text-secondary hover:text-accent  justify-between items-center "
               >

@@ -55,7 +55,7 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/email", cors({ origin: "*" }), emailRateLimiter, emailRoutes);
 
 const corsOptions = {
-  origin: "https://excelso.xyz",
+  origin: "https://mailprex.excelso.xyz",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,

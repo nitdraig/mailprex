@@ -1,0 +1,40 @@
+# API Reference
+
+## Introduction
+
+The API Reference provides complete documentation on Mailprex API endpoints, including request and response parameters, and usage examples.
+
+## Endpoint: /sendEmail
+
+ The API URL: `"https://api.mailprex.excelso.xyz/email/send"`
+**Description:** Sends an email using the specified parameters.
+
+### Request Parameters:
+
+- **emailDestiny:** (String) Email address of the recipient.
+- **formData.fullName:**(String) Fullname of user form 
+- **formData.message:** (String) Message of the form.
+- **formData.email:** (String) email of user form
+- **webName:**(String) To identify the website where the form comes from
+- **formToken:** (String) required to enable form submission
+
+### Request Example:
+
+```json
+{
+  "emailDestiny": "myEmail@example.com",
+  "webName": "My Portfolio",
+  "formToken": "yourPrivateTokenHere",
+  "formData.fullName":"Joe Doe",
+  "formData.message": "Hi, i want to contact you for a job!",
+  "formData.email":"jonDoe@example.com",
+
+}
+```
+
+```json
+{
+  "success": true,
+  "message": "Email sent successfully."
+}
+```

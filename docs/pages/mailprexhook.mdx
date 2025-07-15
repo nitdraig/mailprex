@@ -1,0 +1,84 @@
+# Using the useMailprex Hook
+
+## Introduction
+
+The `useMailprex` hook makes it easy to integrate contact forms into your website using Mailprex. This hook manages the state of the form, handles changes to the fields, and sends the form information through the Mailprex API.
+
+To use the `useMailprex` hook, you must first install it from npm:
+
+```bash
+npm install usemailprex-react
+```
+
+## Using the Hook
+
+### Import and Configuration
+
+First, import the hook into your component:
+
+```
+import {useMailprex} from "usemailprex-react";
+```
+
+Then, configure the hook in your component:
+
+```
+const { formData, handleChange, handleSubmit, response } = useMailprex({
+  url: "https://api.mailprex.excelso.xyz/email/send", //this is the API URL
+  formToken ="yourPersonalFormToken" //It is advisable to make it an environment variable in the .env file
+  webName: "YourWebName", //Your webName 
+  emailDestiny: "destiny@example.com", //It is advisable to make it an environment variable in the .env file
+});
+  const handleFormSubmit = async (e: any) => {
+    e.preventDefault();
+    await handleSubmit(e);
+    if (response.error) {
+      alert(
+    "Error sending message. Try again later.",
+            );
+    } else {
+       alert( 
+        "Message sent succesfully!"
+         );
+    }
+  };
+
+```
+
+### Form Implementation
+
+Implement the form in your component using the methods provided by the hook:
+
+```javascript
+return (
+  <form onSubmit={handleFormSubmit}>
+    <input
+      type="text"
+      name="fullname"
+      value={formData.fullname}
+      onChange={handleChange}
+      placeholder="Nombre Completo"
+    />
+    {/* Rest of the form */}
+    <button type="submit">Submit</button>
+  </form>
+);
+```
+
+### Response Management
+
+The hook also provides the status of the API response, which you can use to display success or error messages:
+
+```javascript
+if (response.loading) {
+  return <p>Sending...</p>;
+}
+
+if (response.error) {
+  return <p>Error: {response.error.message}</p>;
+}
+
+if (response.data) {
+  return <p>Email sent successfully!</p>;
+}
+```

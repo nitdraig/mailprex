@@ -13,17 +13,17 @@
   <a href="https://mailprex.excelso.xyz/"><strong>Explore Mailprex web »</strong></a>
   <br>
   <br>
-  <a href="https://github.com/nitdraig/usemailprex/issues">Report bug</a>
+  <a href="https://github.com/nitdraig/mailprex-app/issues">Report bug</a>
   ·
-  <a href="https://github.com/nitdraig/usemailprex/issues">Request feature</a>
+  <a href="https://github.com/nitdraig/mailprex-app/issues">Request feature</a>
   ·
   <a href="https://agustin.top/">Creator Portfolio</a>
 </p>
 
 # Mailprex
 
-[![npm version](https://img.shields.io/npm/v/usemailprex-react.svg?style=flat-square)](https://www.npmjs.com/package/usemailprex-react)
-[![npm downloads](https://img.shields.io/npm/dm/usemailprex-react.svg?style=flat-square)](https://www.npmjs.com/package/usemailprex-react)
+[![npm version](https://img.shields.io/npm/v/mailprex.svg?style=flat-square)](https://www.npmjs.com/package/mailprex)
+[![npm downloads](https://img.shields.io/npm/dm/mailprex.svg?style=flat-square)](https://www.npmjs.com/package/mailprex)
 
 `Mailprex` is a React hook for handling contact forms and sending data to a server using fetch. This hook simplifies managing the form state and server response.
 

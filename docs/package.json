@@ -1,7 +1,7 @@
 {
-  "name": "Mailprex Docs with Nextra",
+  "name": "Mailprex-Front-Docs",
   "version": "0.0.1",
-  "description": "Mailprex Docs with Nextra",
+  "description": "Mailprex-Front-Docs",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

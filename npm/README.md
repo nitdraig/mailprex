@@ -4,7 +4,7 @@
   </a>
 </p>
 
-<h3 align="center">useMailprex | React Hook to MAILPREX</h3>
+<h3 align="center">Mailprex | React Hook to MAILPREX</h3>
 
 <p align="center">
  Send Emails from your Website with Ease
@@ -24,7 +24,7 @@
 [![npm version](https://img.shields.io/npm/dm/usemailprex-react.svg?style=flat-square)](https://www.npmjs.com/package/usemailprex-react)
 [![npm downloads](https://img.shields.io/npm/dm/usemailprex-react.svg?style=flat-square)](https://www.npmjs.com/package/usemailprex-react)
 
-`useMailprex` is a React hook for handling contact forms and sending data to a server using fetch. This hook simplifies managing the form state and server response.
+`Mailprex` is a React hook for handling contact forms and sending data to a server using fetch. This hook simplifies managing the form state and server response.
 
 ## What is Mailprex?
 
@@ -35,7 +35,7 @@ Mailprex is a service designed to facilitate sending emails from web forms. It h
 First, install the package using npm:
 
 ```bash
-npm install usemailprex-react
+npm install mailprex
 
 ```
 
@@ -50,7 +50,7 @@ Here is an example of how to use useMailprex in a contact form component in a re
 ```bash
 "use client";
 import React from "react";
-import { useMailprex } from "usemailprex-react";
+import { useMailprex } from "mailprex";
 
 const ContactForm = () => {
   const webName = "Mailprex Test";

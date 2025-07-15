@@ -21,10 +21,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nitdraig/usemailprex"
+    "url": "git+https://github.com/nitdraig/mailprex-app.git"
   },
   "bugs": {
-    "url": "https://github.com/nitdraig/usemailprex/issues"
+    "url": "https://github.com/nitdraig/mailprex-app/issues"
   },
   "homepage": "https://mailprex.excelso.xyz",
   "devDependencies": {

@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://mailprex.excelso.xyz/">
-    <img src="https://res.cloudinary.com/draig/image/upload/v1717633081/mailprex/iwzlpdbt3uclxt5mwll3.png" alt="Mailprex Logo" width="200" height="200">
+    <img src="https://github.com/nitdraig/mailprex/blob/main/front/public/logo.png" alt="Mailprex Logo" width="200" height="200">
   </a>
 </p>
 

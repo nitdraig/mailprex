@@ -63,7 +63,7 @@ const Navbar = () => {
             <a href="/#">
               <img
                 className="rounded-full w-14"
-                src="https://res.cloudinary.com/draig/image/upload/v1717633081/mailprex/iwzlpdbt3uclxt5mwll3.png"
+                src="https://mailprex.excelso.xyz/logo.webp"
                 alt="Mailprex Logo"
               />
             </a>

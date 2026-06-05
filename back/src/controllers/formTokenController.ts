@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { CustomRequest } from "../types/CustomRequest";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "crypto";
 
 export const generateFormToken = async (req: CustomRequest, res: Response) => {
   try {
@@ -9,7 +9,7 @@ export const generateFormToken = async (req: CustomRequest, res: Response) => {
     }
 
     const user = req.user;
-    const formToken = uuidv4();
+    const formToken = randomUUID();
     user.formToken = formToken;
     await user.save();
 

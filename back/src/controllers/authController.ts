@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/userModel";
 import dotenv from "dotenv";
 import { transporter } from "../config/transporterConfig";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "crypto";
 
 dotenv.config();
 
@@ -30,7 +30,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       isVerified: false,
       photo:
         "https://res.cloudinary.com/draig/image/upload/v1718494479/mailprex/avatars/fct0oivmlfvcmhsov2au.jpg",
-      formToken: uuidv4(),
+      formToken: randomUUID(),
     });
     await newUser.save();
 

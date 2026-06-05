@@ -1,25 +1,26 @@
-import {
-  Avatar,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-} from "@nextui-org/react";
+import Link from "next/link";
 import React from "react";
+import ProfileMenu from "./ProfileMenu";
+import { UserData } from "@/app/types/Types";
 
 const HamburguerMenu = ({
   isAuthenticated,
   handleLogout,
   loading,
   userData,
-}: any) => {
+}: {
+  isAuthenticated: boolean;
+  handleLogout: () => void;
+  loading: boolean;
+  userData: UserData | null;
+}) => {
   return (
     <div className="px-1 pt-2 pb-3 space-y-1 sm:px-3 list-none text-center">
-      <ul className=" ml-6 space-x-4">
+      <ul className="ml-6 space-x-4">
         <li>
           <a
             href="/#about"
-            className="text-accent hover:text-accent/70 px-3 py-2  text-lg font-medium"
+            className="text-accent hover:text-accent/70 px-3 py-2 text-lg font-medium"
           >
             About
           </a>
@@ -27,7 +28,7 @@ const HamburguerMenu = ({
         <li>
           <a
             href="/#features"
-            className="text-accent hover:text-accent/70 px-3 py-2  text-lg font-medium"
+            className="text-accent hover:text-accent/70 px-3 py-2 text-lg font-medium"
           >
             Features
           </a>
@@ -35,40 +36,24 @@ const HamburguerMenu = ({
         <li>
           <a
             href="/#contact"
-            className="text-accent hover:text-accent/70 px-3 py-2  text-lg font-medium"
+            className="text-accent hover:text-accent/70 px-3 py-2 text-lg font-medium"
           >
             Contact
           </a>
         </li>
 
         {isAuthenticated && !loading ? (
-          <Dropdown className="rounded-lg">
-            <DropdownTrigger>
-              <Avatar
-                src={userData?.photo}
-                alt="Profile"
-                isBordered
-                size="md"
-              />
-            </DropdownTrigger>
-            <DropdownMenu aria-label="Link Actions">
-              <DropdownItem key="dashboard" href="/dashboard">
-                Dashboard
-              </DropdownItem>
-
-              <DropdownItem key="logout" onPress={handleLogout} color="danger">
-                Log Out
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+          <li className="mt-4 flex justify-center">
+            <ProfileMenu photo={userData?.photo} onLogout={handleLogout} />
+          </li>
         ) : (
           <li className="mt-4">
-            <a
+            <Link
               href="/login"
               className="text-accent bg-secondary hover:text-accent/80 px-6 py-2 rounded-lg text-lg font-medium"
             >
               Login
-            </a>
+            </Link>
           </li>
         )}
       </ul>

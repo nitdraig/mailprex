@@ -6,7 +6,7 @@ import LoginForm from "./components/LoginForm";
 import { toast } from "react-toastify";
 
 const LoginView = () => {
-  const { login } = useAuth();
+  const { login, isAuthenticated, isAuthReady } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -24,11 +24,10 @@ const LoginView = () => {
     setShowPassword(!showPassword);
   };
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      router.push("/dashboard");
+    if (isAuthReady && isAuthenticated) {
+      router.replace("/dashboard");
     }
-  }, [router]);
+  }, [isAuthReady, isAuthenticated, router]);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
@@ -36,9 +35,7 @@ const LoginView = () => {
     try {
       await login(email, password);
       setShowSuccess(true);
-      setTimeout(() => {
-        router.push("/dashboard");
-      }, 1000);
+      router.replace("/dashboard");
     } catch (error: any) {
       toast.error("Bad credentials, try again", {
         position: "bottom-right",

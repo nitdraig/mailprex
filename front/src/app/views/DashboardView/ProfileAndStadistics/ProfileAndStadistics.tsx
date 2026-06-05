@@ -24,31 +24,34 @@ const ProfileAndStadisticView = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const JWT = token!;
-  const EMAIL = email!;
   useEffect(() => {
+    if (!token) return;
+
     const fetchData = async () => {
       setLoading(true);
       try {
-        const token = await getFormToken(JWT);
-        setFormToken(token);
+        const fetchedToken = await getFormToken(token);
+        setFormToken(fetchedToken);
         setError(null);
-      } catch (error) {
+      } catch {
+        setError(null);
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [token]);
 
   const generateToken = async () => {
+    if (!token || !email) return;
+
     setLoading(true);
     try {
-      const token = await generateFormToken(JWT, EMAIL);
-      setFormToken(token);
+      const generatedToken = await generateFormToken(token, email);
+      setFormToken(generatedToken);
       setError(null);
-    } catch (error) {
+    } catch {
       setError("Error al generar el token del formulario");
     } finally {
       setLoading(false);
@@ -56,12 +59,14 @@ const ProfileAndStadisticView = () => {
   };
 
   const handleDeleteToken = async () => {
+    if (!token || !email) return;
+
     setLoading(true);
     try {
-      await deleteFormToken(JWT, EMAIL);
+      await deleteFormToken(token, email);
       setFormToken(null);
       setError(null);
-    } catch (error) {
+    } catch {
       setError("Error al eliminar el token del formulario");
     } finally {
       setLoading(false);
@@ -70,10 +75,11 @@ const ProfileAndStadisticView = () => {
   const upgradePlan = () => {};
 
   useEffect(() => {
-    if (userData) {
-      setSentEmails(userData.requestCount);
-      setLastEmailDate(format(new Date(userData.lastRequest), "yyyy-MM-dd "));
-      switch (userData.userType.toLowerCase()) {
+    if (!userData?.lastRequest) return;
+
+    setSentEmails(userData.requestCount);
+    setLastEmailDate(format(new Date(userData.lastRequest), "yyyy-MM-dd "));
+    switch (userData.userType.toLowerCase()) {
         case "free":
           setRemainingEmails(200 - userData.requestCount);
           break;
@@ -86,7 +92,6 @@ const ProfileAndStadisticView = () => {
         default:
           setRemainingEmails(0);
       }
-    }
   }, [userData]);
 
   return (

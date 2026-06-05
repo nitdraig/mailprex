@@ -21,6 +21,7 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
 
   const [email, setEmail] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [isAuthReady, setIsAuthReady] = useState(false);
 
   const [userData, setUserData] = useState<UserData | null>(null);
   const [formToken, setFormToken] = useState<string | null>(null);
@@ -30,6 +31,7 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     if (storedToken) {
       setToken(storedToken);
     }
+    setIsAuthReady(true);
   }, []);
 
   const login = async (email: string, password: string) => {
@@ -74,10 +76,18 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
       }
       const data = await response.json();
       setUserData(data);
+      setEmail(data.email);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
   }, [REALAPI, token]);
+
+  useEffect(() => {
+    if (token) {
+      getUserData();
+    }
+  }, [token, getUserData]);
+
   const register = async (
     name: string,
     lastName: string,
@@ -221,6 +231,7 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     <AuthContext.Provider
       value={{
         isAuthenticated,
+        isAuthReady,
         changePassword,
         token,
         email,

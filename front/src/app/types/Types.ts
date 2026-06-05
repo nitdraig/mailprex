@@ -11,6 +11,7 @@ export type UserData = {
 
 export type AuthContextType = {
   isAuthenticated: boolean;
+  isAuthReady: boolean;
   token: string | null;
   email: string | null;
   login: (email: string, password: string) => Promise<void>;

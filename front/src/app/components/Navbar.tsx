@@ -1,39 +1,21 @@
-// Navbar.tsx
 "use client";
 import { useEffect, useState } from "react";
-import {
-  Avatar,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-} from "@nextui-org/react";
 import Link from "next/link";
 import HamburguerMenu from "./HamburguerMenu";
+import ProfileMenu from "./ProfileMenu";
 import SVGHamburger from "./SVGHamburger";
 import { useAuth } from "../api/AuthContext";
 import { useRouter } from "next/navigation";
 
 const Navbar = () => {
-  const { isAuthenticated, logout, getUserData, userData } = useAuth();
+  const { isAuthenticated, logout, userData } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
-  };
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      getUserData();
-    }
-  }, [isAuthenticated, getUserData]);
-
-  const toggleProfileMenu = () => {
-    setShowMenu(!showMenu);
   };
 
   const handleLogout = () => {
@@ -43,12 +25,18 @@ const Navbar = () => {
 
   useEffect(() => {
     setInitialLoading(false);
+  }, []);
+
+  useEffect(() => {
     if (isAuthenticated) {
       setLoading(true);
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         setLoading(false);
       }, 1000);
+      return () => clearTimeout(timer);
     }
+
+    setLoading(false);
   }, [isAuthenticated]);
 
   if (initialLoading) {
@@ -99,29 +87,7 @@ const Navbar = () => {
 
           <div className="hidden md:flex items-center space-x-2">
             {isAuthenticated && !loading ? (
-              <Dropdown className="rounded-lg">
-                <DropdownTrigger>
-                  <Avatar
-                    src={userData?.photo}
-                    alt="Profile"
-                    isBordered
-                    size="md"
-                  />
-                </DropdownTrigger>
-                <DropdownMenu aria-label="Link Actions">
-                  <DropdownItem key="dashboard" href="/dashboard">
-                    Dashboard
-                  </DropdownItem>
-
-                  <DropdownItem
-                    key="logout"
-                    onPress={handleLogout}
-                    color="danger"
-                  >
-                    Log Out
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
+              <ProfileMenu photo={userData?.photo} onLogout={handleLogout} />
             ) : (
               <div className="hidden md:flex items-center space-x-2">
                 <Link

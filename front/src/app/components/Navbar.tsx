@@ -109,7 +109,7 @@ const Navbar = () => {
                   />
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Link Actions">
-                  <DropdownItem key="dashboard" as={Link} href="/dashboard">
+                  <DropdownItem key="dashboard" href="/dashboard">
                     Dashboard
                   </DropdownItem>
 

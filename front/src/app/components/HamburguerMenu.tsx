@@ -5,7 +5,6 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
-import Link from "next/link";
 import React from "react";
 
 const HamburguerMenu = ({
@@ -53,7 +52,7 @@ const HamburguerMenu = ({
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Link Actions">
-              <DropdownItem key="dashboard" as={Link} href="/dashboard">
+              <DropdownItem key="dashboard" href="/dashboard">
                 Dashboard
               </DropdownItem>
 

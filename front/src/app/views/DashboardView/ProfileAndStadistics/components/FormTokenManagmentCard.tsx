@@ -29,19 +29,17 @@ const FormTokenManagmentCard = ({
               , and not share your form token, is private.
             </p>
           </div>
-          <p className="dark:text-gray-300 text-gray-700">
-            <div>
-              {loading && (
-                <p className="text-gray-500 text-center">Loading...</p>
-              )}
-              {error && <p className="text-red-500 text-center">{error}</p>}
-              <TokenActions
-                formToken={formToken}
-                generateFormToken={generateToken}
-                deleteFormToken={handleDeleteToken}
-              />
-            </div>
-          </p>
+          <div className="dark:text-gray-300 text-gray-700">
+            {loading && (
+              <p className="text-gray-500 text-center">Loading...</p>
+            )}
+            {error && <p className="text-red-500 text-center">{error}</p>}
+            <TokenActions
+              formToken={formToken}
+              generateFormToken={generateToken}
+              deleteFormToken={handleDeleteToken}
+            />
+          </div>
         </div>
       </div>
     </div>

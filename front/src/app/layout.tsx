@@ -60,6 +60,10 @@ export const metadata: Metadata = {
   },
   publisher: "Agustín Avellaneda",
 
+  alternates: {
+    canonical: "https://www.mailprex.excelso.xyz",
+  },
+
   twitter: {
     card: "summary_large_image",
     title: "Mailprex  | Send Emails from your Website with Ease ",
@@ -97,9 +101,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={quik.className}>
-        <link rel="canonical" href="https://www.mailprex.excelso.xyz" />
         <Providers>
           <AuthProvider>
             <ToastProvider>

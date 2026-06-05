@@ -2,6 +2,7 @@ import nodemailer from "nodemailer";
 import { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
 import User from "../../models/userModel";
+import { escapeHtml } from "../../utils/escapeHtml";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -45,10 +46,23 @@ export const sendEmail = [
         return res.status(401).json({ message: "Form Token is not valid" });
       }
 
+      if (emailDestiny.toLowerCase() !== user.email.toLowerCase()) {
+        return res.status(403).json({
+          message: "Destination email must match the account owner email",
+        });
+      }
+
+      const safeWebName = escapeHtml(webName);
+      const safeFullname = escapeHtml(fullname);
+      const safeEmail = escapeHtml(email);
+      const safePhone = phone ? escapeHtml(phone) : "";
+      const safeService = service ? escapeHtml(service) : "";
+      const safeMessage = escapeHtml(message);
+
       const mailOptions = {
         from: process.env.EMAILSEND!,
         to: emailDestiny,
-        subject: `A new message from your site: ${webName}`,
+        subject: `A new message from your site: ${safeWebName}`,
         html: `
   <html>
     <head>
@@ -84,14 +98,14 @@ export const sendEmail = [
     </head>
     <body>
       <div class="container">
-        <h2>From your web ${webName}</h2>
-        <p>Write to you: ${fullname}</p>
-        <p>Whose email is: ${email}</p>
-        ${phone ? `<p>Whose Phone Number is: ${phone}</p>` : ""}
-        ${service ? `<p>Service to consult: ${service}</p>` : ""}
+        <h2>From your web ${safeWebName}</h2>
+        <p>Write to you: ${safeFullname}</p>
+        <p>Whose email is: ${safeEmail}</p>
+        ${safePhone ? `<p>Whose Phone Number is: ${safePhone}</p>` : ""}
+        ${safeService ? `<p>Service to consult: ${safeService}</p>` : ""}
         <div class="message">
           <p>Message sent:</p>
-          <p>${message}</p>
+          <p>${safeMessage}</p>
         </div>
       </div>
     </body>

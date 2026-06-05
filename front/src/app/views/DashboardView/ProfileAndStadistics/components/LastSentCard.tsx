@@ -1,6 +1,9 @@
 import React from "react";
+import defaultAvatar from "@/app/assets/defaultAvatar.svg";
 
-const LastSentCard = ({ lastEmailDate }: any) => {
+const MAILPREX_LOGO = "https://mailprex.excelso.xyz/logo.webp";
+
+const LastSentCard = ({ lastEmailDate }: { lastEmailDate: string }) => {
   return (
     <div className="h-full grid sm:grid-cols-2">
       <div className="flex flex-col justify-between relative z-10 space-y-12 lg:space-y-6">
@@ -21,18 +24,18 @@ const LastSentCard = ({ lastEmailDate }: any) => {
             </span>
             <div className="size-7 ring-4 ring-white dark:ring-[--card-dark-bg]">
               <img
-                className="rounded-full  border border-gray-950/5 dark:border-white/5 size-full"
-                src="https://pbs.twimg.com/profile_images/1585976646468763648/OlbJkLL0_400x400.jpg"
-                alt=""
+                className="rounded-full border border-gray-950/5 dark:border-white/5 size-full object-cover"
+                src={defaultAvatar.src}
+                alt="Your website"
               />
             </div>
           </div>
           <div className="flex items-center gap-2 ml-[calc(50%-1rem)] relative">
             <div className="size-8 ring-4 ring-white dark:ring-[--card-dark-bg]">
               <img
-                className="rounded-full  border border-gray-950/5 dark:border-white/5 size-full"
-                src="https://res.cloudinary.com/draig/image/upload/v1717633081/mailprex/iwzlpdbt3uclxt5mwll3.png"
-                alt=""
+                className="rounded-full border border-gray-950/5 dark:border-white/5 size-full object-cover"
+                src={MAILPREX_LOGO}
+                alt="Mailprex"
               />
             </div>
             <span className="h-fit text-xs block px-2 py-1 shadow-sm border rounded-md dark:bg-gray-800 dark:border-white/5 dark:text-white">
@@ -45,9 +48,9 @@ const LastSentCard = ({ lastEmailDate }: any) => {
             </span>
             <div className="size-7 ring-4 ring-white dark:ring-[--card-dark-bg]">
               <img
-                className="rounded-full  border border-gray-950/5 dark:border-white/5 size-full"
-                src="https://pbs.twimg.com/profile_images/1585976646468763648/OlbJkLL0_400x400.jpg"
-                alt=""
+                className="rounded-full border border-gray-950/5 dark:border-white/5 size-full object-cover"
+                src={defaultAvatar.src}
+                alt="Your email inbox"
               />
             </div>
           </div>

@@ -20,24 +20,17 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   const REALAPI = process.env.NEXT_PUBLIC_API_URL;
 
   const [email, setEmail] = useState<string | null>(null);
-  const [token, setToken] = useState<string | null>(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("token");
-    }
-    return null;
-  });
+  const [token, setToken] = useState<string | null>(null);
 
   const [userData, setUserData] = useState<UserData | null>(null);
   const [formToken, setFormToken] = useState<string | null>(null);
   const isAuthenticated = !!token;
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedToken = localStorage.getItem("token");
-      if (storedToken) {
-        setToken(storedToken);
-      }
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setToken(storedToken);
     }
-  }, [token]);
+  }, []);
 
   const login = async (email: string, password: string) => {
     try {

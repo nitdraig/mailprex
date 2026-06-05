@@ -21,7 +21,7 @@ router.get("/v", async (req, res) => {
     user.verified = true;
     await user.save();
 
-    res.redirect("https://mailprex.top/login");
+    res.redirect("https://mailprex.excelso.xyz/login");
   } catch (error) {
     res.status(500).json({ message: "Error al verificar la cuenta", error });
   }

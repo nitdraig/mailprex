@@ -91,7 +91,6 @@ const ProfileAndStadisticView = () => {
 
   return (
     <section>
-      <title>Profile & Stats | Mailprex</title>
       <div className="lg:-mt-8 py-4 ">
         <div className="lg:mx-auto -mx-4 lg:px-6 px-0 max-w-6xl text-gray-500">
           <h3 className="lg:text-5xl text-4xl font-thin mb-4 dark:text-white text-center">

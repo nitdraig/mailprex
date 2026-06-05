@@ -20,14 +20,14 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 12);
 
     const newUser = new User({
       name,
       lastName,
       email,
       password: hashedPassword,
-      isVerified: false,
+      verified: false,
       photo:
         "https://res.cloudinary.com/draig/image/upload/v1718494479/mailprex/avatars/fct0oivmlfvcmhsov2au.jpg",
       formToken: randomUUID(),
@@ -85,8 +85,6 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
 
   try {
-    console.log("Login request received for:", email);
-
     const user = await User.findOne({ email });
     if (!user || !user.verified) {
       res.status(400).json({

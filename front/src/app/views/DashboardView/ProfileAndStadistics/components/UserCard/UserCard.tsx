@@ -1,4 +1,5 @@
 import { useAuth } from "@/app/api/AuthContext";
+import { resolveProfilePhoto } from "@/app/constants/avatars";
 import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { toast } from "react-toastify";
@@ -9,7 +10,6 @@ const UserCard = ({ userData, lastEmailDate }: any) => {
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState(userData?.name || "");
   const [lastName, setLastName] = useState(userData?.lastName || "");
-  const [photo, setPhoto] = useState(userData?.photo || "");
   const [selectedAvatar, setSelectedAvatar] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -17,6 +17,7 @@ const UserCard = ({ userData, lastEmailDate }: any) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const openModal = () => {
+    setSelectedAvatar(userData?.photo || "");
     setShowModal(true);
   };
 
@@ -82,23 +83,14 @@ const UserCard = ({ userData, lastEmailDate }: any) => {
     setShowPassword(!showPassword);
   };
 
-  const selectAvatar = (avatarUrl: string) => {
-    setSelectedAvatar(avatarUrl);
-  };
-
-  const avatarOptions = [
-    "https://res.cloudinary.com/draig/image/upload/v1718494479/mailprex/avatars/fct0oivmlfvcmhsov2au.jpg",
-    "https://res.cloudinary.com/draig/image/upload/v1718494464/mailprex/avatars/snc62ukcskkcblegezbm.jpg",
-    "https://res.cloudinary.com/draig/image/upload/v1718494451/mailprex/avatars/k9puqjumdv5vlydkobyx.jpg",
-    "https://res.cloudinary.com/draig/image/upload/v1718494437/mailprex/avatars/iffs2fjelpgoeqg8obip.jpg",
-  ];
+  const profilePhoto = resolveProfilePhoto(userData?.photo);
 
   return (
     <>
       <div className="relative aspect-square rounded-full size-32 flex border mx-auto dark:bg-white/5 dark:border-white/10 before:absolute before:-inset-2 before:border dark:before:border-white/5 dark:before:bg-white/5 before:rounded-full">
         <img
-          className="w-32 h-32 rounded-full mx-auto"
-          src={userData?.photo}
+          className="w-32 h-32 rounded-full mx-auto object-cover"
+          src={profilePhoto}
           alt="Profile picture"
         />
         <button

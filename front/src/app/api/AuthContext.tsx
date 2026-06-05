@@ -133,6 +133,7 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
       }
 
       const data = await response.json();
+      setUserData(data);
     } catch (error) {
       console.error("Error updating user:", error);
       throw new Error("Failed to update user");

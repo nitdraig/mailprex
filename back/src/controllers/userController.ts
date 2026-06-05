@@ -2,6 +2,10 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import User from "../models/userModel";
+import {
+  isAllowedAvatarUrl,
+  normalizeAvatarUrl,
+} from "../constants/avatars";
 
 dotenv.config();
 
@@ -73,6 +77,15 @@ export const updateUser = async (
     },
     {}
   );
+
+  if (updateData.photo && !isAllowedAvatarUrl(updateData.photo)) {
+    res.status(400).json({ message: "Invalid profile photo" });
+    return;
+  }
+
+  if (updateData.photo) {
+    updateData.photo = normalizeAvatarUrl(updateData.photo);
+  }
 
   if (Object.keys(updateData).length === 0) {
     res.status(400).json({ message: "No valid fields to update" });

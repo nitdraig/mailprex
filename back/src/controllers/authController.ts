@@ -5,6 +5,7 @@ import User from "../models/userModel";
 import dotenv from "dotenv";
 import { transporter } from "../config/transporterConfig";
 import { randomUUID } from "crypto";
+import { DEFAULT_AVATAR_URL } from "../constants/avatars";
 
 dotenv.config();
 
@@ -28,8 +29,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       email,
       password: hashedPassword,
       verified: false,
-      photo:
-        "https://res.cloudinary.com/draig/image/upload/v1718494479/mailprex/avatars/fct0oivmlfvcmhsov2au.jpg",
+      photo: DEFAULT_AVATAR_URL,
       formToken: randomUUID(),
     });
     await newUser.save();

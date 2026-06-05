@@ -1,27 +1,45 @@
-// components/AvatarSelector.tsx
 import React from "react";
+import {
+  AVATAR_FILES,
+  getAvatarPublicPath,
+  getAvatarUrl,
+} from "@/app/constants/avatars";
 
-const AvatarSelector = ({ selectedAvatar, setSelectedAvatar }: any) => {
-  const avatarOptions = [
-    "https://res.cloudinary.com/draig/image/upload/v1718494479/mailprex/avatars/fct0oivmlfvcmhsov2au.jpg",
-    "https://res.cloudinary.com/draig/image/upload/v1718494464/mailprex/avatars/snc62ukcskkcblegezbm.jpg",
-    "https://res.cloudinary.com/draig/image/upload/v1718494451/mailprex/avatars/k9puqjumdv5vlydkobyx.jpg",
-    "https://res.cloudinary.com/draig/image/upload/v1718494437/mailprex/avatars/iffs2fjelpgoeqg8obip.jpg",
-  ];
+type AvatarSelectorProps = {
+  selectedAvatar: string;
+  setSelectedAvatar: (url: string) => void;
+};
 
+const AvatarSelector = ({
+  selectedAvatar,
+  setSelectedAvatar,
+}: AvatarSelectorProps) => {
   return (
-    <div className="grid grid-cols-4 gap-1 mt-2">
-      {avatarOptions.map((avatarUrl, index) => (
-        <img
-          key={index}
-          src={avatarUrl}
-          alt={`Avatar ${index + 1}`}
-          className={`cursor-pointer ${
-            selectedAvatar === avatarUrl ? "border-primary border-2" : ""
-          } rounded-full w-20`}
-          onClick={() => setSelectedAvatar(avatarUrl)}
-        />
-      ))}
+    <div className="grid grid-cols-3 gap-2 mt-2">
+      {AVATAR_FILES.map((file) => {
+        const avatarUrl = getAvatarUrl(file);
+
+        return (
+          <button
+            key={file}
+            type="button"
+            aria-label={`Select avatar ${file}`}
+            aria-pressed={selectedAvatar === avatarUrl}
+            className={`rounded-full p-0.5 transition ${
+              selectedAvatar === avatarUrl
+                ? "ring-2 ring-primary ring-offset-1"
+                : "hover:ring-2 hover:ring-primary/40"
+            }`}
+            onClick={() => setSelectedAvatar(avatarUrl)}
+          >
+            <img
+              src={getAvatarPublicPath(file)}
+              alt={`Avatar ${file}`}
+              className="rounded-full w-full aspect-square object-cover"
+            />
+          </button>
+        );
+      })}
     </div>
   );
 };

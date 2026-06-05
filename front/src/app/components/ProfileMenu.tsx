@@ -1,5 +1,6 @@
 "use client";
 
+import { resolveProfilePhoto } from "@/app/constants/avatars";
 import Link from "next/link";
 import { Avatar } from "@nextui-org/react";
 import { useEffect, useRef, useState } from "react";
@@ -33,7 +34,7 @@ const ProfileMenu = ({ photo, onLogout }: ProfileMenuProps) => {
         onClick={() => setOpen((prev) => !prev)}
         className="rounded-full focus:outline-none focus:ring-2 focus:ring-accent"
       >
-        <Avatar src={photo} alt="Profile" isBordered size="md" />
+        <Avatar src={resolveProfilePhoto(photo)} alt="Profile" isBordered size="md" />
       </button>
 
       {open ? (

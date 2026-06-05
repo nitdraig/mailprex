@@ -1,5 +1,5 @@
 import express, { Application, Request, Response, NextFunction } from "express";
-import cors from "cors";
+import cors, { CorsOptions } from "cors";
 import bodyParser from "body-parser";
 import emailRoutes from "./routes/emailRoutes";
 import authRoutes from "./routes/authRoutes";
@@ -15,6 +15,31 @@ dotenv.config();
 
 const app: Application = express();
 const PORT: number = parseInt(process.env.PORT!, 10);
+
+const defaultCorsOrigins = [
+  "https://mailprex.excelso.xyz",
+  "https://www.mailprex.excelso.xyz",
+  "http://localhost:3000",
+];
+
+const allowedCorsOrigins = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(",").map((origin) => origin.trim())
+  : defaultCorsOrigins;
+
+const appCorsOptions: CorsOptions = {
+  origin(origin, callback) {
+    if (!origin || allowedCorsOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+    callback(null, false);
+  },
+  credentials: true,
+  methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 204,
+};
+
 const emailRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 80,
@@ -23,7 +48,23 @@ const emailRateLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-app.use(helmet());
+app.options(/.*/, (req: Request, res: Response, next: NextFunction) => {
+  if (req.path.startsWith("/email")) {
+    cors({ origin: "*" })(req, res, next);
+    return;
+  }
+  cors(appCorsOptions)(req, res, next);
+});
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  if (req.path.startsWith("/email")) {
+    next();
+    return;
+  }
+  cors(appCorsOptions)(req, res, next);
+});
+
+app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
@@ -53,17 +94,9 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/email", cors({ origin: "*" }), emailRateLimiter, emailRoutes);
-
-const corsOptions = {
-  origin: "https://mailprex.excelso.xyz",
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
-  optionsSuccessStatus: 204,
-};
-
-app.use("/auth", cors(corsOptions), authRoutes);
-app.use("/token", cors(corsOptions), tokenRoutes);
-app.use("/verify", cors(corsOptions), emailVerify);
+app.use("/auth", authRoutes);
+app.use("/token", tokenRoutes);
+app.use("/verify", emailVerify);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   if (req.path !== "/") {

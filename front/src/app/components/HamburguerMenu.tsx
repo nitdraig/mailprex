@@ -53,11 +53,11 @@ const HamburguerMenu = ({
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Link Actions">
-              <DropdownItem href="/dashboard" key="dashboard">
+              <DropdownItem key="dashboard" as={Link} href="/dashboard">
                 Dashboard
               </DropdownItem>
 
-              <DropdownItem key="logout" onClick={handleLogout} color="danger">
+              <DropdownItem key="logout" onPress={handleLogout} color="danger">
                 Log Out
               </DropdownItem>
             </DropdownMenu>

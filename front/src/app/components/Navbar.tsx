@@ -38,7 +38,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    return router.push("/login");
+    router.push("/login");
   };
 
   useEffect(() => {
@@ -109,13 +109,13 @@ const Navbar = () => {
                   />
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Link Actions">
-                  <DropdownItem href="/dashboard" key="dashboard">
+                  <DropdownItem key="dashboard" as={Link} href="/dashboard">
                     Dashboard
                   </DropdownItem>
 
                   <DropdownItem
                     key="logout"
-                    onClick={handleLogout}
+                    onPress={handleLogout}
                     color="danger"
                   >
                     Log Out

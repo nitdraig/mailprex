@@ -1,5 +1,11 @@
 "use client";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { AuthContextType, UserData } from "../types/Types";
 import {
   getFormToken as apiGetFormToken,
@@ -61,7 +67,7 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     }
   };
 
-  const getUserData = async () => {
+  const getUserData = useCallback(async () => {
     if (!token) return;
 
     try {
@@ -78,7 +84,7 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
-  };
+  }, [REALAPI, token]);
   const register = async (
     name: string,
     lastName: string,

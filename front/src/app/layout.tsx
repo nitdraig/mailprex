@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import { AuthProvider } from "./api/AuthContext";
 
 import ToastProvider from "./ToastProvider";
+import { Providers } from "./providers";
 
 const quik = Quicksand({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -99,13 +100,15 @@ export default function RootLayout({
     <html lang="en">
       <body className={quik.className}>
         <link rel="canonical" href="https://www.mailprex.excelso.xyz" />
-        <AuthProvider>
-          <ToastProvider>
-            <Navbar />
-            {children}
-            <Footer />
-          </ToastProvider>
-        </AuthProvider>
+        <Providers>
+          <AuthProvider>
+            <ToastProvider>
+              <Navbar />
+              {children}
+              <Footer />
+            </ToastProvider>
+          </AuthProvider>
+        </Providers>
       </body>
     </html>
   );

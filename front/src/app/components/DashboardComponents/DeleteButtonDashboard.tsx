@@ -1,12 +1,17 @@
 import React from "react";
 import { toast } from "react-toastify";
 
-const DeleteButtonDashboard = ({ deleteFormToken }: any) => {
-  const Delete = deleteFormToken;
+type DeleteButtonDashboardProps = {
+  deleteFormToken: () => void | Promise<void>;
+};
+
+const DeleteButtonDashboard = ({
+  deleteFormToken,
+}: DeleteButtonDashboardProps) => {
   const handleDelete = async () => {
     try {
-      await Delete();
-      toast.info("Form Token Deleted!", {
+      await deleteFormToken();
+      toast.info("Form token deleted", {
         position: "top-right",
         autoClose: 4000,
         hideProgressBar: false,
@@ -15,13 +20,15 @@ const DeleteButtonDashboard = ({ deleteFormToken }: any) => {
         progress: undefined,
       });
     } catch (err) {
-      console.error("Failed to copy: ", err);
+      console.error("Failed to delete token: ", err);
     }
   };
+
   return (
     <button
+      type="button"
       onClick={handleDelete}
-      className="bg-red-500 text-white font-semibold px-6 py-1 rounded-lg hover:bg-red-600 transition-colors duration-300"
+      className="rounded-xl border border-red-300/40 bg-red-500/90 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-red-600"
     >
       Delete
     </button>

@@ -1,26 +1,39 @@
 # Support
 
-Welcome to the support page for our project! Here you'll find useful information and resources to help you with any issues you may encounter.
+Help and resources for Mailprex.
 
-## Getting Started
+## Documentation
 
-If you're new to our project, here are some steps to get started:
+| Topic | Link |
+|---|---|
+| Getting started | [Introduction](/introduction) |
+| Step-by-step setup | [Integration](/integration) |
+| HTTP API | [API Reference](/mailprexAPI) |
+| npm SDK | [SDK v2](/sdk-v2) |
+| Self-host | [Self-host](/self-host) |
+| Billing | [Gumroad billing](/gumroad-billing) |
+| Migrate tokens / v1 | [Migration v2](/migration-v2) |
 
-1. **Installation**
-   - Follow our [installation guide](/installation) to set up the project on your local environment.
+## Common issues
 
-2. **Documentation**
-   - Check out our [documentation](/) for comprehensive guides and API references.
+**401 Invalid form token**  
+Use the full `mk_live_…` token. Regenerate in the dashboard if you only saved the prefix.
 
+**403 Destination email must match**  
+`emailDestiny` in the request must equal your Mailprex account email.
+
+**429 Rate limit / quota**  
+Free plan: 200 sends/month. Upgrade via dashboard when Gumroad is enabled.
+
+**Legacy UUID token**  
+Dashboard shows a migration banner — click **Regenerate secure token** and update every site using the old value.
 
 ## Community
 
-Join our community to connect with other users, share experiences, and get updates about the project:
-{/* 
-- **Forum**
-  Participate in discussions and ask questions on our [community forum](https://forum.example.com). */}
+- [GitHub — mailprex-app](https://github.com/nitdraig/mailprex-app/issues)
+- [Twitter @nitdraig](https://twitter.com/nitdraig)
+- [Creator — agustin.top](https://agustin.top/#contact)
 
-- **Social Media**
-  Follow me on [Twitter](https://twitter.com/nitdraig) and [Github](https://github/nitdraig) for news and updates.
+## Security
 
-We're here to help! Don't hesitate to reach out if you need any assistance or have feedback to share.
+Report vulnerabilities per [`SECURITY.md`](https://github.com/nitdraig/mailprex-app/blob/main/SECURITY.md) on GitHub.

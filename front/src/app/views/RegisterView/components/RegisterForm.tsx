@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { useState } from "react";
 import {
   AiOutlineEye,
@@ -6,6 +7,23 @@ import {
 } from "react-icons/ai";
 import SVGLock from "../../LoginView/components/SVG/SVGLock";
 import SVGAmail from "../../LoginView/components/SVG/SVGAmail";
+
+type RegisterFormProps = {
+  handleSubmit: (e: React.FormEvent) => void;
+  error: string | null;
+  success: string | null;
+  name: string;
+  lastName: string;
+  email: string;
+  password: string;
+  repeatPassword: string;
+  setName: (value: string) => void;
+  setLastName: (value: string) => void;
+  setEmail: (value: string) => void;
+  setPassword: (value: string) => void;
+  setRepeatPassword: (value: string) => void;
+  captcha?: React.ReactNode;
+};
 
 const RegisterForm = ({
   handleSubmit,
@@ -21,18 +39,15 @@ const RegisterForm = ({
   setEmail,
   setPassword,
   setRepeatPassword,
-}: any) => {
+  captcha,
+}: RegisterFormProps) => {
   const [passwordError, setPasswordError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const toggleRepeatPasswordVisibility = () => {
-    setShowRepeatPassword(!showRepeatPassword);
-  };
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+  const toggleRepeatPasswordVisibility = () =>
+    setShowRepeatPassword((prev) => !prev);
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
@@ -50,108 +65,125 @@ const RegisterForm = ({
   };
 
   return (
-    <form
-      className="bg-white rounded-lg shadow-2xl p-5"
-      onSubmit={handleSubmit}
-    >
-      <h1 className="text-gray-800 font-bold text-2xl mb-1">
+    <form className="postal-auth-panel" onSubmit={handleSubmit}>
+      <p className="postal-eyebrow-dark mb-3">Create account</p>
+      <h1 className="text-2xl font-bold uppercase tracking-[0.06em] text-secondary">
         Welcome to Mailprex
       </h1>
-      <p className="text-sm font-normal text-gray-600 mb-8">
+      <p className="mb-6 mt-1 text-sm text-secondary/65">
         Register to get started
       </p>
-      {error && <p className="text-red-500">{error}</p>}
-      {success && <p className="text-green-500">{success}</p>}
-      <div className="flex items-center space-x-4 mb-4">
-        <div className="flex items-center border-2 py-2 px-3 rounded-2xl">
-          <AiTwotoneEdit />
+
+      {error ? (
+        <p className="mb-4 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
+          {error}
+        </p>
+      ) : null}
+      {success ? (
+        <p className="mb-4 rounded-xl border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
+          {success}
+        </p>
+      ) : null}
+
+      <div className="mb-4 grid gap-4 sm:grid-cols-2">
+        <div className="postal-input">
+          <AiTwotoneEdit className="text-secondary/60" />
           <input
             id="name"
-            className="pl-2 outline-none border-none"
             type="text"
             name="name"
-            placeholder="First Name"
+            placeholder="First name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
           />
         </div>
-        <div className="flex items-center border-2 py-2 px-3 rounded-2xl">
-          <AiTwotoneEdit />
+        <div className="postal-input">
+          <AiTwotoneEdit className="text-secondary/60" />
           <input
             id="lastname"
-            className="pl-2 outline-none border-none"
             type="text"
             name="lastname"
-            placeholder="Last Name"
+            placeholder="Last name"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
+            required
           />
         </div>
       </div>
-      <div className="flex items-center border-2 mb-4 py-2 px-3 rounded-2xl relative">
+
+      <div className="postal-input mb-4">
         <SVGAmail />
         <input
           id="email"
-          className="pl-2 outline-none border-none w-full"
           type="email"
           name="email"
-          placeholder="Email Address"
+          placeholder="Email address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
         />
       </div>
-      <div className="flex items-center border-2 mb-4 py-2 px-3 rounded-2xl relative">
+
+      <div className="postal-input mb-4">
         <SVGLock />
         <input
-          className="pl-2 outline-none border-none w-full"
           type={showPassword ? "text" : "password"}
           name="password"
           id="password"
           placeholder="Password"
           value={password}
           onChange={handlePasswordChange}
+          required
         />
         <button
           type="button"
           onClick={togglePasswordVisibility}
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none"
+          className="text-secondary/60 transition-colors hover:text-primary"
+          aria-label={showPassword ? "Hide password" : "Show password"}
         >
           {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
         </button>
       </div>
-      <div className="flex items-center border-2 mb-4 py-2 px-3 rounded-2xl relative">
+
+      <div className="postal-input mb-4">
         <SVGLock />
         <input
-          className="pl-2 outline-none border-none w-full"
           type={showRepeatPassword ? "text" : "password"}
           name="repeatPassword"
           id="repeatPassword"
-          placeholder="Repeat Password"
+          placeholder="Repeat password"
           value={repeatPassword}
           onChange={(e) => setRepeatPassword(e.target.value)}
+          required
         />
         <button
           type="button"
           onClick={toggleRepeatPasswordVisibility}
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none"
+          className="text-secondary/60 transition-colors hover:text-primary"
+          aria-label={showRepeatPassword ? "Hide password" : "Show password"}
         >
           {showRepeatPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
         </button>
       </div>
-      {passwordError && <p className="text-red-500">{passwordError}</p>}
-      <button
-        type="submit"
-        className="block w-full rounded-lg bg-primary mt-5 py-2 hover:bg-primary/80 hover:-translate-y-1 transition-all duration-500 text-white font-semibold mb-2"
-      >
+
+      {passwordError ? (
+        <p className="mb-4 text-sm text-red-600">{passwordError}</p>
+      ) : null}
+
+      {captcha}
+
+      <button type="submit" className="postal-btn-primary mt-5 w-full">
         Register
       </button>
-      <div className="flex justify-between mt-4">
-        <a
+
+      <div className="mt-5 text-center">
+        <Link
           href="/login"
-          className="text-sm ml-2 hover:text-primary cursor-pointer hover:-translate-y-1 duration-500 transition-all"
+          className="text-sm font-medium text-primary transition-colors hover:text-primary/70"
         >
-          You have an account yet?
-        </a>
+          Already have an account?
+        </Link>
       </div>
     </form>
   );

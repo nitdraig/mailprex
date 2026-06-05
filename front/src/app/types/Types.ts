@@ -14,15 +14,16 @@ export type AuthContextType = {
   isAuthReady: boolean;
   token: string | null;
   email: string | null;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string, captchaToken?: string) => Promise<void>;
   register: (
     name: string,
     lastName: string,
     email: string,
-    password: string
+    password: string,
+    captchaToken?: string
   ) => Promise<void>;
   userData: UserData | null;
-  logout: () => void;
+  logout: () => Promise<void>;
   getUserData: () => Promise<void>;
   updateUser: (userData: UserData) => Promise<void>;
   changePassword: (

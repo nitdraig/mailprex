@@ -18,8 +18,11 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
 
   if (!isAuthReady) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-accent dark:bg-secondary">
-        <p className="text-secondary dark:text-accent">Loading...</p>
+      <div className="postal-dashboard-shell flex min-h-dvh items-center justify-center">
+        <div className="postal-dashboard-card text-center">
+          <p className="postal-eyebrow-dark mb-2">Loading</p>
+          <p className="postal-dashboard-title">Preparing your dashboard</p>
+        </div>
       </div>
     );
   }

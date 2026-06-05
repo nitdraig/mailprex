@@ -1,11 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import User from "../models/userModel";
-
-const limits = {
-  free: 200,
-  standard: 2000,
-  business: Infinity,
-};
+import { getMonthlyLimit } from "../config/plans";
+import { UserPlan } from "../config/plans";
+import { resolveUserByFormToken } from "../utils/formToken";
 
 export const checkRequestLimit = async (
   req: Request,
@@ -18,7 +14,7 @@ export const checkRequestLimit = async (
   }
 
   try {
-    const user = await User.findOne({ formToken });
+    const user = await resolveUserByFormToken(formToken);
     if (!user) {
       return res.status(401).json({ message: "Invalid form token" });
     }
@@ -34,7 +30,7 @@ export const checkRequestLimit = async (
       user.requestCount = 0;
     }
 
-    const userLimit = limits[user.userType];
+    const userLimit = getMonthlyLimit(user.userType as UserPlan);
 
     if (user.requestCount >= userLimit) {
       return res.status(429).json({

@@ -1,53 +1,68 @@
-import React from "react";
+import Link from "next/link";
 
 const HeroSection = () => {
   return (
     <section
-      className="bg-gradient-to-br from-primary via-primary/90 to-accent text-white h-full lg:h-screen w-full py-20 md:py-32"
+      className="postal-mesh-bg relative min-h-[calc(100dvh-5.5rem)] w-full overflow-hidden text-white"
       id="home"
     >
-      <div className="mx-auto lg:px-20 flex flex-col md:flex-row items-center">
-        <div className="md:w-1/2 lg:hidden md:hidden flex justify-center">
+      <div aria-hidden className="postal-grid-overlay absolute inset-0" />
+      <div
+        aria-hidden
+        className="absolute -right-24 top-24 h-72 w-72 rounded-full bg-accent/10 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="absolute -left-16 bottom-16 h-56 w-56 rounded-full bg-white/5 blur-3xl"
+      />
+
+      <div className="relative mx-auto flex min-h-[calc(100dvh-5.5rem)] max-w-7xl flex-col items-center px-6 py-16 md:flex-row md:items-center md:gap-10 md:px-10 lg:px-16 lg:py-20">
+        <div className="flex w-full justify-center md:hidden">
           <img
             src="/email-bg.svg"
             alt="Mailprex illustration"
-            className="rounded-lg w-full md:max-w-lg  float"
+            className="float w-full max-w-sm"
             loading="lazy"
           />
         </div>
-        <div className="md:w-1/2 md:text-left text-center md:mx-2 lg:mt-0 mt-10 mb-8 md:mb-0">
-          <h1 className="text-5xl  lg:text-6xl font-bold mb-6 uppercase ">
+
+        <div className="w-full text-center md:w-1/2 md:text-left">
+          <p className="postal-eyebrow postal-stagger-1 mb-4 text-accent/80">
+            API · Forms · Email
+          </p>
+          <h1 className="postal-stagger-2 mb-6 text-5xl font-bold uppercase leading-[0.95] tracking-[0.06em] lg:text-7xl">
             Mailprex
           </h1>
-          <p className="text-lg md:text-xl mb-8 mx-6 lg:mx-0">
+          <p className="postal-stagger-3 mx-auto mb-10 max-w-xl text-lg leading-relaxed text-accent/90 md:mx-0 md:text-xl">
             We take care of making it easier for you to send forms from your
-            website, import the hook, add the data and{" "}
-            <span className="font-bold text-2xl color-changing-text">
-              voilà!
-            </span>{" "}
-            Direct to your email!
+            website. Import the hook, add the data and{" "}
+            <span className="font-bold text-2xl color-changing-text">voilà!</span>{" "}
+            Direct to your email.
           </p>
-          <div className="flex flex-col md:flex-row lg:mx-0 mx-8 md:space-x-4">
-            <a
-              href="/login"
-              className="inline-block bg-secondary text-white font-semibold py-3 px-6 rounded-lg shadow-lg mb-4 md:mb-0 hover:bg-accent/20 transition duration-300"
-            >
+          <div className="postal-stagger-4 flex flex-col items-center gap-4 sm:flex-row md:justify-start">
+            <Link href="/login" className="postal-btn-primary w-full sm:w-auto">
               Get Started
-            </a>
+            </Link>
             <a
               href="https://docs.mailprex.excelso.xyz"
               target="_blank"
-              className="inline-block bg-transparent border-2 border-white text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-accent hover:text-secondary transition duration-300"
+              rel="noreferrer"
+              className="postal-btn-ghost w-full sm:w-auto"
             >
               Learn More
             </a>
           </div>
         </div>
-        <div className="md:w-1/2 lg:flex md:flex hidden justify-center">
+
+        <div className="relative hidden w-full justify-center md:flex md:w-1/2">
+          <div
+            aria-hidden
+            className="absolute inset-6 rounded-3xl border border-accent/20 bg-white/5 backdrop-blur-sm"
+          />
           <img
             src="/email-bg.svg"
             alt="Mailprex illustration"
-            className="rounded-lg w-full md:max-w-lg float"
+            className="float relative z-10 w-full max-w-lg"
           />
         </div>
       </div>

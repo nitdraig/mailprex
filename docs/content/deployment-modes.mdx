@@ -1,0 +1,62 @@
+# Deployment modes (`MAILPREX_MODE`)
+
+Mailprex runs as a **single binary** with three deployment modes.
+
+## Modes
+
+| Mode | Use case | Registration | Email verify | Billing |
+|---|---|---|---|---|
+| `public` | SaaS at mailprex.excelso.xyz | Enabled | Required | Gumroad (optional) |
+| `selfhost` | Your VPS + your SMTP | Configurable | Optional | Disabled |
+| `internal` | Author's own projects | Disabled | Skipped | Disabled |
+
+Set in `back/.env`:
+
+```env
+MAILPREX_MODE=public
+```
+
+## Public (default)
+
+- Multi-tenant SaaS.
+- JWT session in httpOnly cookie.
+- Turnstile CAPTCHA when configured.
+- Gumroad Pro/Business when `GUMROAD_*` env vars are set.
+
+## Self-host
+
+```env
+MAILPREX_MODE=selfhost
+MAILPREX_ALLOW_SIGNUP=true
+MAILPREX_SMTP_HOST=smtp.example.com
+```
+
+See [Self-host guide](/self-host).
+
+## Internal
+
+For single-operator setups (multiple tokens, one admin):
+
+```env
+MAILPREX_MODE=internal
+MAILPREX_INTERNAL_ADMIN_EMAIL=admin@example.com
+MAILPREX_INTERNAL_ADMIN_PASSWORD=change-me
+```
+
+On first boot, Mailprex seeds the admin account if it does not exist. Registration endpoints return `403`.
+
+## Public config API
+
+`GET /auth/config` returns:
+
+```json
+{
+  "mode": "public",
+  "allowSignup": true,
+  "requiresEmailVerification": true,
+  "billingEnabled": false,
+  "billing": null
+}
+```
+
+The dashboard and landing page use this to show billing UI.

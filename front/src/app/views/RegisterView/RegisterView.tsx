@@ -1,7 +1,10 @@
 "use client";
+
 import React, { useState } from "react";
 import { useAuth } from "@/app/api/AuthContext";
 import RegisterForm from "./components/RegisterForm";
+import TurnstileCaptcha from "@/app/components/TurnstileCaptcha";
+import AuthHeader from "@/app/components/AuthHeader";
 import { toast } from "react-toastify";
 
 const RegisterView = () => {
@@ -11,8 +14,10 @@ const RegisterView = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
+  const [captchaToken, setCaptchaToken] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const captchaRequired = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,8 +25,12 @@ const RegisterView = () => {
       setError("Passwords do not match");
       return;
     }
+    if (captchaRequired && !captchaToken) {
+      setError("Please complete the CAPTCHA verification");
+      return;
+    }
     try {
-      await register(name, lastName, email, password);
+      await register(name, lastName, email, password, captchaToken || undefined);
       toast.success(
         "Registration successful. Please check your email to verify your account.",
         {
@@ -38,48 +47,70 @@ const RegisterView = () => {
     } catch (error) {
       setError((error as Error).message);
       setSuccess(null);
+      setCaptchaToken("");
     }
   };
 
   return (
-    <div className="h-screen flex">
-      <div className="flex w-full lg:w-1/2 justify-center items-center bg-accent space-y-8">
-        <div className="w-full mt-14 px-8 md:px-32 lg:px-24">
-          <RegisterForm
-            handleSubmit={handleSubmit}
-            error={error}
-            success={success}
-            name={name}
-            lastName={lastName}
-            email={email}
-            password={password}
-            setName={setName}
-            setLastName={setLastName}
-            setEmail={setEmail}
-            setPassword={setPassword}
-            repeatPassword={repeatPassword}
-            setRepeatPassword={setRepeatPassword}
-          />
+    <div className="flex min-h-dvh flex-col lg:flex-row">
+      <main className="order-2 flex min-h-dvh flex-1 flex-col bg-gradient-to-b from-accent/40 to-accent/70 lg:order-1 lg:w-1/2 lg:from-white lg:to-accent/20">
+        <div className="border-b border-primary/10 bg-white/80 px-6 py-5 backdrop-blur-sm lg:hidden">
+          <AuthHeader />
         </div>
-      </div>
-      <div className="hidden lg:flex w-full lg:w-1/2 register_img_section justify-around items-center">
-        <div className="bg-black opacity-20 inset-0 z-0"></div>
-        <div className="w-full mx-auto px-20 flex-col items-center space-y-6">
-          <h1 className="text-white font-bold text-4xl uppercase">Mailprex</h1>
-          <p className="text-white mt-1">
-            The best way to send forms from your web
-          </p>
-          <div className="flex justify-center lg:justify-start mt-6">
+
+        <div className="flex flex-1 items-center justify-center px-6 py-10 sm:px-10">
+          <div className="w-full max-w-lg">
+            <RegisterForm
+              handleSubmit={handleSubmit}
+              error={error}
+              success={success}
+              name={name}
+              lastName={lastName}
+              email={email}
+              password={password}
+              setName={setName}
+              setLastName={setLastName}
+              setEmail={setEmail}
+              setPassword={setPassword}
+              repeatPassword={repeatPassword}
+              setRepeatPassword={setRepeatPassword}
+              captcha={
+                <TurnstileCaptcha
+                  onVerify={setCaptchaToken}
+                  onExpire={() => setCaptchaToken("")}
+                />
+              }
+            />
+          </div>
+        </div>
+      </main>
+
+      <aside className="register_img_section relative order-1 hidden lg:order-2 lg:flex lg:w-1/2">
+        <div className="relative z-10 flex min-h-dvh w-full flex-col justify-between p-10 xl:p-16">
+          <AuthHeader variant="light" />
+          <div className="max-w-md">
+            <p className="postal-eyebrow mb-4 text-accent/80">New route</p>
+            <h1 className="text-4xl font-bold uppercase tracking-[0.08em] text-white xl:text-5xl">
+              Mailprex
+            </h1>
+            <p className="mt-4 text-lg leading-relaxed text-accent/90">
+              The best way to send forms from your web. Create your account and
+              start delivering in minutes.
+            </p>
             <a
               href="https://docs.mailprex.excelso.xyz"
               target="_blank"
-              className="hover:bg-primary hover:text-white hover:-translate-y-1 transition-all duration-500 bg-white text-indigo-800 mt-4 px-4 py-2 rounded-lg font-bold mb-2"
+              rel="noreferrer"
+              className="postal-btn-primary mt-8 inline-flex"
             >
               Read Docs
             </a>
           </div>
+          <p className="text-xs uppercase tracking-[0.2em] text-accent/50">
+            Start delivering today
+          </p>
         </div>
-      </div>
+      </aside>
     </div>
   );
 };

@@ -1,25 +1,21 @@
-type FormData = {
-    fullname: string;
-    email: string;
-    message: string;
-    phone: string;
-    service: string;
-};
+import { DefaultFormData } from "./core";
 type ApiResponse<T> = {
     data: T | null;
     loading: boolean;
-    error: any;
+    error: string | null;
 };
 type UseMailprexProps = {
     url: string;
     webName: string;
     emailDestiny: string;
     formToken: string;
+    captchaToken?: string;
 };
-declare const useMailprex: ({ url, webName, emailDestiny, formToken, }: UseMailprexProps) => {
-    formData: FormData;
+/** @deprecated Use `useMailprexForm` for custom fields or keep this for v1 compatibility */
+declare const useMailprex: ({ url, webName, emailDestiny, formToken, captchaToken, }: UseMailprexProps) => {
+    formData: DefaultFormData;
     handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
     handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
-    response: ApiResponse<any>;
+    response: ApiResponse<unknown>;
 };
 export default useMailprex;

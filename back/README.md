@@ -1,46 +1,93 @@
-# Mailprex | Send Emails from your Website with Ease
+# Mailprex API
 
-## This is a simple application that uses Express and TypeScript to send emails using the nodemailer service.
+Express + TypeScript API for the Mailprex form-to-email service.
 
-### Setting
+## Requirements
 
-- Installation of Dependencies:
-  \*\*npm install, yarn add package.json or bun add package.json
+- Node.js 18+
+- MongoDB
+- SMTP (Gmail via `EMAILSEND`/`PASS`, or custom via `MAILPREX_SMTP_*`)
 
-### Environment Variables Configuration:
+## Setup
 
-- Create a .env file in the root of the project.
-- Define the following environment variables in the .env file:
-  PASS=
-  EMAILSEND=
-  JWT_SECRET=
+```bash
+npm install
+cp .example.env .env
+# Edit .env — see Environment variables below
+npm run dev
+```
 
-### Use:
+Server listens on `PORT` (default `5000`).
 
-- Start the Server: npm run dev, yarn run dev or bun run dev
-- The server will start on the port specified in the PORT environment variable or port 5000 by default.
-- Send an e-mail:
+## Environment variables
 
-*Make a POST request to the /send-email route with the following fields in the request body:
-*fullname: Full name of the sender.\*
-_email: Email of the sender._
-_message: Message to send._
-_phone: Phone number of the sender._
-_service: Service to consult._
-_webName: Name of the web page._
-_emailDestiny: Destination email._
+Copy [`.example.env`](.example.env). Key settings:
 
-### Project Structure
+| Variable | Description |
+|---|---|
+| `MAILPREX_MODE` | `public` (default), `selfhost`, or `internal` |
+| `MONGODB_URI` | Mongo connection string |
+| `JWT_SECRET` | Session signing secret |
+| `FRONTEND_URL` | Used in verification emails and billing redirects |
+| `EMAILSEND` / `PASS` | Gmail SMTP (when custom SMTP not set) |
+| `MAILPREX_SMTP_*` | Custom SMTP host (recommended for self-host) |
+| `TURNSTILE_SECRET_KEY` | Optional Cloudflare Turnstile |
+| `GUMROAD_*` | Pro/Business billing (public mode) |
+| `CORS_ORIGINS` | Comma-separated origins for `/auth` |
 
-src/: Folder containing the source code of the application.
-controllers/: Application controllers.
-routes/: Application routes.
-index.ts: Application entry point.
+See [Deployment modes](https://docs.mailprex.excelso.xyz/deployment-modes) and [Gumroad billing](https://docs.mailprex.excelso.xyz/gumroad-billing).
 
-### Contribution
+## Docker
 
-Contributions are welcome! If you want to improve this project, feel free to submit a pull request!
+From repository root:
 
-### License
+```bash
+docker compose up -d --build
+```
 
-This project is licensed under the MIT License. See the LICENSE file for more details.
+Uses `back/Dockerfile` and MongoDB from `docker-compose.yml`.
+
+## Scripts
+
+| Command | Description |
+|---|---|
+| `npm run dev` | Development server (ts-node-dev) |
+| `npm run build` | Compile to `dist/` |
+| `npm run ts.check` | TypeScript check |
+| `npm run report-legacy-tokens` | List users still on plaintext UUID tokens |
+
+## Main routes
+
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| POST | `/email/send` | `formToken` | Send form email |
+| POST | `/auth/register` | — | Register (if signup allowed) |
+| POST | `/auth/login` | — | Login → httpOnly cookie |
+| GET | `/auth/me` | Cookie | Current user |
+| GET | `/auth/config` | — | Public deployment config |
+| POST | `/token/generateToken` | Cookie | Generate `mk_live_` token |
+| GET | `/token/getFormToken` | Cookie | Token status (prefix only) |
+| POST | `/billing/checkout` | Cookie | Gumroad checkout URL |
+| POST | `/billing/gumroad/ping` | Gumroad | Purchase webhook |
+
+## Project structure
+
+```
+src/
+  config/       mailprexMode, gumroad, plans, SMTP
+  controllers/  auth, email, tokens, billing
+  middlewares/  auth, rate limits, CAPTCHA
+  models/       User, Send, RevokedToken
+  routes/
+  index.ts
+```
+
+## Modes
+
+- **public** — Multi-tenant SaaS (mailprex.excelso.xyz).
+- **selfhost** — Your VPS; set `MAILPREX_SMTP_*` and optional `MAILPREX_ALLOW_SIGNUP`.
+- **internal** — Single admin; set `MAILPREX_INTERNAL_ADMIN_EMAIL` / `PASSWORD`; registration disabled.
+
+## License
+
+MIT — see [LICENSE.md](../LICENSE.md).

@@ -5,55 +5,47 @@ const MAILPREX_LOGO = "https://mailprex.excelso.xyz/logo.webp";
 
 const LastSentCard = ({ lastEmailDate }: { lastEmailDate: string }) => {
   return (
-    <div className="h-full grid sm:grid-cols-2">
-      <div className="flex flex-col justify-between relative z-10 space-y-12 lg:space-y-6">
-        <div className="space-y-2">
-          <h2 className="text-xl font-medium text-gray-800 transition group-hover:text-purple-950 dark:text-white">
-            Your Last Email sent in:
-          </h2>
-          <p className="dark:text-gray-300 text-lg text-gray-700">
-            {lastEmailDate}
-          </p>
-        </div>
+    <div className="grid h-full gap-6 sm:grid-cols-2">
+      <div className="flex flex-col justify-center">
+        <p className="postal-eyebrow-dark mb-2">Activity</p>
+        <h2 className="postal-dashboard-title mb-2">Last delivery</h2>
+        <p className="postal-dashboard-stat text-lg font-semibold text-primary dark:text-accent">
+          {lastEmailDate || "No sends yet"}
+        </p>
       </div>
-      <div className="mt-6 relative sm:-mr-[--card-padding] sm:-my-8 before:absolute before:w-px before:inset-0 before:mx-auto before:bg-gray-200 dark:before:bg-gray-800">
-        <div className="relative space-y-6 py-6 flex flex-col justify-center h-full">
-          <div className="flex items-center justify-end gap-2 w-[calc(50%+0.875rem)] relative">
-            <span className="h-fit text-xs block px-2 py-1 shadow-sm border rounded-md dark:bg-gray-800 dark:border-white/5 dark:text-white">
-              Your Web
-            </span>
-            <div className="size-7 ring-4 ring-white dark:ring-[--card-dark-bg]">
-              <img
-                className="rounded-full border border-gray-950/5 dark:border-white/5 size-full object-cover"
-                src={defaultAvatar.src}
-                alt="Your website"
-              />
-            </div>
-          </div>
-          <div className="flex items-center gap-2 ml-[calc(50%-1rem)] relative">
-            <div className="size-8 ring-4 ring-white dark:ring-[--card-dark-bg]">
-              <img
-                className="rounded-full border border-gray-950/5 dark:border-white/5 size-full object-cover"
-                src={MAILPREX_LOGO}
-                alt="Mailprex"
-              />
-            </div>
-            <span className="h-fit text-xs block px-2 py-1 shadow-sm border rounded-md dark:bg-gray-800 dark:border-white/5 dark:text-white">
-              Mailprex
-            </span>
-          </div>
-          <div className="flex items-center justify-end gap-2 w-[calc(50%+0.875rem)] relative">
-            <span className="h-fit text-xs block px-2 py-1 shadow-sm border rounded-md dark:bg-gray-800 dark:border-white/5 dark:text-white">
-              Your email
-            </span>
-            <div className="size-7 ring-4 ring-white dark:ring-[--card-dark-bg]">
-              <img
-                className="rounded-full border border-gray-950/5 dark:border-white/5 size-full object-cover"
-                src={defaultAvatar.src}
-                alt="Your email inbox"
-              />
-            </div>
-          </div>
+
+      <div className="relative flex flex-col justify-center gap-5 border-t border-primary/10 pt-6 sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0 dark:border-accent/15">
+        <div className="flex items-center justify-end gap-2">
+          <span className="rounded-lg border border-primary/15 bg-white/70 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-secondary dark:border-accent/20 dark:bg-white/5 dark:text-accent">
+            Your Web
+          </span>
+          <img
+            className="h-8 w-8 rounded-full border border-primary/15 object-cover dark:border-accent/20"
+            src={defaultAvatar.src}
+            alt="Your website"
+          />
+        </div>
+
+        <div className="flex items-center gap-2 sm:justify-center">
+          <img
+            className="h-9 w-9 rounded-full border border-primary/15 object-cover dark:border-accent/20"
+            src={MAILPREX_LOGO}
+            alt="Mailprex"
+          />
+          <span className="rounded-lg border border-primary/15 bg-primary/10 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-primary dark:border-accent/20 dark:bg-white/10 dark:text-accent">
+            Mailprex
+          </span>
+        </div>
+
+        <div className="flex items-center justify-end gap-2">
+          <span className="rounded-lg border border-primary/15 bg-white/70 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-secondary dark:border-accent/20 dark:bg-white/5 dark:text-accent">
+            Your email
+          </span>
+          <img
+            className="h-8 w-8 rounded-full border border-primary/15 object-cover dark:border-accent/20"
+            src={defaultAvatar.src}
+            alt="Your email inbox"
+          />
         </div>
       </div>
     </div>

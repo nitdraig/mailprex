@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Quicksand } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import SiteChrome from "./components/SiteChrome";
 import { AuthProvider } from "./api/AuthContext";
 
 import ToastProvider from "./ToastProvider";
@@ -106,9 +105,7 @@ export default function RootLayout({
         <Providers>
           <AuthProvider>
             <ToastProvider>
-              <Navbar />
-              {children}
-              <Footer />
+              <SiteChrome>{children}</SiteChrome>
             </ToastProvider>
           </AuthProvider>
         </Providers>

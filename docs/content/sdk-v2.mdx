@@ -1,0 +1,84 @@
+# SDK v2 (alpha)
+
+Mailprex `2.0.0-alpha.1` splits the client into a **core sender** and optional **React hooks**.
+
+## Install
+
+```bash
+npm install mailprex@2.0.0-alpha.1
+```
+
+## `sendMailprex()` (core)
+
+Works in Node 18+, browsers, and edge runtimes with `fetch`.
+
+```ts
+import { sendMailprex } from "mailprex";
+
+const result = await sendMailprex({
+  url: "https://api.mailprex.excelso.xyz/email/send",
+  formToken: "mk_live_…",
+  webName: "Portfolio",
+  emailDestiny: "owner@example.com",
+  fields: {
+    fullname: "Ada Lovelace",
+    email: "ada@example.com",
+    message: "Hi there",
+  },
+  // captchaToken: turnstileToken, // when Turnstile is enabled on the API
+});
+
+if (!result.ok) {
+  console.error(result.error);
+}
+```
+
+### Options
+
+| Field | Required | Description |
+|---|---|---|
+| `url` | Yes | `/email/send` endpoint |
+| `formToken` | Yes | Dashboard token (`mk_live_…`) |
+| `webName` | Yes | Site name in email subject |
+| `emailDestiny` | Yes | Must match account owner email |
+| `fields` | Yes | Payload key/value map |
+| `captchaToken` | No | Turnstile token when API requires CAPTCHA |
+| `fetchImpl` | No | Custom fetch (testing) |
+
+## `useMailprexForm()` (React)
+
+```tsx
+"use client";
+import { useMailprexForm } from "mailprex";
+
+export function ContactForm() {
+  const { fields, handleChange, handleSubmit, response } = useMailprexForm({
+    url: process.env.NEXT_PUBLIC_MAILPREX_URL!,
+    webName: "My App",
+    emailDestiny: "me@example.com",
+    formToken: process.env.NEXT_PUBLIC_MAILPREX_FORM_TOKEN!,
+    initialFields: {
+      fullname: "",
+      email: "",
+      message: "",
+      budget: "",
+    },
+  });
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input name="fullname" value={fields.fullname} onChange={handleChange} />
+      {/* … */}
+      {response.error && <p>{response.error}</p>}
+    </form>
+  );
+}
+```
+
+## `useMailprex()` (v1 compat)
+
+Same API as v1 — fixed fields `fullname`, `email`, `message`, `phone`, `service`. Implemented on top of `sendMailprex`.
+
+## Token format
+
+Generate tokens in the dashboard. New tokens use prefix `mk_live_` and are shown **once**. Store them in environment variables, never in client bundles for production sites (use a server action or edge proxy when possible).

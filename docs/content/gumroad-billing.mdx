@@ -1,0 +1,69 @@
+# Gumroad billing (Pro / Business)
+
+Billing uses [Gumroad Ping](https://help.gumroad.com/article/266-webhooks) webhooks. No Stripe required.
+
+## Setup
+
+1. Create Pro (and optional Business) products on Gumroad.
+2. In each product → **Settings → Ping**, set:
+
+```
+https://api.mailprex.excelso.xyz/billing/gumroad/ping
+```
+
+3. Add to `back/.env`:
+
+```env
+GUMROAD_SELLER_ID=your_seller_id
+GUMROAD_PRODUCT_ID_PRO=abc123
+GUMROAD_URL_PRO=https://yourname.gumroad.com/l/pro-product
+GUMROAD_PRODUCT_ID_BUSINESS=def456
+GUMROAD_URL_BUSINESS=https://yourname.gumroad.com/l/business-product
+GUMROAD_LIBRARY_URL=https://gumroad.com/library
+```
+
+Find **seller_id** and **product_id** in Gumroad ping test payloads or product URLs.
+
+## User flow
+
+1. User clicks **Upgrade to Pro** in the dashboard.
+2. API returns a Gumroad checkout URL with `?email=` prefilled (must match Mailprex account email).
+3. After payment, Gumroad sends a ping → API upgrades `userType` to `standard` (Pro) or `business`.
+4. **Manage billing** opens the Gumroad library (subscriptions/refunds).
+
+## Important
+
+- The buyer email on Gumroad **must match** the Mailprex account email.
+- Refunds and subscription cancellations downgrade the user to `free`.
+
+## API routes
+
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| POST | `/billing/checkout` | Cookie | Body `{ "plan": "standard" \| "business" }` → `{ url }` |
+| GET | `/billing/portal` | Cookie | `{ url }` → Gumroad library |
+| POST | `/billing/gumroad/ping` | Gumroad | Ping webhook (form-urlencoded) |
+
+## Plan limits
+
+| `userType` | Label | Monthly sends |
+|---|---|---|
+| `free` | Free | 200 |
+| `standard` | Pro | 5,000 |
+| `business` | Business | Unlimited |
+
+## Public config
+
+`GET /auth/config` includes:
+
+```json
+{
+  "billingEnabled": true,
+  "billing": {
+    "provider": "gumroad",
+    "proUrl": "https://…",
+    "businessUrl": "https://…",
+    "libraryUrl": "https://gumroad.com/library"
+  }
+}
+```

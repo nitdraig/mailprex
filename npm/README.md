@@ -1,230 +1,135 @@
 <p align="center">
   <a href="https://mailprex.excelso.xyz/">
-    <img src="https://res.cloudinary.com/draig/image/upload/v1717633081/mailprex/iwzlpdbt3uclxt5mwll3.png" alt="Mailprex Logo" width="200" height="200">
+    <img src="https://mailprex.excelso.xyz/logo.webp" alt="Mailprex Logo" width="160" height="160">
   </a>
 </p>
 
-<h3 align="center">Mailprex | React Hook to MAILPREX</h3>
+<h3 align="center">mailprex — npm SDK</h3>
 
 <p align="center">
- Send Emails from your Website with Ease
-  <br>
-  <a href="https://docs.mailprex.excelso.xyz/"><strong>Explore Mailprex docs »</strong></a>
-  <br>
-  <br>
-  <a href="https://github.com/nitdraig/usemailprex/issues">Report bug</a>
+  <a href="https://docs.mailprex.excelso.xyz/sdk-v2"><strong>SDK v2 docs »</strong></a>
   ·
-  <a href="https://github.com/nitdraig/usemailprex/issues">Request feature</a>
-  ·
-  <a href="https://agustin.top/">Creator Portfolio</a>
+  <a href="https://www.npmjs.com/package/mailprex">npm</a>
 </p>
 
-# useMailprex
+# mailprex
 
-[![npm version](https://img.shields.io/npm/dm/usemailprex-react.svg?style=flat-square)](https://www.npmjs.com/package/usemailprex-react)
-[![npm downloads](https://img.shields.io/npm/dm/usemailprex-react.svg?style=flat-square)](https://www.npmjs.com/package/usemailprex-react)
+Client SDK for [Mailprex](https://mailprex.excelso.xyz) form-to-email.
 
-`Mailprex` is a React hook for handling contact forms and sending data to a server using fetch. This hook simplifies managing the form state and server response.
+**Current version:** `2.0.0-alpha.1`
 
-## What is Mailprex?
-
-Mailprex is a service designed to facilitate sending emails from web forms. It handles the backend processes, allowing you to focus on creating and managing your forms without worrying about the complexities of email delivery.
-
-## Installation
-
-First, install the package using npm:
+## Install
 
 ```bash
 npm install mailprex
-
 ```
 
-## Usage
+## v2 — `sendMailprex()` (any environment)
 
-- Register in `https://mailprex.excelso.xyz/`, Confirm your account
-- Login in `https://mailprex.excelso.xyz/`, Get a formToken in dashboard
-- Install the hook in your project and **Enjoy**
+No React required. Works in browsers, Node 18+, and edge runtimes with `fetch`.
 
-Here is an example of how to use useMailprex in a contact form component in a react.js application.
+```ts
+import { sendMailprex } from "mailprex";
 
-```bash
+const result = await sendMailprex({
+  url: "https://api.mailprex.excelso.xyz/email/send",
+  formToken: process.env.MAILPREX_FORM_TOKEN!,
+  webName: "My Portfolio",
+  emailDestiny: "you@example.com",
+  fields: {
+    fullname: "Ada Lovelace",
+    email: "ada@example.com",
+    message: "Hello!",
+    phone: "",
+    service: "",
+  },
+});
+
+if (!result.ok) {
+  console.error(result.error);
+}
+```
+
+## v2 — `useMailprexForm()` (custom fields)
+
+```tsx
 "use client";
-import React from "react";
-import { useMailprex } from "mailprex";
+import { useMailprexForm } from "mailprex";
 
-const ContactForm = () => {
-  const webName = "Mailprex Test";
-  const emailDestiny = "example@example.com";
-  const url = "https://api.mailprex.excelso.xyz/email/send";
-  const formToken = "your-form-token";
-
-  const { formData, handleChange, handleSubmit, response } = useMailprex({
-    url,
-    webName,
-    emailDestiny,
-    formToken,
+export function ContactForm() {
+  const { fields, handleChange, handleSubmit, response } = useMailprexForm({
+    url: "https://api.mailprex.excelso.xyz/email/send",
+    webName: "My App",
+    emailDestiny: "you@example.com",
+    formToken: process.env.NEXT_PUBLIC_MAILPREX_FORM_TOKEN!,
+    initialFields: { fullname: "", email: "", message: "", company: "" },
   });
-   const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    await handleSubmit(e);
-    if (response.error) {
-      alert(
-    "Error sending message. Try again later.",
-            );
-    } else {
-       alert(
-        "Message sent succesfully!"
-         );
-    }
-  };
 
   return (
-    <form
-      onSubmit={handleFormSubmit}
-      className="max-w-lg mx-auto p-4 bg-white shadow-md rounded-lg"
-    >
-      <div className="mb-4">
-        <label
-          htmlFor="fullname"
-          className="block text-gray-700 font-semibold mb-2"
-        >
-          Full Name *
-        </label>
-        <input
-          type="text"
-          id="fullname"
-          name="fullname"
-          value={formData.fullname}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-          placeholder="Full name"
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <label
-          htmlFor="email"
-          className="block text-gray-700 font-semibold mb-2"
-        >
-          Email *
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-          placeholder="Email"
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <label
-          htmlFor="phone"
-          className="block text-gray-700 font-semibold mb-2"
-        >
-          Phone
-        </label>
-        <input
-          type="tel"
-          id="phone"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-          placeholder="Phone"
-        />
-      </div>
-      <div className="mb-4">
-        <label
-          htmlFor="service"
-          className="block text-gray-700 font-semibold mb-2"
-        >
-          Service
-        </label>
-        <input
-          type="text"
-          id="service"
-          name="service"
-          value={formData.service}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-          placeholder="Service"
-        />
-      </div>
-      <div className="mb-4">
-        <label
-          htmlFor="message"
-          className="block text-gray-700 font-semibold mb-2"
-        >
-          Message *
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-          rows={4}
-          placeholder="Message"
-          required
-        ></textarea>
-      </div>
-      <div className="text-center">
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-md transition-colors duration-300"
-        >
-          Send Message
-        </button>
-      </div>
-      {response.loading && (
-        <p className="mt-4 text-blue-500">Sending email...</p>
-      )}
-      {response.error && (
-        <p className="mt-4 text-red-500">
-          Error sending email: {response.error.message}
-        </p>
-      )}
-      {response.data && (
-        <p className="mt-4 text-green-500">{response.data.message}</p>
-      )}
+    <form onSubmit={handleSubmit}>
+      <input name="fullname" value={fields.fullname} onChange={handleChange} />
+      <input name="email" value={fields.email} onChange={handleChange} />
+      <textarea name="message" value={fields.message} onChange={handleChange} />
+      <button type="submit">Send</button>
+      {response.error && <p>{response.error}</p>}
     </form>
   );
-};
-
-export default ContactForm;
+}
 ```
 
-## Example Email
+## v1 compatible — `useMailprex()`
 
-### Here is an example of how the emails sent through Mailprex will appear when they arrive at the specified email address:
+Fixed fields: `fullname`, `email`, `message`, `phone`, `service`.
 
-<div align="center">
-  <a href="">
-    <img src="https://res.cloudinary.com/draig/image/upload/v1717624258/mailprex/uvc7mvn49rlrpzpeq3vj.png" alt="Example Email" width="700" height="300"/>
-  </a>
-</div>
+```tsx
+import { useMailprex } from "mailprex";
 
-# API
+const { formData, handleChange, handleSubmit, response } = useMailprex({
+  url: "https://api.mailprex.excelso.xyz/email/send",
+  webName: "My Site",
+  emailDestiny: "you@example.com",
+  formToken: "mk_live_…",
+});
+```
 
-## useMailprex
+## Form token
 
-### Parameters
+1. Register at [mailprex.excelso.xyz](https://mailprex.excelso.xyz).
+2. Dashboard → **Generate Form Token**.
+3. Copy the full `mk_live_…` token immediately — it is only shown once.
+4. Store it in `.env` (e.g. `MAILPREX_FORM_TOKEN` or `NEXT_PUBLIC_MAILPREX_FORM_TOKEN`).
 
-- **url:** The server URL to send the form data to.
-- **webName:** The name of the website from which the form is being submitted.
-- **emailDestiny:** The destination email address.
-- **formToken:** The form token for authentication.
+`emailDestiny` must match your Mailprex account email.
 
-### Returns
+## API reference
 
-- **formData:** An object containing the form data.
-- **handleChange:** A function to handle changes in the form fields.
-- **handleSubmit:** A function to handle form submission.
-- **response:** An object containing data, loading, and error regarding the API response.
+### `sendMailprex(options)`
 
-## Contributing
+| Option | Required | Description |
+|---|---|---|
+| `url` | Yes | `POST /email/send` endpoint |
+| `formToken` | Yes | Dashboard token |
+| `webName` | Yes | Site name in email subject |
+| `emailDestiny` | Yes | Account owner inbox |
+| `fields` | Yes | Payload key/value map |
+| `captchaToken` | No | Turnstile token if API requires CAPTCHA |
 
-**_Contributions are welcome. Please open an issue or a pull request for any improvements or fixes._**
+Returns `{ ok, status, data?, error? }`.
+
+### `useMailprex` / `useMailprexForm`
+
+See [full SDK docs](https://docs.mailprex.excelso.xyz/sdk-v2).
+
+## Build
+
+```bash
+npm run build   # outputs dist/
+```
+
+## Migration from v1
+
+See [Migration v2](https://docs.mailprex.excelso.xyz/migration-v2).
+
+## License
+
+MIT

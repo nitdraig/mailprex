@@ -6,6 +6,7 @@ import {
   isAllowedAvatarUrl,
   normalizeAvatarUrl,
 } from "../constants/avatars";
+import { sanitizeUser } from "../utils/sanitizeUser";
 
 dotenv.config();
 
@@ -16,16 +17,18 @@ export const getUserById = async (
   res: Response
 ): Promise<void> => {
   const userId = req.params.id;
+  const authenticatedUser = req.user;
+
+  if (!authenticatedUser || authenticatedUser._id.toString() !== userId) {
+    res.status(403).json({ message: "You can only access your own profile" });
+    return;
+  }
 
   try {
-    const user = await User.findById(userId);
-    if (!user) {
-      res.status(404).json({ message: "Usuario no encontrado" });
-      return;
-    }
-    res.status(200).json(user);
+    res.status(200).json(sanitizeUser(authenticatedUser));
   } catch (error) {
-    res.status(500).json({ message: "Error al obtener usuario", error });
+    console.error("Error fetching user:", error);
+    res.status(500).json({ message: "Error retrieving user data" });
   }
 };
 export const getUserData = async (
@@ -40,18 +43,10 @@ export const getUserData = async (
       return;
     }
 
-    res.status(200).json({
-      _id: user._id,
-      name: user.name,
-      lastName: user.lastName,
-      email: user.email,
-      userType: user.userType,
-      requestCount: user.requestCount,
-      lastRequest: user.lastRequest,
-      photo: user.photo,
-    });
+    res.status(200).json(sanitizeUser(user));
   } catch (error) {
-    res.status(500).json({ message: "Error retrieving user data", error });
+    console.error("Error retrieving user data:", error);
+    res.status(500).json({ message: "Error retrieving user data" });
   }
 };
 const ALLOWED_PROFILE_FIELDS = ["name", "lastName", "photo"] as const;
@@ -161,7 +156,14 @@ export const changePassword = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const userId = req.user._id;
+  const authenticatedUser = req.user;
+
+  if (!authenticatedUser) {
+    res.status(401).json({ message: "Unauthorized" });
+    return;
+  }
+
+  const userId = authenticatedUser._id;
   const { currentPassword, newPassword } = req.body;
 
   try {

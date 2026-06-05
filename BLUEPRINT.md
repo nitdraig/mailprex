@@ -1,38 +1,74 @@
-# Mailprex — Blueprint estratégico
+# Mailprex — Blueprint y auditoría unificados
 
-> **Mailprex** es un servicio de **envío de emails desde formularios de contacto**, simple de integrar (`npm install mailprex`), con tres modos de uso: **interno** (para tus propios proyectos), **público SaaS** (usuarios se registran y sacan un token free) y **self-host** (cualquiera lo corre en su VPS).
+> Documento único de **producto, arquitectura, estado actual y roadmap**.  
+> Sustituye y fusiona el antiguo `BLUEPRINT.md` y `AUDITORIA.md`.
 
 ---
 
-## 1. Definición del producto
+## 0. Resumen ejecutivo
 
-### 1.1 One-liner
-**Mailprex te da un endpoint listo para recibir formularios de contacto y mandarlos a tu casilla, sin tocar backend.** Un hook de React, un token, listo.
+**Mailprex** es un servicio **form-to-email**: registrate, sacá un token, instalá el paquete npm y tu formulario de contacto manda emails a tu casilla **sin backend propio**.
 
-### 1.2 El problema
-- Cada web/landing/app tiene su propio formulario de contacto y la mayoría resuelve email con `mailto:`, un backend ad-hoc, o un servicio pesado (Formspree, Netlify Forms, Resend).
-- Montar **un endpoint SMTP con validación, rate-limit y sandbox de spam** para un solo formulario es desproporcionado.
-- Los SaaS existentes o son cerrados y pagan-por-email, o son genéricos (Resend) y exigen aprender un SDK complejo.
+**North star (v1 → v2):** simplicidad — *1 hook, 1 token, 0 backend*. Tres modos con el mismo binario: **internal** (proyectos del autor), **public** (SaaS en `mailprex.excelso.xyz`) y **self-host** (Docker + SMTP propio).
 
-### 1.3 La solución
-Un **endpoint `POST /email/send`** que:
-- El cliente identifica con un **`formToken`** (UUID).
-- Valida el payload con campos predefinidos (`fullname`, `email`, `message`, `phone`, `service` + custom).
+**Horizonte lejano (v3+, opcional):** evolucionar hacia una plataforma transaccional tipo Resend (dominios DKIM, webhooks, colas). **No es el foco actual**; solo tiene sentido si el SaaS form-to-email ya tiene tracción y equipo para mantenerlo.
+
+**Tagline:** *Send Emails from your Website with Ease*.
+
+---
+
+## 1. Visión en capas (una sola estrategia, tres horizontes)
+
+| Horizonte | Qué es | Cuándo |
+|---|---|---|
+| **Ahora (MVP)** | Form relay: `POST /email/send` + hook React + dashboard + cuotas | ✅ En producción parcial |
+| **v2 (6–10 semanas)** | Seguridad endurecida, SDK modular, self-host Docker, API keys hasheadas, log de envíos | Objetivo inmediato |
+| **v3+ (opcional)** | Plataforma transaccional OSS: dominios, webhooks, colas, Postgres multi-org | Solo si v2 escala |
+
+```
+                    ┌─────────────────────────────────────┐
+                    │  v3+ Plataforma transaccional       │  ← opcional, largo plazo
+                    │  (dominios, webhooks, colas)        │
+                    └──────────────────▲──────────────────┘
+                                       │ hereda Send, ApiKey, auth
+                    ┌──────────────────┴──────────────────┐
+                    │  v2 Mailprex Core                   │  ← foco del blueprint
+                    │  form-to-email · 3 modos · Docker   │
+                    └──────────────────▲──────────────────┘
+                                       │
+                    ┌──────────────────┴──────────────────┐
+                    │  MVP actual                         │  ← estado del repo hoy
+                    │  back/ front/ docs/ npm/            │
+                    └─────────────────────────────────────┘
+```
+
+---
+
+## 2. Definición del producto
+
+### 2.1 One-liner
+
+**Mailprex te da un endpoint listo para recibir formularios de contacto y mandarlos a tu casilla, sin tocar backend.**
+
+### 2.2 El problema
+
+- Cada web/landing resuelve contacto con `mailto:`, backend ad-hoc o SaaS pesado (Formspree, Resend).
+- Montar SMTP + validación + rate-limit + anti-spam para **un solo formulario** es desproporcionado.
+- Alternativas: cerradas y caras, o genéricas y con SDK complejo.
+
+### 2.3 La solución (v2)
+
+Un **`POST /email/send`** que:
+
+- Identifica al cliente con un **`formToken`** (hoy UUID; objetivo: API key con prefijo `mk_live_...` hasheada en DB).
+- Valida payload (`fullname`, `email`, `message`, `phone`, `service` + campos custom en SDK v2).
 - Aplica **cuota mensual** por plan (free / pro / business).
-- Firma y manda el email con el `webName` y remitente configurable.
-- Devuelve éxito/error de forma simple.
+- Envía vía Nodemailer (Gmail por defecto; SMTP configurable en self-host y Pro).
+- Devuelve éxito/error simple.
 
-Tres formas de consumirlo:
-1. **Interno**: lo usás vos en tus proyectos, sin registrarte.
-2. **Público SaaS**: cualquier usuario se registra en `mailprex.excelso.xyz`, saca un `formToken` free, instala el paquete.
-3. **Self-host**: un dev/empresa lo corre en su VPS con su propio SMTP y su propia DB.
+### 2.4 Tres modos de uso
 
-### 1.4 Nombre
-**Mailprex**. No se rebrandea. El dominio, el paquete npm, el repo y la marca se mantienen. Tagline actual: *"Send Emails from your Website with Ease"*.
-
----
-
-## 2. Los tres modos de uso
+Activación: `MAILPREX_MODE=internal|public|selfhost` + variables asociadas. **Implementado** en `back/src/config/mailprexMode.ts`.
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -42,389 +78,388 @@ Tres formas de consumirlo:
            │              │              │
      ┌─────▼────┐   ┌─────▼────┐   ┌─────▼──────┐
      │ INTERNAL │   │  PUBLIC  │   │ SELF-HOST  │
-     │          │   │  (SaaS)  │   │            │
-     │ Tus      │   │ mailprex │   │ VPS propio │
-     │ proyectos│   │ .excelso │   │ con tu SMTP│
-     │          │   │  .xyz    │   │            │
+     │ Tus      │   │  SaaS    │   │ VPS propio │
+     │ proyectos│   │ .xyz     │   │ + tu SMTP  │
      └──────────┘   └──────────┘   └────────────┘
 ```
 
-Activación: `MAILPREX_MODE=internal|public|selfhost` + variables asociadas. Mismo binario, distinta config.
+| Modo | Tenancy | Registro | Auth objetivo | Facturación |
+|---|---|---|---|---|
+| **internal** | Single-user, multi-token | Off (seed admin) | Solo `formToken` para send | No |
+| **public** | Multi-tenant por `User` | On + verify email | JWT cookie httpOnly | Free 200/mes; Pro futuro |
+| **selfhost** | Single-tenant default | Flag `MAILPREX_ALLOW_SIGNUP` | Cookie httpOnly | No (infra propia) |
 
-### 2.1 Modo `internal` (uso propio del autor)
+Self-host objetivo:
 
-| Aspecto | Detalle |
-|---|---|
-| Quién | Agustin (autor) y sus proyectos (portfolio, landings, etc.) |
-| Tenancy | Single-user, multi-token. Un user "system" pre-creado, varios `formToken` (uno por proyecto). |
-| Registro | Deshabilitado. El admin se crea por seed/env. |
-| Auth | No se usa JWT de usuario. Los `formToken` son la única auth necesaria para `/email/send`. |
-| Branding | "Mailprex — uso interno" en el dashboard (oculto del público). |
-| Facturación | No. |
-| Caso de uso | "Tengo 5 landings y un portfolio, todos con formulario, todos mandan a distintas casillas." |
-
-### 2.2 Modo `public` (SaaS multi-tenant)
-
-| Aspecto | Detalle |
-|---|---|
-| Quién | Mailprex (el autor) corre la instancia SaaS. |
-| Tenancy | Multi-tenant. Cada `User` es un cliente. |
-| Registro | Abierto con verificación de email. |
-| Auth | JWT en cookie httpOnly + scopes. |
-| Branding | "Mailprex Cloud" en `mailprex.excelso.xyz`. |
-| Facturación | Free tier (200 emails/mes). Plan **Pro** opcional (próximamente). |
-| Caso de uso | "Soy dev indie, no quiero montar SMTP, me registro, saco token, lo pego en mi form." |
-
-### 2.3 Modo `selfhost` (VPS propio)
-
-| Aspecto | Detalle |
-|---|---|
-| Quién | Cualquier dev/empresa que quiera correr su propia instancia. |
-| Tenancy | Single-tenant por defecto (un user admin), multi-tenant opcional. |
-| Registro | Deshabilitado o abierto según flag (`MAILPREX_ALLOW_SIGNUP=true`). |
-| Auth | Cookie httpOnly. |
-| Branding | Neutro, o el que el operador configure (`WARDEN_*` env). |
-| Facturación | No (es su infra). |
-| Caso de uso | "Soy empresa y no quiero mandar emails de mis clientes por servidores de terceros." |
-
-Activación típica self-host:
 ```bash
 docker run -d --name mailprex \
   -e MAILPREX_MODE=selfhost \
-  -e MAILPREX_SMTP_HOST=smtp.gmail.com \
-  -e MAILPREX_SMTP_USER=me@gmail.com \
-  -e MAILPREX_SMTP_PASS=xxxx \
+  -e MAILPREX_SMTP_HOST=smtp.example.com \
+  -e MAILPREX_SMTP_USER=user \
+  -e MAILPREX_SMTP_PASS=secret \
   -e DATABASE_URL=mongodb://mongo:27017/mailprex \
   -p 3000:3000 \
   mailprex/api
 ```
 
----
+### 2.5 Personas y planes (modo public)
 
-## 3. Estrategia de producto
-
-### 3.1 Personas y propuesta de valor por modo
-
-| Persona | Modo | Necesidad | Propuesta |
-|---|---|---|---|
-| **Agustin (autor)** | internal | Manejar emails de 5+ landings propias sin reinventar backend. | Endpoint unificado, tokens por proyecto, una sola DB. |
-| **Dev indie / startup** | public | Form-to-email sin montar SMTP propio, free hasta 200/mes. | Registro → token → `npm install mailprex` → listo. |
-| **Empresa mediana** | selfhost | Cumplimiento, control de datos, no mandar leads por Gmail. | Docker compose en su VPC, su SMTP corporativo. |
-| **MSP / agencia** | selfhost | Ofrecer servicio branded a sus clientes. | Whitelabel del dashboard, multi-tenant opcional. |
-
-### 3.2 Free vs Pro (solo en modo `public`)
+| Persona | Necesidad | Propuesta |
+|---|---|---|
+| Autor / landings propias | Varios forms, una infra | Modo **internal** |
+| Dev indie | Form-to-email sin SMTP | Registro → token → npm |
+| Empresa / agencia | Control de datos | **Self-host** + SMTP corporativo |
 
 | Plan | Emails/mes | Tokens | Webhooks | Custom SMTP | Precio |
 |---|---|---|---|---|---|
 | **Free** | 200 | 1 | No | No | $0 |
-| **Pro** (futuro) | 5.000 | 10 | Sí | Sí | $5/mes |
-| **Business** (futuro) | 50.000 | Ilimitados | Sí | Sí | $25/mes |
+| **Pro** (futuro) | 5.000 | 10 | Sí | Sí | ~$5/mes |
+| **Business** (futuro) | 50.000 | Ilimitados | Sí | Sí | ~$25/mes |
 
-El modo `internal` y `selfhost` no tienen plan — son tuyos, no hay cuota que pagar.
+`internal` y `selfhost` no tienen plan de pago.
 
-### 3.3 Diferenciadores
+### 2.6 Diferenciadores
 
-- **Simplicidad brutal**: 1 hook, 1 token, 0 backend.
-- **Funciona en cualquier framework** (no solo React) si instalás el core.
-- **Misma API en los 3 modos** — el día de mañana migrás de SaaS a self-host sin tocar el código de tus sitios.
-- **Sin vendor lock-in**: si te cansás de Mailprex, el `formToken` es solo un endpoint HTTP — podés reimplementarlo en 30 líneas.
+- **Simplicidad brutal:** 1 hook, 1 token, 0 backend.
+- **Misma API en 3 modos** — migrar de SaaS a self-host sin tocar sitios.
+- **Sin vendor lock-in** — el token es un HTTP POST reimplementable en pocas líneas.
+- **Open-source y self-hostable** (v2) como ventaja frente a Formspree cerrado.
 
 ---
 
-## 4. Definición técnica
+## 3. Estado actual del repositorio
 
-### 4.1 Arquitectura objetivo (la misma para los 3 modos)
+### 3.1 Estructura
+
+| Carpeta | Rol | Stack |
+|---|---|---|
+| `back/` | API REST | Express, MongoDB, Mongoose, Nodemailer, JWT |
+| `front/` | Landing + dashboard | Next.js 16, NextUI, Tailwind |
+| `docs/` | Documentación | Nextra |
+| `npm/` | SDK cliente | Hook React (`usemailprex-react`), 5 campos fijos |
+
+**Producción:** `https://mailprex.excelso.xyz` · API `https://api.mailprex.excelso.xyz`
+
+### 3.2 Flujo implementado hoy
+
+Registro → verificación email → login → generar `formToken` → submit externo → `POST /email/send` → cuota por `userType` → Nodemailer/Gmail.
+
+Mitigación relay: `emailDestiny` debe coincidir con `user.email` del titular del token.
+
+### 3.3 Gap blueprint vs código
+
+| Blueprint v2 | Estado |
+|---|---|
+| Modo `public` SaaS | ✅ Auth cookie, tokens hasheados, cuotas, dashboard, docs |
+| Modo `internal` | ✅ Seed admin, registro deshabilitado |
+| Modo `selfhost` + Docker | ✅ `docker-compose.yml`, SMTP por env |
+| `MAILPREX_MODE` | ✅ `internal` \| `public` \| `selfhost` |
+| Monorepo `apps/` + `packages/` | ❌ Carpetas planas (pendiente opcional) |
+| SDK v2 (`sendMailprex` + `useMailprexForm`) | ✅ `mailprex@2.0.0-alpha.1` |
+| API keys hasheadas (`mk_live_`) | ✅ Hash bcrypt + compat UUID legacy |
+| JWT cookie httpOnly + revocación | ✅ Cookie + blacklist Mongo (`jti`) |
+| Log persistente `Send` | ✅ Modelo + rate limit por destinatario |
+| Pro/Business + Gumroad | ✅ Checkout URL + ping webhook |
+| Migración tokens UUID | ✅ Banner dashboard + script `report-legacy-tokens` |
+
+### 3.4 Salud del stack (auditoría técnica)
+
+**Adecuado para v2 form-to-email:**
+
+- Express + controllers/routes/models — organización clara.
+- MongoDB — suficiente para usuarios, tokens y log de envíos v2.
+- Next.js dashboard + Nextra docs — correcto; Vercel OK para front/docs.
+
+**Limitaciones conocidas:**
+
+- **Vercel serverless** para API de email: timeouts, SMTP persistente, reintentos → preferir **container/VPS** para `back/` en producción seria.
+- **Rate limit in-memory** en auth: no distribuido; OK en single instance, insuficiente multi-réplica sin Redis.
+- **Gmail único** como transporte SaaS: riesgo de suspensión; mitigar con SMTP custom (Pro/self-host).
+- Migrar a **Postgres** solo si se avanza a v3 multi-org; no es prerequisito de v2.
+
+---
+
+## 4. Arquitectura
+
+### 4.1 Diagrama objetivo (v2)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                          SITIOS                              │
-│  React/Vue/Svelte/HTML estático → useMailprex / mailprex.js │
+│  Sitios: React / Vue / HTML → useMailprex / sendMailprex()  │
 └──────────────────────────┬──────────────────────────────────┘
-                           │ HTTPS + formToken
+                           │ HTTPS + formToken / apiKey
                            ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                       apps/api  (Node)                       │
-│  Express/Fastify + express-validator + Helmet + rate limit  │
-│  /email/send (público, con formToken)                       │
-│  /auth /token /user (privado, JWT)                          │
+│  back/ (Express)                                            │
+│  Helmet · rate limit · /email/send · /auth · /token         │
 └──────────────────────────┬──────────────────────────────────┘
-                           │
                            ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                  MongoDB (o Postgres en futuro)              │
-│  Users, ApiKeys (formToken), Sends, AuditLog                │
+│  MongoDB — User, ApiKey, Send, AuditLog                     │
 └──────────────────────────┬──────────────────────────────────┘
-                           │
                            ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                    SMTP transport (Nodemailer)               │
-│  Default: Gmail (configurable) — usuario puede traer        │
-│  su propio SMTP en Pro o selfhost                            │
-└─────────────────────────────────────────────────────────────┘
-                           │
+│  SMTP (Nodemailer) — Gmail default · configurable por env   │
+└──────────────────────────┬──────────────────────────────────┘
                            ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                apps/dashboard  (Next.js)                     │
-│  Login, profile, generate/list/delete tokens, stats         │
-│  (en selfhost: solo admin)                                  │
+│  front/ (Next.js) — login, profile, tokens, stats           │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ### 4.2 Modelo de datos
 
-Mantener Mongo (suficiente para el caso de uso). Migrar a Postgres solo si hace falta SQL.
+**Hoy (Mongo):**
 
 ```ts
-// User
-{
-  _id, name, lastName, email, password (bcrypt),
-  userType: 'free' | 'pro' | 'business' | 'admin',
-  requestCount, lastRequest, verified,
-  // opcional self-host single-tenant:
-  isSystem?: boolean
+User {
+  _id, name, lastName, email, password, photo,
+  userType: 'free' | 'standard' | 'business',
+  requestCount, lastRequest, verified, formToken
+}
+```
+
+**Objetivo v2:**
+
+```ts
+User {
+  _id, name, lastName, email, password (bcrypt 12), photo,
+  userType, requestCount, lastRequest, verified,
+  isSystem?: boolean  // modo internal
 }
 
-// ApiKey (ex formToken) — varios por usuario
-{
+ApiKey {  // ex formToken
   _id, userId, name, prefix, hash, scopes: ['forms:send'],
-  lastUsedAt, createdAt
+  allowedDestinations?: string[], lastUsedAt, createdAt
 }
 
-// Send (opcional, para auditoría y futuro webhook)
-{
+Send {
   _id, apiKeyId, from, to, subject, payload,
   status, messageId, error, createdAt
 }
 
-// AuditLog (básico, para modo selfhost multi-tenant)
-{
+AuditLog {
   _id, userId, action, ip, ua, createdAt
 }
 ```
 
+**Horizonte v3 (solo si se pivoteara a plataforma transaccional):**
+
+`Organization`, `Member`, `Domain`, `Email`, `Event`, `Webhook`, `Suppression`, `Template` — ver sección 10.
+
 ### 4.3 API
 
-```
-# Público (con formToken en header o body)
-POST   /email/send              envía email (rate-limited, validado)
+**Implementada hoy:**
 
-# Privado (con JWT)
-POST   /auth/register           solo si MAILPREX_ALLOW_SIGNUP=true
-POST   /auth/login
-GET    /auth/verify?token=...
+```
+POST   /email/send              público (formToken)
+POST   /auth/register | /login
+GET    /auth/verify
 GET    /auth/user
 PUT    /auth/user/:id
 PUT    /auth/changePassword
-DELETE /auth/user/:id
-
+DELETE /auth/delete
 POST   /token/generate
+GET    /token/getFormToken
+DELETE /token/deleteToken
+GET    /verify/v                 legacy — deprecar
+```
+
+**Objetivo v2 (compat 6 meses):**
+
+```
+POST   /email/send
+POST   /auth/*                   solo si MAILPREX_ALLOW_SIGNUP
 GET    /token/list
 DELETE /token/:id
 ```
 
-### 4.4 SDK `mailprex` (refactor del actual)
+Versionado interno `/v1` cuando se generalice el payload.
 
-**Core vanilla (`mailprex`)** — funciona en browser, node, edge, sin React:
+### 4.4 SDK npm (v1 → v2)
 
-```ts
-import { sendMailprex } from 'mailprex'
+**Hoy:** hook React, campos fijos (`fullname`, `email`, `message`, `phone`, `service`).
 
-await sendMailprex({
-  apiKey: 'mk_...',
-  formName: 'Contact',
-  to: 'hello@acme.com',
-  data: { fullname: 'Ada', email: 'a@b.com', message: 'Hi' },
-})
+**v2 objetivo:**
+
+```
+mailprex/           → sendMailprex() — sin React, zero deps
+mailprex/react      → useMailprexForm() — fields custom, CAPTCHA, retry, i18n
 ```
 
-**React (`mailprex/react`)** — reemplazo directo del hook actual, con esteroides:
-
-```ts
-import { useMailprexForm } from 'mailprex/react'
-
-const { formData, handleChange, handleSubmit, status, error } = useMailprexForm({
-  apiKey: 'mk_...',
-  to: 'hello@acme.com',
-  formName: 'Contact',
-  fields: ['fullname', 'email', 'message', 'phone', 'service'],
-  recaptcha: 'turnstile-sitekey',   // opcional
-})
-```
-
-**Mejoras concretas al hook actual**:
-- Aceptar campos custom (`fields: string[]`).
-- Validación cliente con Zod (opcional, peer-dep).
-- Soporte de **CAPTCHA** (Turnstile/hCaptcha) como prop.
-- **Retry** automático con backoff en errores 5xx / red.
-- Mensajes de error i18n (es, en, pt).
-- `onSuccess` y `onError` callbacks.
-- `reset()` para limpiar el form.
-- `pending` y `cooldown` (rate-limit cliente-side opcional).
-- Type-safe con generics: `useMailprexForm<{ fullname: string; ... }>(...)`.
-
-### 4.5 Seguridad (la que ya había en AUDITORIA.md, aplicada a este alcance)
-
-Urgente:
-- **Rotar secretos** del `.env` commiteado (Mongo, Gmail app password, JWT secret).
-- **JWT en cookie httpOnly** (no localStorage).
-- **Rate limit en `/auth/login` y `/auth/register`**.
-- **CAPTCHA** en `/auth/register`, `/auth/login` y `/email/send` (Turnstile, free).
-- **Escape HTML** en el template de email (no más `message` crudo).
-- **Whitelist de `emailDestiny`** opcional por `formToken` (el admin puede limitarlos a 1-5 casillas).
-
-Importante:
-- **API key hasheada** en DB, no plana como `formToken` actual. Mostrar prefijo y fecha de creación; nunca el secreto después de creado.
-- **HTTPS forzado** + HSTS.
-- **bcrypt cost 12**.
-- **Logout real** (revocación de JWT en Redis).
-- **`/email/send` con scope**: cada `formToken` puede tener un `allowedDestinations: string[]` opcional.
-- **Log de envíos** persistente para auditoría y futuro webhook.
+Release: `2.0.0-alpha` → `2.0.0`; mantener 1.x con parches de seguridad 6 meses.
 
 ---
 
-## 5. NPM package — diseño detallado
+## 5. Seguridad y anti-abuse
 
-### 5.1 Estructura del paquete
+### 5.1 Resuelto en código
 
-```
-mailprex/
-├── src/
-│   ├── core.ts            # sendMailprex() — sin React
-│   ├── types.ts
-│   ├── validators.ts
-│   ├── i18n.ts
-│   └── index.ts           # re-export core
-└── react/
-    ├── useMailprexForm.ts
-    ├── MailprexForm.tsx   # componente opcional
-    └── index.ts
-```
-
-### 5.2 API pública (versión 2.x)
-
-```ts
-// mailprex (core)
-export interface SendMailprexOptions {
-  apiKey: string
-  formName: string
-  to: string | string[]
-  from?: string                       // opcional, default = system
-  data: Record<string, string>
-  replyTo?: string
-  metadata?: Record<string, string>
-  idempotencyKey?: string
-  recaptchaToken?: string
-}
-
-export interface SendMailprexResult {
-  ok: boolean
-  id?: string
-  error?: { code: string; message: string }
-}
-
-export function sendMailprex(opts: SendMailprexOptions): Promise<SendMailprexResult>
-
-// mailprex/react
-export interface UseMailprexFormOptions<T extends Record<string, string>> {
-  apiKey: string
-  formName: string
-  to: string | string[]
-  fields: (keyof T)[]
-  recaptcha?: { provider: 'turnstile' | 'hcaptcha'; siteKey: string }
-  validate?: (data: T) => Record<string, string> | null
-  onSuccess?: (res: SendMailprexResult) => void
-  onError?: (err: SendMailprexResult['error']) => void
-  resetOnSuccess?: boolean
-}
-
-export function useMailprexForm<T>(opts: UseMailprexFormOptions<T>): {
-  formData: T
-  errors: Partial<Record<keyof T, string>>
-  handleChange: (e) => void
-  handleSubmit: (e?: FormEvent) => Promise<void>
-  status: 'idle' | 'sending' | 'success' | 'error'
-  reset: () => void
-}
-```
-
-### 5.3 Compatibilidad
-
-- **CJS + ESM** (build con `tsup`).
-- **Tree-shakeable** (named exports).
-- **Types first** (`dist/index.d.ts`).
-- **Zero deps** en el core. React solo como peer.
-- **Browser bundle < 3kb** gzipped.
-- **Node 18+** (usa `fetch` nativo).
-
-### 5.4 Plan de release
-
-- **2.0.0-alpha** — refactor a la nueva API con breaking change del hook.
-- **2.0.0** — estable. Publica con un CHANGELOG claro y guía de migración.
-- Mantener **1.x** con parches de seguridad durante 6 meses.
-
----
-
-## 6. Migración desde el código actual
-
-### 6.1 Mapeo archivo a archivo
-
-| Actual | Destino | Acción |
-|---|---|---|
-| `back/src/index.ts` | `apps/api/src/server.ts` | Reusar estructura; añadir cookie auth, scopes, rate limit en auth, CAPTCHA. Flag `MAILPREX_MODE`. |
-| `back/src/connectDB.ts` | `packages/db/src/connect.ts` | Mantener Mongo; abstraer para futuro Postgres. |
-| `back/src/models/userModel.ts` | `packages/db/models/{User,ApiKey,Send,AuditLog}.ts` | Añadir `ApiKey` (varios por user), `Send` (log), `AuditLog`. |
-| `back/src/controllers/authController.ts` | `apps/api/src/modules/auth/*` | Migrar a cookie httpOnly, MFA opcional, verificación con código de un solo uso. |
-| `back/src/controllers/formTokenController.ts` | `apps/api/src/modules/tokens/*` | Renombrar a tokens. Hash en DB, prefijo `mk_live_...`, scopes. |
-| `back/src/controllers/userController.ts` | `apps/api/src/modules/users/*` | Whitelist de campos actualizables. |
-| `back/src/controllers/email/sendEmail.ts` | `apps/api/src/modules/email/send.ts` | Escapar HTML, validar `emailDestiny` contra whitelist opcional, log a `Send`. |
-| `back/src/middlewares/authMiddleware.ts` | `apps/api/src/middleware/auth.ts` | Cookie-based, scopes. |
-| `back/src/middlewares/requestLimitMiddleware.ts` | `apps/api/src/middleware/quota.ts` | Cuota por user, consultar de Mongo/Redis. |
-| `back/src/config/transporterConfig.ts` | `apps/api/src/config/smtp.ts` | Hacer configurable por env (host/user/pass/port). Default Gmail. |
-| `back/src/routes/*` | `apps/api/src/routes/*` | Versionado `/v1` interno, mantener compat con rutas actuales durante 6 meses. |
-| `front/src/app/dashboard/*` | `apps/dashboard/app/(authed)/dashboard/*` | Mejorar UX: lista de tokens, gráficos de uso, settings. |
-| `front/src/app/api/AuthContext.tsx` | `apps/dashboard/lib/auth.ts` | Server actions + cookies. |
-| `front/src/app/hook/useDarkMode.ts` | `apps/dashboard/hooks/useDarkMode.ts` | Mover a `hooks/`. |
-| `docs/` | `apps/docs/` | Mantener. Agregar guía de self-host. |
-| `npm/src/useMailprex.ts` | `packages/core/src/core.ts` + `packages/react/src/useMailprexForm.ts` | Refactor a la nueva API. |
-| `npm/types/index.d.ts` | `packages/core/src/types.ts` | Tipos compartidos. |
-| `back/.env` | `.env.example` (raíz) | Plantilla, sin secretos. |
-| `back/vercel.json` | `Dockerfile` + `docker-compose.yml` + `deploy/` | Self-host primero, Vercel opcional para el dashboard. |
-| `back/package.json` | `package.json` (raíz monorepo) + `apps/*/package.json` | Opcional: pnpm workspaces. |
-| `SECURITY.md` | reescrito con proceso real | |
-| `README.md` | rebrand suave, mantiene Mailprex | |
-
-### 6.2 Plan por semanas
-
-| Semana | Acción |
+| Hallazgo | Estado |
 |---|---|
-| 1 | Monorepo (workspaces). Mover `front`, `docs` a `apps/`. Reescribir `README.md` con la nueva narrativa. |
-| 2 | **Seguridad urgente**: rotar `.env` con `git filter-repo`. JWT en cookie. Rate limit + CAPTCHA en auth. Escapar HTML del email. Arreglar mismatch de `deleteUser` y unificar `/verify`. |
-| 3 | `ApiKey` model. `formToken` → API key con hash y prefijo. Backwards compatible. |
-| 4 | Refactor del hook: `mailprex` core + `mailprex/react`. Publicar 2.0.0-alpha. |
-| 5 | SMTP configurable por env. Modo `internal` y `selfhost` operativos. |
-| 6 | Dashboard pulido: lista de tokens, stats, settings, dark mode, multi-idioma. |
-| 7 | Docker + docker-compose + guía de self-host en `apps/docs/`. |
-| 8 | Beta con 5 usuarios externos. Recolectar feedback. Polish. |
-| 9 | Lanzamiento público: Show HN, Reddit, Dev.to. |
-| 10+ | Pro plan + Stripe. Webhooks. Self-host enterprise. |
+| Relay libre (`emailDestiny`) | ✅ Atado a `user.email` |
+| XSS en template email | ✅ `escapeHtml` |
+| `updateUser` sin whitelist | ✅ Solo `name`, `lastName`, `photo`; dueño del recurso |
+| Avatares de perfil | ✅ Whitelist URLs locales |
+| Rate limit login/register | ✅ `authRateLimiter` (30/15min/IP) |
+| bcrypt cost | ✅ Cost 12 |
+| `DELETE /auth/delete` | ✅ Expuesto y autenticado |
+| uuid / deps espurias | ✅ `crypto.randomUUID` |
+| CORS en `/auth` | ✅ Orígenes restringidos |
+
+### 5.2 Pendiente — urgente (v2 semanas 1–2)
+
+| Item | Riesgo | Acción |
+|---|---|---|
+| Secretos en historial git | Crítico | Rotar Mongo, Gmail, JWT; `git filter-repo` si hubo leak |
+| JWT en `localStorage` | Alto (XSS) | ✅ Cookie `httpOnly` + revocación |
+| Sin CAPTCHA | Alto (abuse) | Turnstile en register, login, `/email/send` |
+| `formToken` en claro en DB | Alto | ✅ Hash + prefijo `mk_live_`; banner migración legacy |
+| CORS `*` en `/email/send` | Medio | Intencional para hook; mitigar con CAPTCHA + rate limit + token rotation |
+| `/verify/v` duplicado | Bajo | Deprecar; unificar en `/auth/verify` |
+| `getUserById` expone password hash | Medio | Sanitizar o restringir a self |
+| `SECURITY.md` plantilla GitHub | Bajo | Proceso real de reporte |
+| Deploy fixes a producción | — | Pipeline backend actualizado |
+
+### 5.3 Importante (v2 semanas 3–6)
+
+- [x] JWT revocable (`jti` + MongoDB blacklist).
+- [ ] Verificación email con código OTP en DB (no JWT largo en URL).
+- [x] Log de envíos `Send` persistente.
+- [x] Rate limit por destinatario y por API key.
+- [x] HSTS + force HTTPS en API.
+- [ ] Logger estructurado (Pino) en lugar de `morgan("combined")`.
+- [x] SMTP configurable por env (self-host + Pro path).
+
+### 5.4 Anti-abuse avanzado (v3 — plataforma transaccional)
+
+Solo necesario si Mailprex evoluciona más allá de form-to-email:
+
+- Dominio verificado + DKIM/SPF/DMARC obligatorios.
+- Suppression list (bounces, complaints).
+- Warmup por dominio, análisis de contenido, abuse contact.
+- Cola BullMQ + Redis, webhooks firmados HMAC.
 
 ---
 
-## 7. Riesgos y mitigaciones
+## 6. Roadmap unificado
 
-| Riesgo | Probabilidad | Impacto | Mitigación |
+### Fase 0 — Higiene y producción (1–2 semanas)
+
+- [ ] Rotar secretos; purgar historial si aplica.
+- [x] JWT en cookie httpOnly + revocación `jti`.
+- [x] CAPTCHA (Turnstile).
+- [x] Deprecar `/verify/v`.
+- [x] Completar `SECURITY.md`.
+- [ ] Deploy backend con fixes actuales.
+
+### Fase 1 — Core v2 (semanas 3–6)
+
+- [x] Tokens hasheados (`mk_live_`) + compat legacy UUID.
+- [x] Entidad `Send` + rate limit destinatario.
+- [x] SDK `sendMailprex` + `useMailprexForm` (2.0.0-alpha).
+- [x] `MAILPREX_MODE` + SMTP por env.
+- [x] Modos `internal` y `selfhost` operativos.
+- [ ] Monorepo opcional (`apps/`, `packages/`).
+
+### Fase 2 — Producto y lanzamiento (semanas 7–10)
+
+- [x] Docker + docker-compose + guía self-host en docs.
+- [ ] Dashboard: lista tokens, gráficos uso, settings.
+- [ ] Beta 5 usuarios externos → polish.
+- [ ] Lanzamiento: Show HN, Dev.to, SEO ("form to email API").
+
+### Fase 3 — Monetización (10+ semanas)
+
+- [x] Gumroad + planes Pro/Business (backend + dashboard).
+- [ ] Webhooks básicos (sent/failed) sobre entidad `Send`.
+- [ ] SMTP custom por usuario (Pro).
+
+### Fase 4 — Horizonte transaccional (opcional, no comprometido)
+
+Solo evaluar con tracción y equipo:
+
+- Postgres + `Organization` multi-tenant.
+- `POST /v1/emails` payload completo, attachments, batch.
+- Dominios verificados, DKIM, suppression list.
+- Colas, transportes pluggables (SES, Mailgun…).
+- React Email, OpenAPI, inbound MX.
+
+**Mapeo Resend → Mailprex (referencia v3):**
+
+| Capacidad | v2 form-to-email | v3 transaccional |
+|---|---|---|
+| Enviar formulario | ✅ | ✅ |
+| API keys scopadas | Parcial (hash v2) | Completo |
+| Dominios DKIM | ❌ | ✅ |
+| Webhooks | Básico v3 fase | Completo |
+| Cola + retry | Opcional v2 | Obligatorio |
+| Templates React Email | ❌ | ✅ |
+
+---
+
+## 7. Migración desde el código actual
+
+| Actual | Destino v2 | Acción |
+|---|---|---|
+| `back/src/index.ts` | `apps/api` o `back/` | `MAILPREX_MODE`, cookie auth, CAPTCHA |
+| `formTokenController.ts` | `modules/tokens` | ApiKey hasheada, list/delete |
+| `sendEmail.ts` | `modules/email/send` | Log `Send`, whitelist destinos |
+| `AuthContext.tsx` | server actions + cookies | Eliminar localStorage |
+| `npm/useMailprex.ts` | `mailprex` + `mailprex/react` | SDK v2 |
+| `back/vercel.json` | Dockerfile + compose | Self-host first |
+| `front/public/avatars/` | perfil usuario | ✅ Hecho |
+
+---
+
+## 8. Riesgos
+
+| Riesgo | Prob. | Impacto | Mitigación |
 |---|---|---|---|
-| `.env` filtrado con credenciales reales | Alta | Crítico | Rotar YA. Doppler/Vault. |
-| Relay de spam/phishing desde `/email/send` | Media | Alto | Whitelist de `emailDestiny` por token, CAPTCHA, rate-limit por destinatario. |
-| Free tier abusado | Alta | Medio | CAPTCHA obligatorio, rate limit estricto, eventual verificación de identidad en Pro. |
-| Gmail suspende la cuenta del SaaS | Media | Crítico | Permitir SMTP custom en Pro; documentar SPF/DKIM/DMARC para self-host. |
-| Mantenimiento de 3 modos en mismo binario | Media | Medio | Feature flags por modo; tests por modo. |
-| Adopción baja del SaaS | Media | Alto | SEO ("form to email", "contact form API"), contenido, partnerships. |
-| Migración rompe a usuarios del hook v1 | Alta | Medio | Mantener v1 con parches de seguridad 6 meses. Guía de migración clara. |
-| Burnout | Media | Alto | Co-maintainers, sponsorships, contribuciones bienvenidas. |
+| Secretos filtrados | Alta | Crítico | Rotar YA; vault |
+| Spam relay vía `/email/send` | Media | Alto | CAPTCHA, rate limit, hash tokens |
+| Free tier abusado | Alta | Medio | CAPTCHA, cuotas, suspensión manual |
+| Gmail suspende cuenta SaaS | Media | Crítico | SMTP custom Pro/self-host |
+| 3 modos en un binario | Media | Medio | Feature flags + tests por modo |
+| Scope creep hacia "OSS Resend" | Alta | Alto | **Fase 4 explícitamente opcional** |
+| Hook v1 breaking change | Alta | Medio | 1.x con parches 6 meses + guía migración |
+| Burnout | Media | Alto | Contribuciones, sponsorships |
 
 ---
 
-## 8. Resumen ejecutivo (1 párrafo)
+## 9. Posicionamiento
 
-**Mailprex** sigue siendo **el servicio simple de form-to-email**: registrate, sacá un token free, instalá `npm install mailprex`, y tu formulario de contacto manda emails a tu casilla sin que toques backend. Corre en **tres modos** con el mismo binario: **interno** (los proyectos del autor, con un admin pre-creado y tokens ilimitados), **público SaaS** (cualquiera se registra en `mailprex.excelso.xyz`, free hasta 200 emails/mes), y **self-host** (cualquier dev o empresa corre un Docker en su VPS con su propio SMTP y su DB). El **npm package** evoluciona de un hook React con 5 campos fijos a un **SDK modular** (`mailprex` core + `mailprex/react`) con campos custom, validación, CAPTCHA, retry, i18n y type-safety. La **arquitectura** se mantiene simple: Express + Mongo + Nodemailer + Dashboard Next.js; lo único que se endurece es la **seguridad** (rotar secretos ya filtrados, JWT en cookie, rate limit, CAPTCHA, hash de tokens, escape HTML) y se **documenta el self-host** con Docker. El plan: **6-8 semanas** para un v2 estable y self-host pulido; **Pro plan** y webhooks después. El diferenciador no es técnico — es **la promesa de "lo instalás y funciona"**.
+**Mensaje v2 (usar ahora):**
+
+> Mailprex — form-to-email open-source. Registrate, sacá un token, instalá el hook. Self-host cuando quieras.
+
+**No prometer aún:**
+
+> "The open-source Resend" — reservado para Fase 4 si alguna vez se construye.
+
+**Evitar en README:** uso para spam; dejar claro que el abuso suspende cuentas.
+
+---
+
+## 10. Anexo — Modelo transaccional (v3, referencia)
+
+Si en el futuro Mailprex pivoteara a plataforma transaccional, el modelo objetivo sería:
+
+```
+Organization, Member, Domain, ApiKey, Email, Event,
+Webhook, DeliveryAttempt, Suppression, Template
+```
+
+Primitivas adicionales: dominios verificados, idempotency-key, batch send, receiving MX, audiences, observabilidad (OpenTelemetry, Pino, Prometheus).
+
+**Decisión explícita:** esto **no reemplaza** el north star form-to-email; es una **extensión opcional** que comparte `ApiKey`, auth y transporte SMTP pero exige Postgres, colas y meses de desarrollo adicional.
+
+---
+
+## 11. Resumen en una frase
+
+**Mailprex v2 = form-to-email simple, seguro y self-hostable en tres modos; v3 transaccional = horizonte opcional, no paralelo.**
+
+---
+
+*Última revisión unificada: junio 2026. Documento canónico del proyecto.*

@@ -2,39 +2,40 @@ import SVGArrowCheck from "@/app/components/IndexComponents/SVGArrowCheck";
 import SVGCheck from "@/app/components/IndexComponents/SVGCheck";
 import React from "react";
 
+const FEATURES = [
+  "Ilimited sends",
+  "PRO plan benefits",
+  "Personalized attention",
+] as const;
+
 const BusinessCard = () => {
   return (
-    <div className="lg:w-[23rem] bg-white w-full border-2 lg:border-l-0 border-primary p-5 rounded-2xl lg:rounded-l-none">
-      <div className="pb-3 mb-4 border-b border-gray-200">
-        <div className="text-xs text-slate-800 mb-2">BUSINESS</div>
-        <div className="flex items-center">
-          {/* <h2 className="text-5xl m-0 font-normal">$40</h2>
-          <span className="text-slate-800 ml-1">/mo</span> */}
-          <h2 className="text-5xl m-0 font-normal">Coming Soon</h2>
-        </div>
+    <article className="postal-price-card lg:rounded-l-none lg:border-l-0">
+      <div aria-hidden className="postal-route-line" />
+
+      <div className="mb-5 border-b border-primary/10 pb-4 text-left">
+        <p className="postal-price-tier">Business</p>
+        <h3 className="text-5xl font-bold text-secondary">Coming Soon</h3>
       </div>
-      <div className="flex items-center mb-2">
-        <SVGCheck />
-        Ilimited sends
+
+      <div className="mb-8 flex-1 text-left">
+        {FEATURES.map((feature) => (
+          <div key={feature} className="postal-check-item">
+            <SVGCheck />
+            {feature}
+          </div>
+        ))}
       </div>
-      <div className="flex items-center mb-2">
-        <SVGCheck />
-        PRO plan benefits
-      </div>
-      <div className="flex items-center mb-5">
-        <SVGCheck />
-        Personalized attention
-      </div>
-      <div className="mt-auto w-full">
-        <button
-          disabled
-          className="bg-secondary hover:bg-primary transition duration-300 rounded-xl cursor-no-drop text-white py-2 border-none w-full flex items-center px-3"
-        >
-          Get Business
-          <SVGArrowCheck />
-        </button>
-      </div>
-    </div>
+
+      <button
+        type="button"
+        disabled
+        className="flex w-full cursor-not-allowed items-center justify-between rounded-xl border border-secondary/20 bg-secondary/10 px-6 py-3 text-sm font-bold text-secondary/50"
+      >
+        Get Business
+        <SVGArrowCheck />
+      </button>
+    </article>
   );
 };
 

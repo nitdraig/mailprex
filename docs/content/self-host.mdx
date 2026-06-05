@@ -1,0 +1,69 @@
+# Self-host Mailprex with Docker
+
+Run Mailprex on your own VPS with MongoDB and your SMTP server.
+
+## Quick start
+
+1. Copy environment file:
+
+```bash
+cp back/.example.env back/.env
+```
+
+2. Edit `back/.env` — minimum required:
+
+```env
+MAILPREX_MODE=selfhost
+JWT_SECRET=your-long-random-secret
+MAILPREX_SMTP_HOST=smtp.example.com
+MAILPREX_SMTP_PORT=587
+MAILPREX_SMTP_USER=your-user
+MAILPREX_SMTP_PASS=your-password
+FRONTEND_URL=http://localhost:3000
+```
+
+3. Start stack:
+
+```bash
+docker compose up -d --build
+```
+
+API listens on `http://localhost:5000`.
+
+## Environment reference
+
+| Variable | Description |
+|---|---|
+| `MAILPREX_MODE` | `selfhost` for private deployments |
+| `MAILPREX_ALLOW_SIGNUP` | `false` to disable public registration |
+| `MAILPREX_REQUIRE_EMAIL_VERIFY` | `true` to require email verification (default `false` in self-host) |
+| `MAILPREX_SMTP_*` | Custom SMTP transport (recommended) |
+| `MONGODB_URI` | Set automatically in `docker-compose.yml` to `mongodb://mongo:27017/mailprex` |
+
+## Frontend
+
+Point the Next.js app to your API:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000
+```
+
+For production, serve the front behind HTTPS on the same domain or configure `CORS_ORIGINS`.
+
+## Health check
+
+```bash
+curl http://localhost:5000/
+```
+
+Response includes the active `MAILPREX_MODE`.
+
+## Legacy token audit
+
+On the host machine with Mongo access:
+
+```bash
+cd back && npm run report-legacy-tokens
+```
+
+Ask affected users to regenerate tokens in the dashboard (`mk_live_…` format).

@@ -1,12 +1,7 @@
 {
   "name": "mailprex",
-  "version": "1.0.5",
+  "version": "2.0.0",
   "description": "Send Emails from your Website with Ease",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc"
-  },
   "keywords": [
     "email",
     "send",
@@ -17,21 +12,27 @@
     "frontend",
     "website"
   ],
-  "author": "Agustin Avellaneda <https://agustin.top>",
-  "license": "MIT",
+  "homepage": "https://mailprex.excelso.xyz",
+  "bugs": {
+    "url": "https://github.com/nitdraig/mailprex-app/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nitdraig/mailprex-app.git"
   },
-  "bugs": {
-    "url": "https://github.com/nitdraig/mailprex-app/issues"
-  },
-  "homepage": "https://mailprex.excelso.xyz",
-  "devDependencies": {
-    "@types/react": "^18.0.0",
-    "typescript": "^4.9.5"
+  "license": "MIT",
+  "author": "Agustin Avellaneda <https://agustin.top>",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
   },
   "dependencies": {
     "react": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "typescript": "^4.9.5"
   }
 }

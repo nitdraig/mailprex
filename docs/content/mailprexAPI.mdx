@@ -1,40 +1,101 @@
 # API Reference
 
-## Introduction
+HTTP API for Mailprex form-to-email.
 
-The API Reference provides complete documentation on Mailprex API endpoints, including request and response parameters, and usage examples.
+**Base URL:** `https://api.mailprex.excelso.xyz`
 
-## Endpoint: /sendEmail
+## Public — send form email
 
- The API URL: `"https://api.mailprex.excelso.xyz/email/send"`
-**Description:** Sends an email using the specified parameters.
+### `POST /email/send`
 
-### Request Parameters:
+Sends a contact form email to the token owner.
 
-- **emailDestiny:** (String) Email address of the recipient.
-- **formData.fullName:**(String) Fullname of user form 
-- **formData.message:** (String) Message of the form.
-- **formData.email:** (String) email of user form
-- **webName:**(String) To identify the website where the form comes from
-- **formToken:** (String) required to enable form submission
+**Authentication:** `formToken` in JSON body (no cookie).
 
-### Request Example:
+**CORS:** `*` (intended for browser forms from any origin).
+
+#### Request body
 
 ```json
 {
-  "emailDestiny": "myEmail@example.com",
+  "formToken": "mk_live_abc123…",
   "webName": "My Portfolio",
-  "formToken": "yourPrivateTokenHere",
-  "formData.fullName":"Joe Doe",
-  "formData.message": "Hi, i want to contact you for a job!",
-  "formData.email":"jonDoe@example.com",
-
+  "emailDestiny": "owner@example.com",
+  "fullname": "Jane Doe",
+  "email": "jane@example.com",
+  "message": "Hi, I'd like to get in touch.",
+  "phone": "+1 555 0100",
+  "service": "Consulting"
 }
 ```
 
+#### Success `200`
+
 ```json
 {
-  "success": true,
-  "message": "Email sent successfully."
+  "message": "Form sent successfully"
 }
+```
+
+#### Common errors
+
+| Status | Meaning |
+|---|---|
+| `400` | Validation failed |
+| `401` | Invalid `formToken` |
+| `403` | `emailDestiny` does not match token owner |
+| `429` | Rate or monthly quota exceeded |
+| `500` | SMTP / server error |
+
+---
+
+## Auth (dashboard)
+
+Cookie session (`mailprex_token`, httpOnly). Used by the web app.
+
+| Method | Path | Description |
+|---|---|---|
+| POST | `/auth/register` | Create account |
+| POST | `/auth/login` | Login |
+| POST | `/auth/logout` | Logout + revoke JWT |
+| GET | `/auth/me` | Current user |
+| GET | `/auth/verify?token=` | Email verification |
+| GET | `/auth/config` | Public deployment config |
+
+---
+
+## Form tokens
+
+Requires auth cookie.
+
+| Method | Path | Description |
+|---|---|---|
+| POST | `/token/generateToken` | Create token — returns full `formToken` once |
+| GET | `/token/getFormToken` | `{ hasToken, prefix, legacy? }` |
+| DELETE | `/token/deleteToken` | Revoke token |
+
+---
+
+## Billing (Gumroad)
+
+Requires auth cookie. See [Gumroad billing](/gumroad-billing).
+
+| Method | Path | Description |
+|---|---|---|
+| POST | `/billing/checkout` | `{ plan: "standard" \| "business" }` → `{ url }` |
+| GET | `/billing/portal` | Gumroad library URL |
+| POST | `/billing/gumroad/ping` | Gumroad Ping webhook (server-side) |
+
+---
+
+## Field reference
+
+See [User fields guide](/guide).
+
+## Client SDK
+
+Prefer the npm package — [SDK v2](/sdk-v2):
+
+```ts
+import { sendMailprex } from "mailprex";
 ```

@@ -1,17 +1,31 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { validationResult } from "express-validator";
 import User from "../models/userModel";
 import dotenv from "dotenv";
 import { transporter } from "../config/transporterConfig";
-import { randomUUID } from "crypto";
 import { DEFAULT_AVATAR_URL } from "../constants/avatars";
+import { clearAuthCookie, setAuthCookie } from "../utils/authCookie";
+import { sanitizeUser } from "../utils/sanitizeUser";
+import { revokeAccessToken, signAccessToken } from "../utils/jwtAuth";
+import { getAuthTokenFromRequest } from "../utils/getAuthToken";
+import { getPublicConfig, requiresEmailVerification } from "../config/mailprexMode";
 
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET!;
+const FRONTEND_URL =
+  process.env.FRONTEND_URL?.replace(/\/$/, "") ??
+  "https://mailprex.excelso.xyz";
 
 export const register = async (req: Request, res: Response): Promise<void> => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() });
+    return;
+  }
+
   const { name, lastName, email, password } = req.body;
 
   try {
@@ -28,16 +42,22 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       lastName,
       email,
       password: hashedPassword,
-      verified: false,
+      verified: !requiresEmailVerification(),
       photo: DEFAULT_AVATAR_URL,
-      formToken: randomUUID(),
     });
     await newUser.save();
+
+    if (!requiresEmailVerification()) {
+      res.status(201).json({
+        message: "Registered user successfully.",
+      });
+      return;
+    }
 
     const verificationToken = jwt.sign({ userId: newUser._id }, JWT_SECRET, {
       expiresIn: "1d",
     });
-    const verificationLink = `https://mailprex.excelso.xyz/verify?token=${verificationToken}`;
+    const verificationLink = `${FRONTEND_URL}/verify?token=${verificationToken}`;
     const mailOptions = {
       from: process.env.EMAILSEND!,
       to: email,
@@ -77,11 +97,18 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       message: "Registered user successfully. Please verify your account.",
     });
   } catch (error) {
-    res.status(500).json({ message: "Error registering user", error });
+    console.error("Error registering user:", error);
+    res.status(500).json({ message: "Error registering user" });
   }
 };
 
 export const login = async (req: Request, res: Response): Promise<void> => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() });
+    return;
+  }
+
   const { email, password } = req.body;
 
   try {
@@ -103,18 +130,41 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const token = jwt.sign(
-      { userId: user._id, email: user.email },
-      JWT_SECRET,
-      {
-        expiresIn: "30d",
-      }
-    );
+    const token = signAccessToken(String(user._id), user.email);
 
-    res.status(200).json({ token, message: "Successful login" });
+    setAuthCookie(res, token);
+
+    res.status(200).json({
+      message: "Successful login",
+      user: sanitizeUser(user),
+    });
   } catch (error) {
-    res.status(500).json({ message: "Failed to login", error });
+    console.error("Error during login:", error);
+    res.status(500).json({ message: "Failed to login" });
   }
+};
+
+export const logout = async (req: Request, res: Response): Promise<void> => {
+  const token = getAuthTokenFromRequest(req);
+  if (token) {
+    await revokeAccessToken(token);
+  }
+
+  clearAuthCookie(res);
+  res.status(200).json({ message: "Logged out successfully" });
+};
+
+export const getMe = (req: Request, res: Response): void => {
+  if (!req.user) {
+    res.status(401).json({ message: "Not authenticated" });
+    return;
+  }
+
+  res.status(200).json(sanitizeUser(req.user));
+};
+
+export const getConfig = (_req: Request, res: Response): void => {
+  res.status(200).json(getPublicConfig());
 };
 
 export const verifyAccount = async (req: Request, res: Response) => {
@@ -145,7 +195,7 @@ export const verifyAccount = async (req: Request, res: Response) => {
     await user.save();
 
     res.status(200).json({ message: "Successfully verified account" });
-  } catch (error) {
-    res.status(400).json({ message: "Invalid verification token", error });
+  } catch {
+    res.status(400).json({ message: "Invalid or expired verification token" });
   }
 };

@@ -1,16 +1,43 @@
 # Mailprex Documentation
- 
- Mailprex is an email sending platform designed to simplify the process
-          of email communication from your website. Our mission is to provide an
-          easy-to-use and highly efficient solution for both website owners and
-          developers. With Mailprex, You can easily integrate contact forms into
-          the front end of your website and allow your visitors to send emails
-          directly from there.
 
-## What is Mailprex?
+Mailprex is an open-source **form-to-email** platform. Register, generate a private token, and send contact form submissions to your inbox without running your own backend.
 
-A **simple**, **powerful** and **flexible** API to Send Emails from your Website.
+**Web app:** [mailprex.excelso.xyz](https://mailprex.excelso.xyz)  
+**API:** [api.mailprex.excelso.xyz](https://api.mailprex.excelso.xyz)
 
-## Register and Login
+## What you get
 
-To register and Login go to [https://mailprex.excelso.xyz](https://mailprex.excelso.xyz/register).
+- One HTTP endpoint: `POST /email/send`
+- npm SDK: `mailprex` (`sendMailprex`, `useMailprex`, `useMailprexForm`)
+- Dashboard for tokens, plan usage, and billing
+- Self-host with Docker and your own SMTP
+
+## Get started
+
+1. [Register and log in](https://mailprex.excelso.xyz/register)
+2. Generate a form token in the **Dashboard** (`mk_live_…` — copy it once)
+3. Follow the [Integration guide](/integration) or [SDK v2](/sdk-v2)
+
+## Documentation map
+
+| Topic | Page |
+|---|---|
+| Field reference | [Guide](/guide) |
+| HTTP API | [API Reference](/mailprexAPI) |
+| React hook (v1) | [useMailprex](/mailprexhook) |
+| SDK v2 | [SDK v2](/sdk-v2) |
+| Migrate from v1 / UUID tokens | [Migration v2](/migration-v2) |
+| Deploy modes | [Deployment modes](/deployment-modes) |
+| Docker self-host | [Self-host](/self-host) |
+| Pro / Business billing | [Gumroad billing](/gumroad-billing) |
+| Examples | [Examples](/examples/example_1) |
+
+## Plans
+
+| Plan | Monthly sends |
+|---|---|
+| Free | 200 |
+| Pro | 5,000 |
+| Business | Unlimited |
+
+Upgrade from the dashboard when Gumroad is configured on the API.

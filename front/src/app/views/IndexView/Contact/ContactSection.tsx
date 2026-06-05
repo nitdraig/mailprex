@@ -3,40 +3,26 @@ import React from "react";
 
 const ContactSection = () => {
   return (
-    <section
-      className="lg:h-full h-full bg-gradient-to-tr from-accent via-primary to-primary"
-      id="contact"
-    >
-      <div className="grid pt-16  sm:grid-cols-2 items-center gap-16 p-8 mx-auto max-w-4xl  rounded-md text-accent font-[sans-serif]">
-        <div>
-          <h3 className=" text-3xl uppercase lg:text-4xl color-changing-text font-bold mb-4 text-accent  -pt-2">
-            Lets Talk
-          </h3>
-          <p className="text-lg text-accent mt-3">
-            Do you have any questions regarding MAILPREX? Then contact us We
-            would love to provide you with help.
-          </p>
+    <section className="postal-mesh-bg postal-section" id="contact">
+      <div aria-hidden className="postal-grid-overlay absolute inset-0 opacity-50" />
 
-          {/* <div className="mt-12">
-            <h2 className="text-lg text-accent font-extrabold">Socials</h2>
-            <div className="flex gap-4  mb-4 mt-2">
-              <a
-                href="#"
-                className="text-4xl  text-accent hover:text-primary transition  "
-              >
-                <FaLinkedin />
-              </a>
-              <a href="#" className="text-4xl  text-accent hover:text-primary">
-                <FaGithub />
-              </a>
-              <a href="#" className="text-4xl  text-accent hover:text-primary">
-                <BsTwitter />
-              </a>
-            </div>
-          </div> */}
+      <div className="postal-section-inner">
+        <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
+          <div className="text-white">
+            <p className="postal-eyebrow mb-4 text-accent/75">Contact</p>
+            <h2 className="mb-4 text-3xl font-bold uppercase tracking-[0.06em] lg:text-4xl">
+              Let&apos;s Talk
+            </h2>
+            <p className="max-w-md text-lg leading-relaxed text-accent/90">
+              Do you have any questions regarding Mailprex? Contact us — we would
+              love to help you get your forms delivered.
+            </p>
+          </div>
+
+          <div className="postal-panel p-6 sm:p-8">
+            <Form />
+          </div>
         </div>
-
-        <Form />
       </div>
     </section>
   );

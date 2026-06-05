@@ -4,228 +4,144 @@
   </a>
 </p>
 
-<h3 align="center">Mailprex | Hook & Docs to MAILPREX</h3>
+<h3 align="center">Mailprex — form-to-email, open-source</h3>
 
 <p align="center">
- Send Emails from your Website with Ease
+  Send emails from your website with ease — 1 hook, 1 token, 0 backend.
   <br>
-  <a href="https://docs.mailprex.excelso.xyz/"><strong>Explore Mailprex docs »</strong></a>
-  <a href="https://mailprex.excelso.xyz/"><strong>Explore Mailprex web »</strong></a>
-  <br>
-  <br>
-  <a href="https://github.com/nitdraig/mailprex-app/issues">Report bug</a>
+  <a href="https://docs.mailprex.excelso.xyz/"><strong>Documentation »</strong></a>
   ·
-  <a href="https://github.com/nitdraig/mailprex-app/issues">Request feature</a>
+  <a href="https://mailprex.excelso.xyz/"><strong>Web app »</strong></a>
   ·
-  <a href="https://agustin.top/">Creator Portfolio</a>
+  <a href="BLUEPRINT.md"><strong>Blueprint »</strong></a>
 </p>
 
 # Mailprex
 
 [![npm version](https://img.shields.io/npm/v/mailprex.svg?style=flat-square)](https://www.npmjs.com/package/mailprex)
-[![npm downloads](https://img.shields.io/npm/dm/mailprex.svg?style=flat-square)](https://www.npmjs.com/package/mailprex)
 
-`Mailprex` is a React hook for handling contact forms and sending data to a server using fetch. This hook simplifies managing the form state and server response.
+**Mailprex** is an open-source **form-to-email** service: register, generate a private token, add the npm package to your site, and contact forms reach your inbox without building a backend.
 
-## What is Mailprex?
+**Production:** [mailprex.excelso.xyz](https://mailprex.excelso.xyz) · API [api.mailprex.excelso.xyz](https://api.mailprex.excelso.xyz)
 
-Mailprex is a service designed to facilitate sending emails from web forms. It handles the backend processes, allowing you to focus on creating and managing your forms without worrying about the complexities of email delivery.
+## Features (v2)
 
-## Installation
+- Hashed form tokens with `mk_live_…` prefix (shown once on generate)
+- React hook + framework-agnostic `sendMailprex()` client
+- Monthly quotas by plan (Free / Pro / Business)
+- httpOnly cookie auth, optional Turnstile CAPTCHA, rate limits
+- Self-host with Docker + custom SMTP (`MAILPREX_MODE=selfhost`)
+- Pro billing via [Gumroad](https://gumroad.com) webhooks
 
-First, install the package using npm:
+## Repository structure
+
+| Folder | Description |
+|---|---|
+| [`back/`](back/) | Express + MongoDB API |
+| [`front/`](front/) | Next.js landing + dashboard |
+| [`docs/`](docs/) | Nextra documentation site |
+| [`npm/`](npm/) | `mailprex` npm package (SDK) |
+
+Canonical product doc: [`BLUEPRINT.md`](BLUEPRINT.md)
+
+## Quick start (website owners)
+
+1. [Register](https://mailprex.excelso.xyz/register) and verify your email.
+2. Log in → **Dashboard** → **Generate Form Token** (copy it immediately).
+3. Install the SDK:
 
 ```bash
 npm install mailprex
-
 ```
 
-## Usage
+4. Wire a contact form:
 
-- Register in `https://mailprex.excelso.xyz/`, Confirm your account
-- Login in `https://mailprex.excelso.xyz/`, Get a formToken in dashboard
-- Install the hook in your project and **Enjoy**
-
-Here is an example of how to use useMailprex in a contact form component in a react.js application.
-
-```bash
+```tsx
 "use client";
-import React from "react";
 import { useMailprex } from "mailprex";
 
-const ContactForm = () => {
-  const webName = "Mailprex Test";
-  const emailDestiny = "example@example.com";
-  const url = "https://api.mailprex.excelso.xyz/email/send";
-  const formToken = "your-form-token";
-
+export function ContactForm() {
   const { formData, handleChange, handleSubmit, response } = useMailprex({
-    url,
-    webName,
-    emailDestiny,
-    formToken,
+    url: "https://api.mailprex.excelso.xyz/email/send",
+    webName: "My Site",
+    emailDestiny: "you@example.com", // must match your Mailprex account email
+    formToken: process.env.NEXT_PUBLIC_MAILPREX_FORM_TOKEN!,
   });
-   const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    await handleSubmit(e);
-    if (response.error) {
-      alert(
-    "Error sending message. Try again later.",
-            );
-    } else {
-       alert(
-        "Message sent succesfully!"
-         );
-    }
-  };
 
   return (
-    <form
-      onSubmit={handleFormSubmit}
-      className="max-w-lg mx-auto p-4 bg-white shadow-md rounded-lg"
-    >
-      <div className="mb-4">
-        <label
-          htmlFor="fullname"
-          className="block text-gray-700 font-semibold mb-2"
-        >
-          Full Name *
-        </label>
-        <input
-          type="text"
-          id="fullname"
-          name="fullname"
-          value={formData.fullname}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-          placeholder="Full name"
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <label
-          htmlFor="email"
-          className="block text-gray-700 font-semibold mb-2"
-        >
-          Email *
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-          placeholder="Email"
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <label
-          htmlFor="phone"
-          className="block text-gray-700 font-semibold mb-2"
-        >
-          Phone
-        </label>
-        <input
-          type="tel"
-          id="phone"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-          placeholder="Phone"
-        />
-      </div>
-      <div className="mb-4">
-        <label
-          htmlFor="service"
-          className="block text-gray-700 font-semibold mb-2"
-        >
-          Service
-        </label>
-        <input
-          type="text"
-          id="service"
-          name="service"
-          value={formData.service}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-          placeholder="Service"
-        />
-      </div>
-      <div className="mb-4">
-        <label
-          htmlFor="message"
-          className="block text-gray-700 font-semibold mb-2"
-        >
-          Message *
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-          rows={4}
-          placeholder="Message"
-          required
-        ></textarea>
-      </div>
-      <div className="text-center">
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-md transition-colors duration-300"
-        >
-          Send Message
-        </button>
-      </div>
-      {response.loading && (
-        <p className="mt-4 text-blue-500">Sending email...</p>
-      )}
-      {response.error && (
-        <p className="mt-4 text-red-500">
-          Error sending email: {response.error.message}
-        </p>
-      )}
-      {response.data && (
-        <p className="mt-4 text-green-500">{response.data.message}</p>
-      )}
+    <form onSubmit={handleSubmit}>
+      <input name="fullname" value={formData.fullname} onChange={handleChange} required />
+      <input name="email" type="email" value={formData.email} onChange={handleChange} required />
+      <textarea name="message" value={formData.message} onChange={handleChange} required />
+      <button type="submit">Send</button>
+      {response.error && <p>{response.error}</p>}
     </form>
   );
-};
-
-export default ContactForm;
+}
 ```
 
-## Example Email
+Store the token in an environment variable — never commit it to git.
 
-### Here is an example of how the emails sent through Mailprex will appear when they arrive at the specified email address:
+See [SDK v2](https://docs.mailprex.excelso.xyz/sdk-v2) for `sendMailprex()` and custom fields with `useMailprexForm()`.
 
-<div align="center">
-  <a href="">
-    <img src="https://res.cloudinary.com/draig/image/upload/v1717624258/mailprex/uvc7mvn49rlrpzpeq3vj.png" alt="Example Email" width="700" height="300"/>
-  </a>
-</div>
+## Quick start (developers / self-host)
 
-# API
+```bash
+cp back/.example.env back/.env   # edit JWT, SMTP, Mongo URI
+docker compose up -d --build     # API on :5000 + MongoDB
+```
 
-## useMailprex
+Details: [Self-host guide](https://docs.mailprex.excelso.xyz/self-host) · [Deployment modes](https://docs.mailprex.excelso.xyz/deployment-modes)
 
-### Parameters
+Local full stack:
 
-- **url:** The server URL to send the form data to.
-- **webName:** The name of the website from which the form is being submitted.
-- **emailDestiny:** The destination email address.
-- **formToken:** The form token for authentication.
+```bash
+cd back && npm install && npm run dev
+cd front && npm install && npm run dev   # NEXT_PUBLIC_API_URL=/api
+```
 
-### Returns
+## Plans
 
-- **formData:** An object containing the form data.
-- **handleChange:** A function to handle changes in the form fields.
-- **handleSubmit:** A function to handle form submission.
-- **response:** An object containing data, loading, and error regarding the API response.
+| Plan | Sends / month | Price |
+|---|---|---|
+| Free | 200 | $0 |
+| Pro | 5,000 | via Gumroad |
+| Business | Unlimited | via Gumroad |
+
+Upgrade from the dashboard when Gumroad billing is enabled on the API.
+
+## API overview
+
+```http
+POST /email/send
+Content-Type: application/json
+
+{
+  "formToken": "mk_live_…",
+  "webName": "My Site",
+  "emailDestiny": "owner@example.com",
+  "fullname": "Jane",
+  "email": "jane@example.com",
+  "message": "Hello"
+}
+```
+
+`emailDestiny` must match the Mailprex account email that owns the token.
+
+Full reference: [API docs](https://docs.mailprex.excelso.xyz/mailprexAPI)
+
+## Security
+
+- Regenerate legacy UUID tokens from the dashboard (`mk_live_` format).
+- Enable Turnstile on register, login, and `/email/send` when keys are set.
+- Rotate `JWT_SECRET` and SMTP credentials before production deploy.
+
+See [`SECURITY.md`](SECURITY.md) and [Migration v2](https://docs.mailprex.excelso.xyz/migration-v2).
 
 ## Contributing
 
-**_Contributions are welcome. Please open an issue or a pull request for any improvements or fixes._**
+Issues and pull requests are welcome. Please open a discussion or issue before large changes.
+
+## License
+
+[MIT](LICENSE.md)

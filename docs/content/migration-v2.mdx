@@ -1,0 +1,91 @@
+# Migrate to Mailprex v2
+
+## Form tokens (UUID → `mk_live_`)
+
+Older accounts may still use a **plaintext UUID** token stored in the database. v2 stores only a **bcrypt hash** and a visible prefix (`mk_live_…`).
+
+### For users
+
+1. Open **Dashboard → Form Token Management**.
+2. If you see a **Legacy token detected** banner, click **Regenerate secure token**.
+3. Copy the full token immediately (shown once).
+4. Update every site, `.env`, or CI secret that references the old token.
+
+### For operators
+
+List affected accounts:
+
+```bash
+cd back
+npm run report-legacy-tokens
+```
+
+Legacy tokens remain valid until regenerated. After regeneration, only the new `mk_live_` token works.
+
+API responses for legacy sends include header `X-Mailprex-Token-Legacy: true`.
+
+## SDK v1 → v2
+
+Package version `2.0.0-alpha.1` adds:
+
+- **`sendMailprex()`** — framework-agnostic fetch helper (zero React dependency for core usage).
+- **`useMailprexForm()`** — custom field maps, optional CAPTCHA token.
+
+`useMailprex` from v1 remains exported for backward compatibility.
+
+### Before (v1)
+
+```tsx
+import { useMailprex } from "mailprex";
+```
+
+### After (v2 core)
+
+```ts
+import { sendMailprex } from "mailprex";
+
+await sendMailprex({
+  url: "https://api.mailprex.excelso.xyz/email/send",
+  formToken: process.env.MAILPREX_FORM_TOKEN!,
+  webName: "My Site",
+  emailDestiny: "you@example.com",
+  fields: {
+    fullname: "Jane",
+    email: "jane@example.com",
+    message: "Hello",
+    phone: "",
+    service: "",
+  },
+});
+```
+
+### Custom fields (v2 React)
+
+```tsx
+import { useMailprexForm } from "mailprex";
+
+const { fields, handleChange, handleSubmit } = useMailprexForm({
+  url: API_URL,
+  webName: "My Site",
+  emailDestiny: "you@example.com",
+  formToken: token,
+  initialFields: { fullname: "", email: "", message: "", company: "" },
+});
+```
+
+See [SDK v2](/sdk-v2) for full reference.
+
+## Auth changes
+
+- Sessions use **httpOnly cookies** (`mailprex_token`), not `localStorage`.
+- Local dev: set `NEXT_PUBLIC_API_URL=/api` and use the Next.js rewrite proxy.
+
+## Billing (Pro)
+
+When Gumroad is configured on the API, free users can upgrade from the dashboard. Plan limits:
+
+| Plan | Emails/month |
+|---|---|
+| Free | 200 |
+| Pro (`standard`) | 5,000 |
+| Business | Unlimited |

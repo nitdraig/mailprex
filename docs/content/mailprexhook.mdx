@@ -1,84 +1,107 @@
-# Using the useMailprex Hook
+# Using the useMailprex hook
 
-## Introduction
+The `useMailprex` hook integrates Mailprex contact forms in React with minimal boilerplate.
 
-The `useMailprex` hook makes it easy to integrate contact forms into your website using Mailprex. This hook manages the state of the form, handles changes to the fields, and sends the form information through the Mailprex API.
+For custom field maps, use [`useMailprexForm`](/sdk-v2). For non-React apps, use [`sendMailprex`](/sdk-v2).
 
-To use the `useMailprex` hook, you must first install it from npm:
+## Install
 
 ```bash
-npm install usemailprex-react
+npm install mailprex
 ```
 
-## Using the Hook
+Package version `2.0.0-alpha.1` exports `useMailprex` (v1-compatible) plus v2 APIs.
 
-### Import and Configuration
+## Setup
 
-First, import the hook into your component:
+1. Register at [mailprex.excelso.xyz](https://mailprex.excelso.xyz).
+2. Generate a form token in the dashboard (`mk_live_…`).
+3. Store the token in an environment variable — do not hardcode in source.
 
-```
-import {useMailprex} from "usemailprex-react";
-```
-
-Then, configure the hook in your component:
-
-```
-const { formData, handleChange, handleSubmit, response } = useMailprex({
-  url: "https://api.mailprex.excelso.xyz/email/send", //this is the API URL
-  formToken ="yourPersonalFormToken" //It is advisable to make it an environment variable in the .env file
-  webName: "YourWebName", //Your webName 
-  emailDestiny: "destiny@example.com", //It is advisable to make it an environment variable in the .env file
-});
-  const handleFormSubmit = async (e: any) => {
-    e.preventDefault();
-    await handleSubmit(e);
-    if (response.error) {
-      alert(
-    "Error sending message. Try again later.",
-            );
-    } else {
-       alert( 
-        "Message sent succesfully!"
-         );
-    }
-  };
-
+```env
+NEXT_PUBLIC_MAILPREX_FORM_TOKEN=mk_live_…
 ```
 
-### Form Implementation
+## Basic usage
 
-Implement the form in your component using the methods provided by the hook:
+```tsx
+"use client";
+import { useMailprex } from "mailprex";
 
-```javascript
-return (
-  <form onSubmit={handleFormSubmit}>
-    <input
-      type="text"
-      name="fullname"
-      value={formData.fullname}
-      onChange={handleChange}
-      placeholder="Nombre Completo"
-    />
-    {/* Rest of the form */}
-    <button type="submit">Submit</button>
-  </form>
-);
-```
+export function ContactForm() {
+  const { formData, handleChange, handleSubmit, response } = useMailprex({
+    url: "https://api.mailprex.excelso.xyz/email/send",
+    webName: "My Website",
+    emailDestiny: "you@example.com",
+    formToken: process.env.NEXT_PUBLIC_MAILPREX_FORM_TOKEN!,
+  });
 
-### Response Management
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        name="fullname"
+        value={formData.fullname}
+        onChange={handleChange}
+        required
+      />
+      <input
+        name="email"
+        type="email"
+        value={formData.email}
+        onChange={handleChange}
+        required
+      />
+      <input name="phone" value={formData.phone} onChange={handleChange} />
+      <input name="service" value={formData.service} onChange={handleChange} />
+      <textarea
+        name="message"
+        value={formData.message}
+        onChange={handleChange}
+        required
+      />
+      <button type="submit">Send</button>
 
-The hook also provides the status of the API response, which you can use to display success or error messages:
-
-```javascript
-if (response.loading) {
-  return <p>Sending...</p>;
-}
-
-if (response.error) {
-  return <p>Error: {response.error.message}</p>;
-}
-
-if (response.data) {
-  return <p>Email sent successfully!</p>;
+      {response.loading && <p>Sending…</p>}
+      {response.error && <p>Error: {response.error}</p>}
+      {response.data && <p>Sent!</p>}
+    </form>
+  );
 }
 ```
+
+## Parameters
+
+| Prop | Type | Description |
+|---|---|---|
+| `url` | string | API endpoint (`…/email/send`) |
+| `webName` | string | Site name for the email subject |
+| `emailDestiny` | string | Your Mailprex account email |
+| `formToken` | string | Dashboard token (`mk_live_…`) |
+| `captchaToken` | string | Optional Turnstile token |
+
+## Returns
+
+| Property | Description |
+|---|---|
+| `formData` | `{ fullname, email, message, phone, service }` |
+| `handleChange` | Standard controlled input handler |
+| `handleSubmit` | POST to Mailprex API |
+| `response` | `{ data, loading, error }` |
+
+## Fixed field names
+
+The hook expects these `name` attributes on inputs:
+
+- `fullname`
+- `email`
+- `message`
+- `phone` (optional)
+- `service` (optional)
+
+For additional or renamed fields, use [`useMailprexForm`](/sdk-v2).
+
+## Next steps
+
+- [Complete example](/examples/example_1)
+- [SDK v2](/sdk-v2) — `sendMailprex()` without React
+- [Integration guide](/integration)

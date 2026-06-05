@@ -1,47 +1,62 @@
 import TokenActions from "@/app/components/DashboardComponents/TokenActions";
-
 import React from "react";
+
+interface FormTokenManagmentCardProps {
+  loading: boolean;
+  error: string | null;
+  hasToken: boolean;
+  tokenPrefix?: string;
+  revealedToken?: string | null;
+  generateToken: () => void;
+  handleDeleteToken: () => void;
+}
 
 const FormTokenManagmentCard = ({
   loading,
   error,
-  formToken,
+  hasToken,
+  tokenPrefix,
+  revealedToken,
   generateToken,
   handleDeleteToken,
-}: any) => {
+}: FormTokenManagmentCardProps) => {
   return (
-    <div className="grid sm:grid-cols-1">
-      <div className="flex flex-col justify-between relative z-10 space-y-12 lg:space-y-6">
-        <div className="space-y-2 ">
-          <h2 className="text-xl font-bold text-center text-gray-800 transition group-hover:text-purple-950 dark:text-white">
-            Form Token Management
-          </h2>
-          <div>
-            <p className="dark:text-gray-200 text-lg font-thin text-secondary text-center mb-4">
-              Remember see the {""}
-              <a
-                className="text-blue-700 dark:text-blue-300 pointer"
-                target="_blank"
-                href="https://docs.mailprex.excelso.xyz"
-              >
-                Mailprex Docs
-              </a>
-              , and not share your form token, is private.
-            </p>
-          </div>
-          <div className="dark:text-gray-300 text-gray-700">
-            {loading && (
-              <p className="text-gray-500 text-center">Loading...</p>
-            )}
-            {error && <p className="text-red-500 text-center">{error}</p>}
-            <TokenActions
-              formToken={formToken}
-              generateFormToken={generateToken}
-              deleteFormToken={handleDeleteToken}
-            />
-          </div>
-        </div>
-      </div>
+    <div>
+      <p className="postal-eyebrow-dark mb-2 text-center sm:text-left">Security</p>
+      <h2 className="postal-dashboard-title mb-3 text-center sm:text-left">
+        Form Token Management
+      </h2>
+      <p className="postal-dashboard-stat mb-6 text-center sm:text-left">
+        Read the{" "}
+        <a
+          className="font-semibold text-primary underline-offset-2 hover:underline dark:text-accent"
+          target="_blank"
+          rel="noreferrer"
+          href="https://docs.mailprex.excelso.xyz"
+        >
+          Mailprex Docs
+        </a>
+        . Never share your form token — it is private.
+      </p>
+
+      {loading ? (
+        <p className="text-center text-sm text-secondary/60 dark:text-accent/70">
+          Loading...
+        </p>
+      ) : null}
+      {error ? (
+        <p className="mb-4 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-center text-sm text-red-600">
+          {error}
+        </p>
+      ) : null}
+
+      <TokenActions
+        hasToken={hasToken}
+        prefix={tokenPrefix}
+        revealedToken={revealedToken}
+        generateFormToken={generateToken}
+        deleteFormToken={handleDeleteToken}
+      />
     </div>
   );
 };

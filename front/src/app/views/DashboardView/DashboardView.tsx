@@ -2,11 +2,7 @@ import React from "react";
 import ProfileAndStadisticView from "./ProfileAndStadistics/ProfileAndStadistics";
 
 const DashboardView = () => {
-  return (
-    <section className="lg:h-screen w-full flex mb-10  justify-center bg-accent dark:bg-secondary">
-      <ProfileAndStadisticView />
-    </section>
-  );
+  return <ProfileAndStadisticView />;
 };
 
 export default DashboardView;

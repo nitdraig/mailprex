@@ -1,19 +1,80 @@
 # Integration Guide
 
-## Introduction
+This guide walks you through connecting a website to Mailprex.
 
-The Integration Guide provides you with detailed instructions for integrating Mailprex into the front end of your website. Here you’ll find code examples and best practices to ensure a smooth integration.
+## Step 1 — Create an account
 
-## Steps for Integration
+Register at [mailprex.excelso.xyz](https://mailprex.excelso.xyz/register), verify your email, and log in.
 
-1. **Step 1: Registration in Mailprex**
+## Step 2 — Generate a form token
 
-   Before starting, you need to sign up for Mailprex and get your API credentials. You can register on our [home page](https://www.mailprex.excelso.xyz/login).
+1. Open **Dashboard** → **Form Token Management**.
+2. Click **Generate Form Token**.
+3. **Copy the full token immediately** — it uses the `mk_live_…` format and is only shown once.
+4. Save it in an environment variable, for example:
 
-2. **Step 2: Installation and Configuration**
+```env
+MAILPREX_FORM_TOKEN=mk_live_xxxxxxxx…
+```
 
-   Follow the instructions in our [guide to install, configure and use MailprexHook](/mailprexhook) on your website. This includes including the script in your jsx or tsx react component and setting the necessary parameters.
+If you see a **Legacy token** banner, regenerate to migrate from the old UUID format.
 
-3. **Step 3: Form Integration**
+## Step 3 — Install the SDK
 
-   Once set up, you can easily integrate contact forms into your website using our API. Check out our documentation to learn about the different integration methods available.
+```bash
+npm install mailprex
+```
+
+For custom field maps or non-React apps, see [SDK v2](/sdk-v2).
+
+## Step 4 — Add the form
+
+Minimum required body fields for `/email/send`:
+
+| Field | Description |
+|---|---|
+| `formToken` | Your dashboard token |
+| `webName` | Site or product name (email subject) |
+| `emailDestiny` | **Must match** your Mailprex account email |
+| `fullname` | Sender name from the form |
+| `email` | Sender email from the form |
+| `message` | Message body |
+
+Optional: `phone`, `service`, `captchaToken` (when Turnstile is enabled on the API).
+
+### React (recommended)
+
+Follow [useMailprex](/mailprexhook) or the [complete example](/examples/example_1).
+
+### Plain fetch
+
+```ts
+await fetch("https://api.mailprex.excelso.xyz/email/send", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    formToken: process.env.MAILPREX_FORM_TOKEN,
+    webName: "My Site",
+    emailDestiny: "you@example.com",
+    fullname: "Jane",
+    email: "jane@example.com",
+    message: "Hello",
+  }),
+});
+```
+
+## Step 5 — Test
+
+Submit the form and check your inbox. If sending fails:
+
+- Confirm `emailDestiny` matches your account email exactly.
+- Confirm the token is the full `mk_live_…` value, not just the dashboard prefix.
+- Check monthly quota on the dashboard (Free: 200/month).
+
+## Upgrade plan
+
+Free users can upgrade to **Pro** from the dashboard when [Gumroad billing](/gumroad-billing) is enabled. Use the **same email** on Gumroad as on Mailprex.
+
+## Self-host
+
+Run your own API with Docker: [Self-host guide](/self-host).

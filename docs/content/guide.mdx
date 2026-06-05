@@ -1,44 +1,41 @@
-# User Fields Guide in Mailprex
+# User fields guide
 
-The `sendEmail` endpoint is an API function that allows you to send emails using the nodemailer service in Express. To use this endpoint correctly, certain information must be provided in the application. Below is a detailed explanation of these data:
+The `POST /email/send` endpoint accepts JSON and delivers a formatted email to the account owner.
 
-- **emailDestiny:**
-  - Type: String
-  - Description: The email address of the message recipient
-  - Required: Yes
+**Base URL:** `https://api.mailprex.excelso.xyz/email/send`
 
-- **fullname:**
-  - Type: String
-  - Description: The full name of the message sender
-  - Required: Yes
+## Required fields
 
-- **email:**
-  - Type: String
-  - Description: The email address of the message sender
-  - Required: Yes
+| Field | Type | Description |
+|---|---|---|
+| `emailDestiny` | string | Recipient email — **must match** the Mailprex account that owns the token |
+| `fullname` | string | Name entered in the form |
+| `email` | string | Email entered in the form |
+| `message` | string | Message body |
+| `webName` | string | Website or form label (used in subject line) |
+| `formToken` | string | Private token from the dashboard (`mk_live_…`) |
 
-- **message:**
-  - Type: String
-  - Description: The content of the message to be sent via email
-  - Required: Yes
+## Optional fields
 
-  - **webName:**
-  - Type: String
-  - Description: The name of the website from which the message is sent
-  - Required: Yes
+| Field | Type | Description |
+|---|---|---|
+| `phone` | string | Sender phone number |
+| `service` | string | Service or topic |
+| `captchaToken` | string | Cloudflare Turnstile token (required when CAPTCHA is enabled on the API) |
 
-- **formToken:**
-  - Type: String
-  - Description: A unique token associated with a specific form created by the user in Mailprex
-  - Required: Yes
+## Validation and limits
 
-- **phone:**
-  - Type: String
-  - Description: The phone number of the message sender (optional)
-  - Required: No
+- Invalid or missing token → `401`
+- `emailDestiny` ≠ account email → `403`
+- Monthly quota exceeded → `429`
+- Too many sends to the same recipient per hour → `429`
 
-- **service:**
-  - Type: String
-  - Description: The service related to the message (optional)
-  - Required: No
+Plan limits: Free 200/month, Pro 5,000/month, Business unlimited.
 
+## Token security
+
+- New tokens use prefix `mk_live_` and are stored as a bcrypt hash server-side.
+- The dashboard shows only a prefix after generation; regenerate if you lose the secret.
+- Legacy UUID tokens still work until regenerated.
+
+See [Migration v2](/migration-v2).

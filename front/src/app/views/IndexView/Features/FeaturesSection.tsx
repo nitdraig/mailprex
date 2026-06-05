@@ -4,124 +4,93 @@ import { FaReact } from "react-icons/fa";
 import { GrUserAdmin } from "react-icons/gr";
 import { IoDocumentText } from "react-icons/io5";
 import { MdQueryStats } from "react-icons/md";
+import type { IconType } from "react-icons";
+
+const FEATURES = [
+  {
+    icon: FaReact,
+    title: "React hook",
+    description:
+      "Import from npm, load the basic data, and start delivering form submissions in minutes.",
+    highlighted: false,
+  },
+  {
+    icon: GrUserAdmin,
+    title: "Token management",
+    description:
+      "Create a sending token, copy the one you have, or delete the existing one from the platform.",
+    highlighted: false,
+  },
+  {
+    icon: MdQueryStats,
+    title: "Usage control",
+    description:
+      "Track remaining messages, renew your plan, or unsubscribe whenever you need.",
+    highlighted: false,
+  },
+  {
+    icon: IoDocumentText,
+    title: "Documentation",
+    description:
+      "Easy access, lightweight implementation, and fast integration for any stack.",
+    highlighted: true,
+  },
+] as const;
+
+const FeatureCard = ({
+  icon: Icon,
+  title,
+  description,
+  highlighted,
+}: {
+  icon: IconType;
+  title: string;
+  description: string;
+  highlighted?: boolean;
+}) => (
+  <article
+    className={`group postal-feature-card ${highlighted ? "bg-accent/30 lg:col-span-1" : ""}`}
+  >
+    <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-xl border border-primary/15 bg-primary/5">
+      <Icon className="h-8 w-8 text-primary" />
+    </div>
+    <div className="space-y-2">
+      <h3 className="text-xl font-bold uppercase tracking-[0.05em] text-secondary">
+        {title}
+      </h3>
+      <p className="text-sm leading-relaxed text-secondary/70">{description}</p>
+    </div>
+    <a
+      href="https://docs.mailprex.excelso.xyz"
+      target="_blank"
+      rel="noreferrer"
+      className="mt-8 flex items-center justify-between rounded-xl border border-transparent px-2 py-3 text-sm font-semibold uppercase tracking-[0.1em] text-primary transition-all duration-300 group-hover:border-primary/10 group-hover:bg-primary/5"
+    >
+      Read more
+      <span className="-translate-x-3 text-2xl opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
+        <BiArrowToRight />
+      </span>
+    </a>
+  </article>
+);
 
 const FeaturesSection = () => {
   return (
-    <section
-      className="bg-gradient-to-br from-accent via-primary/90 to-primary py-16 h-full lg:h-screen overflow-hidden"
-      id="features"
-    >
-      <div className="container m-auto px-6 space-y-8  md:px-12">
-        <div>
-          <span className="text-secondary uppercase text-lg font-semibold">
-            Main features
-          </span>
-          <h2 className="mt-4 text-3xl text-secondary font-bold lg:text-4xl">
-            Quick, accessible, economical
-            <br className="lg:block" hidden />
-            and private
+    <section className="postal-mesh-bg postal-section" id="features">
+      <div aria-hidden className="postal-grid-overlay absolute inset-0 opacity-60" />
+
+      <div className="postal-section-inner">
+        <div className="mb-14 max-w-2xl">
+          <p className="postal-eyebrow mb-4 text-accent/75">Main features</p>
+          <h2 className="text-3xl font-bold uppercase leading-tight tracking-[0.05em] text-white lg:text-5xl">
+            Quick, accessible, economical and private
           </h2>
         </div>
-        <div className="mt-16 grid border divide-x divide-y rounded-xl overflow-hidden sm:grid-cols-2 lg:divide-y-0 lg:grid-cols-3 xl:grid-cols-4">
-          <div className="relative group bg-white transition hover:z-[1] hover:shadow-2xl">
-            <div className="relative p-8 space-y-8">
-              <FaReact className="w-16 h-16 text-primary" />
 
-              <div className="space-y-2">
-                <h5 className="text-xl text-gray-800 font-medium transition ">
-                  First feature
-                </h5>
-                <p className="text-sm text-secondary">
-                  Hook for react You import from npm, load the basic data.
-                  <br />
-                </p>
-              </div>
-              <a
-                href="https://docs.mailprex.excelso.xyz"
-                target="_blank"
-                className="flex hover:bg-primary py-3 px-2 rounded-lg text-secondary hover:text-accent  justify-between items-center "
-              >
-                Read more
-                <span className="-translate-x-4 opacity-0 text-2xl transition duration-300 group-hover:opacity-100 group-hover:translate-x-0">
-                  <BiArrowToRight />
-                </span>
-              </a>
-            </div>
-          </div>
-          <div className="relative group bg-white transition hover:z-[1] hover:shadow-2xl">
-            <div className="relative p-8 space-y-8">
-              <GrUserAdmin className="w-16 h-16 text-primary" />
-
-              <div className="space-y-2">
-                <h5 className="text-xl text-gray-800 font-medium transition ">
-                  Second feature
-                </h5>
-                <p className="text-sm text-secondary">
-                  You can create a sending token, copy the one you have or
-                  delete the existing one from the platform.
-                </p>
-              </div>
-              <a
-                href="https://docs.mailprex.excelso.xyz"
-                target="_blank"
-                className="flex hover:bg-primary py-3 px-2 rounded-lg text-secondary hover:text-accent  justify-between items-center "
-              >
-                Read more
-                <span className="-translate-x-4 opacity-0 text-2xl transition duration-300 group-hover:opacity-100 group-hover:translate-x-0">
-                  <BiArrowToRight />
-                </span>
-              </a>
-            </div>
-          </div>
-          <div className="relative group bg-white transition hover:z-[1] hover:shadow-2xl">
-            <div className="relative p-8 space-y-8">
-              <MdQueryStats className="w-16 h-16 text-primary" />
-
-              <div className="space-y-2">
-                <h5 className="text-xl text-gray-800 font-medium transition ">
-                  Third feature
-                </h5>
-                <p className="text-sm text-secondary">
-                  Control the number of messages you have left, renew your plan
-                  or unsubscribe.
-                </p>
-              </div>
-              <a
-                href="https://docs.mailprex.excelso.xyz"
-                target="_blank"
-                className="flex hover:bg-primary py-3 px-2 rounded-lg text-secondary hover:text-accent  justify-between items-center "
-              >
-                Read more
-                <span className="-translate-x-4 opacity-0 text-2xl transition duration-300 group-hover:opacity-100 group-hover:translate-x-0">
-                  <BiArrowToRight />
-                </span>
-              </a>
-            </div>
-          </div>
-          <div className="relative group bg-gray-100 transition hover:z-[1] hover:shadow-2xl lg:hidden xl:block">
-            <div className="relative p-8 space-y-8 border-dashed rounded-lg transition duration-300 group-hover:bg-white group-hover:border group-hover:scale-90">
-              <IoDocumentText className="w-16 h-16 text-primary" />
-              <div className="space-y-2">
-                <h5 className="text-xl text-gray-800 font-medium transition ">
-                  Read Documentation
-                </h5>
-                <p className="text-sm text-secondary">
-                  Read the documentation: easy access, implementation,
-                  lightweight, fast.
-                </p>
-              </div>
-              <a
-                href="https://docs.mailprex.excelso.xyz"
-                target="_blank"
-                className="flex hover:bg-primary py-3 px-2 rounded-lg text-secondary hover:text-accent  justify-between items-center "
-              >
-                Read more
-                <span className="-translate-x-4 opacity-0 text-2xl transition duration-300 group-hover:opacity-100 group-hover:translate-x-0">
-                  <BiArrowToRight />
-                </span>
-              </a>
-            </div>
-          </div>
+        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          {FEATURES.map((feature) => (
+            <FeatureCard key={feature.title} {...feature} />
+          ))}
         </div>
       </div>
     </section>

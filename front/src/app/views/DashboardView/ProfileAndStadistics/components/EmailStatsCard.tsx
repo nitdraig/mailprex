@@ -1,23 +1,36 @@
 import React from "react";
 import { ImStatsBars } from "react-icons/im";
 
-const EmailStats = ({ sentEmails, remainingEmails }: any) => {
+type EmailStatsProps = {
+  sentEmails: number;
+  remainingEmails: string | number;
+};
+
+const EmailStats = ({ sentEmails, remainingEmails }: EmailStatsProps) => {
   return (
     <div>
-      <div className="mt-4 text-left relative z-10 space-y-2">
-        <div className="text-center flex items-center">
-          <h3 className="lg:text-3xl text-2xl  font-medium text-gray-800 transition group-hover:text-purple-950 dark:text-white">
-            Your Stats
-          </h3>
-          <ImStatsBars className="w-16 h-16 dark:text-accent text-primary ml-8 mb-2" />
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <div>
+          <p className="postal-eyebrow-dark mb-1">Usage</p>
+          <h3 className="postal-dashboard-title">Your Stats</h3>
         </div>
-        <p className="dark:text-gray-300  text-xl text-gray-700">
-          Total Sent Emails:
-          <span className="text-green-500 font-bold"> {sentEmails}</span>
+        <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-primary/15 bg-primary/5 text-primary dark:border-accent/20 dark:bg-white/5 dark:text-accent">
+          <ImStatsBars className="text-2xl" />
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        <p className="postal-dashboard-stat">
+          Total sent emails:
+          <span className="ml-2 text-emerald-600 dark:text-emerald-400">
+            {sentEmails}
+          </span>
         </p>
-        <p className="dark:text-gray-300  text-xl text-gray-700">
-          Total Remaining Emails:
-          <span className="text-red-500 font-bold"> {remainingEmails}</span>
+        <p className="postal-dashboard-stat">
+          Remaining emails:
+          <span className="ml-2 text-rose-600 dark:text-rose-400">
+            {remainingEmails}
+          </span>
         </p>
       </div>
     </div>

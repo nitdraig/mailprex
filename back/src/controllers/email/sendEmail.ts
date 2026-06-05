@@ -1,19 +1,13 @@
-import nodemailer from "nodemailer";
-import { Request, Response } from "express";
+import { Response } from "express";
 import { body, validationResult } from "express-validator";
-import User from "../../models/userModel";
+import { CustomRequest } from "../../types/CustomRequest";
+import Send from "../../models/sendModel";
+import { transporter } from "../../config/transporterConfig";
 import { escapeHtml } from "../../utils/escapeHtml";
+import { isLegacyFormToken } from "../../utils/formToken";
 import dotenv from "dotenv";
 
 dotenv.config();
-
-const transporter = nodemailer.createTransport({
-  service: "Gmail",
-  auth: {
-    user: process.env.EMAILSEND!,
-    pass: process.env.PASS!,
-  },
-});
 
 export const sendEmail = [
   body("emailDestiny").isEmail().withMessage("Invalid destination email"),
@@ -23,10 +17,15 @@ export const sendEmail = [
   body("webName").notEmpty().withMessage("The website name is required"),
   body("formToken").notEmpty().withMessage("Form token is required"),
 
-  async (req: Request, res: Response) => {
+  async (req: CustomRequest, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
+    }
+
+    const user = req.user;
+    if (!user) {
+      return res.status(401).json({ message: "Invalid form token" });
     }
 
     const {
@@ -37,33 +36,28 @@ export const sendEmail = [
       service,
       webName,
       emailDestiny,
-      formToken,
     } = req.body;
 
-    try {
-      const user = await User.findOne({ formToken });
-      if (!user) {
-        return res.status(401).json({ message: "Form Token is not valid" });
-      }
+    const normalizedDestiny = String(emailDestiny).toLowerCase();
 
-      if (emailDestiny.toLowerCase() !== user.email.toLowerCase()) {
-        return res.status(403).json({
-          message: "Destination email must match the account owner email",
-        });
-      }
+    if (normalizedDestiny !== user.email.toLowerCase()) {
+      return res.status(403).json({
+        message: "Destination email must match the account owner email",
+      });
+    }
 
-      const safeWebName = escapeHtml(webName);
-      const safeFullname = escapeHtml(fullname);
-      const safeEmail = escapeHtml(email);
-      const safePhone = phone ? escapeHtml(phone) : "";
-      const safeService = service ? escapeHtml(service) : "";
-      const safeMessage = escapeHtml(message);
+    const safeWebName = escapeHtml(webName);
+    const safeFullname = escapeHtml(fullname);
+    const safeEmail = escapeHtml(email);
+    const safePhone = phone ? escapeHtml(phone) : "";
+    const safeService = service ? escapeHtml(service) : "";
+    const safeMessage = escapeHtml(message);
 
-      const mailOptions = {
-        from: process.env.EMAILSEND!,
-        to: emailDestiny,
-        subject: `A new message from your site: ${safeWebName}`,
-        html: `
+    const mailOptions = {
+      from: process.env.EMAILSEND!,
+      to: normalizedDestiny,
+      subject: `A new message from your site: ${safeWebName}`,
+      html: `
   <html>
     <head>
       <style>
@@ -71,7 +65,7 @@ export const sendEmail = [
           font-family: Arial, sans-serif;
           background-color: #f4f4f4;
           padding: 20px;
-          color: #1f1f20; /* Color de texto secundario */
+          color: #1f1f20;
         }
         .container {
           max-width: 600px;
@@ -82,16 +76,16 @@ export const sendEmail = [
           padding: 20px;
         }
         h2 {
-          color: #2b4c7e; /* Color primario */
+          color: #2b4c7e;
           margin-bottom: 15px;
         }
         p {
           margin-bottom: 10px;
         }
         .message {
-          border-left: 5px solid #007bff; /* Color de acento */
+          border-left: 5px solid #007bff;
           padding-left: 10px;
-          background-color: #dce0e6; /* Color de fondo de acento */
+          background-color: #dce0e6;
           margin-top: 20px;
         }
       </style>
@@ -111,17 +105,40 @@ export const sendEmail = [
     </body>
   </html>
 `,
-      };
+    };
 
+    try {
       await transporter.sendMail(mailOptions);
 
       user.requestCount += 1;
       user.lastRequest = new Date();
       await user.save();
 
+      await Send.create({
+        userId: user._id,
+        to: normalizedDestiny,
+        webName,
+        status: "sent",
+      });
+
+      if (isLegacyFormToken(user)) {
+        res.setHeader("X-Mailprex-Token-Legacy", "true");
+      }
+
       res.status(200).json({ message: "Form sent successfully" });
     } catch (error) {
       console.error("Failed to send email, try again in 3 minutes", error);
+
+      await Send.create({
+        userId: user._id,
+        to: normalizedDestiny,
+        webName,
+        status: "failed",
+        error: error instanceof Error ? error.message : "Unknown error",
+      }).catch((logError) => {
+        console.error("Failed to log send attempt:", logError);
+      });
+
       res.status(500).json({ error: "Failed to send, try again in 3 minutes" });
     }
   },

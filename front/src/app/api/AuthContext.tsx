@@ -8,224 +8,177 @@ import React, {
 } from "react";
 import { AuthContextType, UserData } from "../types/Types";
 import {
-  getFormToken as apiGetFormToken,
-  generateFormToken as apiGenerateFormToken,
   deleteFormToken as apiDeleteFormToken,
+  generateFormToken as apiGenerateFormToken,
+  getFormToken as apiGetFormToken,
 } from "../api/api";
+import { authFetch } from "../api/fetchAuth";
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
-  const REALAPI = process.env.NEXT_PUBLIC_API_URL;
-
   const [email, setEmail] = useState<string | null>(null);
-  const [token, setToken] = useState<string | null>(null);
   const [isAuthReady, setIsAuthReady] = useState(false);
-
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [formToken, setFormToken] = useState<string | null>(null);
-  const isAuthenticated = !!token;
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      setToken(storedToken);
-    }
-    setIsAuthReady(true);
-  }, []);
-
-  const login = async (email: string, password: string) => {
-    try {
-      const response = await fetch(`${REALAPI}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to login");
-      }
-
-      const { token, message } = data;
-
-      if (typeof window !== "undefined") {
-        setToken(token);
-        localStorage.setItem("token", token);
-      }
-      setEmail(email);
-    } catch (error) {
-      console.error("Error during login:", error);
-      throw new Error("Failed to login");
-    }
-  };
 
   const getUserData = useCallback(async () => {
-    if (!token) return;
-
     try {
-      const response = await fetch(`${REALAPI}/auth/user`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await authFetch("/auth/user");
       if (!response.ok) {
         throw new Error("Failed to fetch user data");
       }
-      const data = await response.json();
+      const data = (await response.json()) as UserData;
       setUserData(data);
       setEmail(data.email);
+      setIsAuthenticated(true);
     } catch (error) {
       console.error("Error fetching user data:", error);
+      setUserData(null);
+      setEmail(null);
+      setIsAuthenticated(false);
     }
-  }, [REALAPI, token]);
+  }, []);
 
   useEffect(() => {
-    if (token) {
-      getUserData();
+    const bootstrapSession = async () => {
+      try {
+        const response = await authFetch("/auth/me");
+        if (response.ok) {
+          const data = (await response.json()) as UserData;
+          setUserData(data);
+          setEmail(data.email);
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
+      } catch {
+        setIsAuthenticated(false);
+      } finally {
+        setIsAuthReady(true);
+      }
+    };
+
+    bootstrapSession();
+  }, []);
+
+  const login = async (
+    email: string,
+    password: string,
+    captchaToken?: string
+  ) => {
+    const response = await authFetch("/auth/login", {
+      method: "POST",
+      body: JSON.stringify({ email, password, captchaToken }),
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to login");
     }
-  }, [token, getUserData]);
+
+    setIsAuthenticated(true);
+    setEmail(email);
+    if (data.user) {
+      setUserData(data.user);
+    } else {
+      await getUserData();
+    }
+  };
 
   const register = async (
     name: string,
     lastName: string,
     email: string,
-    password: string
+    password: string,
+    captchaToken?: string
   ) => {
-    try {
-      const response = await fetch(`${REALAPI}/auth/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, lastName, email, password }),
-      });
+    const response = await authFetch("/auth/register", {
+      method: "POST",
+      body: JSON.stringify({
+        name,
+        lastName,
+        email,
+        password,
+        captchaToken,
+      }),
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to register");
-      }
-      const { message } = data;
-    } catch (error) {
-      console.error("Error during registration:", error);
-      throw new Error("Failed to register");
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to register");
     }
   };
 
   const updateUser = async (userData: UserData) => {
-    if (!token) return;
+    const response = await authFetch(`/auth/user/${userData._id}`, {
+      method: "PUT",
+      body: JSON.stringify(userData),
+    });
 
-    try {
-      const response = await fetch(`${REALAPI}/auth/user/${userData._id}`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to update user");
-      }
-
-      const data = await response.json();
-      setUserData(data);
-    } catch (error) {
-      console.error("Error updating user:", error);
+    if (!response.ok) {
       throw new Error("Failed to update user");
     }
+
+    const data = (await response.json()) as UserData;
+    setUserData(data);
   };
 
   const deleteUser = async () => {
-    if (!token) return;
+    const response = await authFetch("/auth/delete", { method: "DELETE" });
 
-    try {
-      const response = await fetch(`${REALAPI}/auth/delete`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to delete user");
-      }
-
-      logout();
-    } catch (error) {
-      console.error("Error deleting user:", error);
+    if (!response.ok) {
       throw new Error("Failed to delete user");
     }
+
+    await logout();
   };
+
   const changePassword = async (
     currentPassword: string,
     newPassword: string
   ) => {
-    if (!token) return;
+    const response = await authFetch("/auth/changePassword", {
+      method: "PUT",
+      body: JSON.stringify({ currentPassword, newPassword }),
+    });
 
-    try {
-      const response = await fetch(`${REALAPI}/auth/changePassword`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ currentPassword, newPassword }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to change password");
-      }
-
-      const data = await response.json();
-    } catch (error) {
-      console.error("Error changing password:", error);
+    if (!response.ok) {
       throw new Error("Failed to change password");
     }
   };
 
   const getFormToken = async () => {
-    if (!token) return;
-
-    try {
-      const formToken = await apiGetFormToken(token);
-      setFormToken(formToken);
-    } catch (error) {
-      console.error("Error fetching form token:", error);
-    }
+    const status = await apiGetFormToken();
+    setFormToken(status.hasToken ? status.prefix ?? "active" : null);
   };
+
   const generateFormToken = async (email: string) => {
-    if (!token) return;
-
-    try {
-      const formToken = await apiGenerateFormToken(token, email);
-      setFormToken(formToken);
-    } catch (error) {
-      console.error("Error generating form token:", error);
-    }
+    const result = await apiGenerateFormToken(email);
+    setFormToken(result.formToken);
   };
+
   const deleteFormToken = async () => {
-    if (!token) return;
-
-    try {
-      await apiDeleteFormToken(token, email!);
-      setFormToken(null);
-    } catch (error) {
-      console.error("Error deleting form token:", error);
-    }
+    if (!email) return;
+    await apiDeleteFormToken(email);
+    setFormToken(null);
   };
 
-  const logout = () => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("token");
+  const logout = async () => {
+    try {
+      await authFetch("/auth/logout", { method: "POST" });
+    } catch (error) {
+      console.error("Error during logout:", error);
     }
-    setToken(null);
+
+    setIsAuthenticated(false);
     setEmail(null);
     setUserData(null);
+    setFormToken(null);
   };
 
   return (
@@ -234,7 +187,7 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
         isAuthenticated,
         isAuthReady,
         changePassword,
-        token,
+        token: null,
         email,
         formToken,
         setFormToken,

@@ -1,11 +1,38 @@
-     # Welcome to the Mailprex Documentation!
+# Introduction
 
-        Here you will find all the information you need to integrate and use our email sending platform on your website. If you have any questions that are not covered here, please feel free to contact our technical support team.
+Welcome to Mailprex — a simple, secure way to send emails from website contact forms without building a backend.
 
-        ## Sections:
+## How it works
 
-        - [Introduction](/introduction)
-        - [API Reference](/api)
-        - [Integration Guide](/integration)
-        - [Using the Hook useMailprexForm](/mailprexhook)
-        - [Frequently Asked Questions](/faq)
+```
+Your website form  →  POST /email/send  →  Mailprex API  →  Your inbox
+                         (formToken)
+```
+
+1. Create a Mailprex account and verify your email.
+2. Generate a **form token** in the dashboard (`mk_live_…` format).
+3. Install the [`mailprex`](https://www.npmjs.com/package/mailprex) npm package or call the API directly.
+4. Form submissions arrive at the email address on your account.
+
+## Documentation sections
+
+- [Integration guide](/integration) — step-by-step setup
+- [API reference](/mailprexAPI) — `POST /email/send`
+- [SDK v2](/sdk-v2) — `sendMailprex()` and `useMailprexForm()`
+- [useMailprex hook](/mailprexhook) — v1-compatible React hook
+- [Migration v2](/migration-v2) — tokens, auth, and SDK changes
+- [Deployment modes](/deployment-modes) — public, self-host, internal
+- [Self-host (Docker)](/self-host)
+- [Gumroad billing](/gumroad-billing) — Pro and Business plans
+- [Examples](/examples/example_1)
+
+## Security notes
+
+- Tokens are **hashed** in the database; the full secret is shown **once** when generated.
+- Legacy UUID tokens still work — regenerate from the dashboard to migrate.
+- `emailDestiny` in each request must match your account email (anti-relay).
+- Optional Cloudflare Turnstile on register, login, and send.
+
+## Support
+
+Questions or bugs: [GitHub issues](https://github.com/nitdraig/mailprex-app/issues) or [contact](https://agustin.top/#contact).

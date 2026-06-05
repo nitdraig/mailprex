@@ -1,40 +1,65 @@
 import Link from "next/link";
-import React from "react";
-import { CgProfile, CgTemplate } from "react-icons/cg";
+import { CgTemplate } from "react-icons/cg";
 import { FaMoon } from "react-icons/fa";
 import { IoSunnyOutline } from "react-icons/io5";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 
-const DashboardSideBar = ({ toggleDarkMode, darkMode }: any) => {
-  return (
-    <aside className="lg:w-24 w-20 mt-10 flex flex-col items-center  py-4">
-      <ul className="mt-2 text-gray-700 dark:text-gray-400 capitalize">
-        <li className="mt-3 p-2 text-blue-600 dark:text-blue-300 rounded-lg">
-          <Link href="/dashboard" className=" flex flex-col items-center">
-            <MdOutlineSpaceDashboard />
-            <span className="text-xs mt-2">DashBoard</span>
-          </Link>
-        </li>
+type DashboardSideBarProps = {
+  toggleDarkMode: () => void;
+  darkMode: boolean;
+};
 
-        <li
-          className="mt-3 p-2 hover:text-blue-600 dark-hover:text-blue-300
-				rounded-lg"
+const navItemClass =
+  "flex flex-col items-center gap-1.5 rounded-xl border border-transparent px-3 py-3 text-secondary/70 transition-all duration-300 hover:border-primary/15 hover:bg-white/60 hover:text-primary dark:text-accent/70 dark:hover:border-accent/20 dark:hover:bg-white/5 dark:hover:text-white";
+
+const navItemActiveClass =
+  "flex flex-col items-center gap-1.5 rounded-xl border border-primary/20 bg-white/80 px-3 py-3 text-primary shadow-sm dark:border-accent/25 dark:bg-white/10 dark:text-white";
+
+const DashboardSideBar = ({
+  toggleDarkMode,
+  darkMode,
+}: DashboardSideBarProps) => {
+  return (
+    <aside className="flex w-20 shrink-0 flex-col items-center border-r border-primary/10 bg-white/50 py-6 backdrop-blur-md dark:border-accent/15 dark:bg-primary/80 sm:w-24">
+      <Link href="/" className="mb-8 hidden sm:block" aria-label="Back to home">
+        <img
+          className="h-10 w-10 rounded-full border border-primary/20 object-cover dark:border-accent/25"
+          src="https://mailprex.excelso.xyz/logo.webp"
+          alt="Mailprex"
+        />
+      </Link>
+
+      <nav aria-label="Dashboard navigation" className="flex flex-1 flex-col gap-2">
+        <Link href="/dashboard" className={navItemActiveClass}>
+          <MdOutlineSpaceDashboard className="text-xl" />
+          <span className="text-[10px] font-bold uppercase tracking-[0.12em]">
+            Home
+          </span>
+        </Link>
+
+        <a
+          href="https://docs.mailprex.excelso.xyz"
+          target="_blank"
+          rel="noreferrer"
+          className={navItemClass}
         >
-          <a
-            target="_blank"
-            href="https://docs.mailprex.excelso.xyz"
-            className=" flex flex-col items-center"
-          >
-            <CgTemplate />
-            <span className="text-xs mt-2">Docs</span>
-          </a>
-        </li>
-      </ul>
-      <button className="p-2 m-4   focus:outline-none" onClick={toggleDarkMode}>
+          <CgTemplate className="text-xl" />
+          <span className="text-[10px] font-bold uppercase tracking-[0.12em]">
+            Docs
+          </span>
+        </a>
+      </nav>
+
+      <button
+        type="button"
+        className="mt-4 rounded-xl border border-primary/15 p-3 text-primary transition-colors hover:bg-white/70 dark:border-accent/20 dark:text-accent dark:hover:bg-white/10"
+        onClick={toggleDarkMode}
+        aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+      >
         {darkMode ? (
-          <IoSunnyOutline className=" text-accent" />
+          <IoSunnyOutline className="text-lg" />
         ) : (
-          <FaMoon className=" text-secondary" />
+          <FaMoon className="text-lg" />
         )}
       </button>
     </aside>

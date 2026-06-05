@@ -2,33 +2,43 @@ import React from "react";
 import TokenDisplay from "./TokenDisplay";
 
 interface TokenActionsProps {
-  formToken: string | null;
+  hasToken: boolean;
+  prefix?: string;
+  revealedToken?: string | null;
   generateFormToken: () => void;
   deleteFormToken: () => void;
 }
 
 const TokenActions: React.FC<TokenActionsProps> = ({
-  formToken,
+  hasToken,
+  prefix,
+  revealedToken,
   generateFormToken,
   deleteFormToken,
 }) => {
+  if (hasToken || revealedToken) {
+    return (
+      <TokenDisplay
+        prefix={prefix}
+        revealedToken={revealedToken}
+        deleteFormToken={deleteFormToken}
+        onRegenerate={generateFormToken}
+      />
+    );
+  }
+
   return (
-    <div className=" w-full  ">
-      {formToken ? (
-        <TokenDisplay formToken={formToken} deleteFormToken={deleteFormToken} />
-      ) : (
-        <div>
-          <p className="dark:text-gray-200 text-white font-semibold mb-4">
-            There is no Form Token
-          </p>
-          <button
-            onClick={generateFormToken}
-            className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-300"
-          >
-            Generate Form Token
-          </button>
-        </div>
-      )}
+    <div className="text-center sm:text-left">
+      <p className="postal-dashboard-stat mb-4 font-semibold">
+        There is no form token yet.
+      </p>
+      <button
+        type="button"
+        onClick={generateFormToken}
+        className="postal-btn-primary !rounded-xl !normal-case !tracking-normal"
+      >
+        Generate Form Token
+      </button>
     </div>
   );
 };

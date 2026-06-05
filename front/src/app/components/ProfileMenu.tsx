@@ -38,17 +38,18 @@ const ProfileMenu = ({ photo, onLogout }: ProfileMenuProps) => {
       </button>
 
       {open ? (
-        <div className="absolute right-0 mt-2 w-44 rounded-lg border border-gray-200 bg-white py-1 shadow-lg dark:border-gray-700 dark:bg-primary z-50">
+        <div className="absolute right-0 z-50 mt-3 w-48 overflow-hidden rounded-xl border border-accent/25 bg-primary/95 py-1 shadow-[0_12px_40px_-12px_rgba(15,28,48,0.65)] backdrop-blur-xl">
+          <div aria-hidden className="postal-route-line" />
           <Link
             href="/dashboard"
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-white/10"
+            className="block px-4 py-2.5 text-sm font-semibold uppercase tracking-[0.08em] text-accent/90 transition-colors hover:bg-white/5 hover:text-white"
             onClick={() => setOpen(false)}
           >
             Dashboard
           </Link>
           <button
             type="button"
-            className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/10"
+            className="block w-full px-4 py-2.5 text-left text-sm font-semibold uppercase tracking-[0.08em] text-red-300 transition-colors hover:bg-red-500/10 hover:text-red-200"
             onClick={() => {
               setOpen(false);
               onLogout();

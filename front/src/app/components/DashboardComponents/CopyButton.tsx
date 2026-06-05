@@ -10,7 +10,7 @@ const CopyButtonDashboard: React.FC<CopyButtonDashboardProps> = ({ code }) => {
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(code);
-      toast("🦄 Copied To Clipboard!", {
+      toast("Copied to clipboard", {
         position: "top-right",
         autoClose: 4000,
         hideProgressBar: false,
@@ -26,10 +26,11 @@ const CopyButtonDashboard: React.FC<CopyButtonDashboardProps> = ({ code }) => {
 
   return (
     <button
+      type="button"
       onClick={handleCopy}
-      className="bg-blue-500 text-white font-semibold px-6 py-1 rounded-lg hover:bg-blue-600 transition-colors duration-300 flex items-center justify-center space-x-2"
+      className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-accent/30 bg-accent px-4 py-2.5 text-sm font-bold text-primary transition-colors hover:bg-white sm:w-auto"
     >
-      <IoCopyOutline className="h-5 w-5 text-white" />
+      <IoCopyOutline className="h-5 w-5" />
       <span>Copy</span>
     </button>
   );

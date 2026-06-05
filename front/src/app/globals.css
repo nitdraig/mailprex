@@ -14,7 +14,7 @@
 html {
   overflow-x: hidden !important;
   scroll-behavior: smooth;
-  scroll-padding-top: 6rem;
+  scroll-padding-top: 7.5rem;
 }
 body {
   min-height: 100dvh;
@@ -41,14 +41,30 @@ p {
   color: white;
   background: #44618d;
 }
+.login_img_section,
+.register_img_section {
+  background-color: #1a3559;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
 .login_img_section {
-  background: linear-gradient(rgba(2, 2, 2, 0.7), rgba(0, 0, 0, 0.7)),
-    url(./assets/login.webp) center center/cover;
+  background-image: linear-gradient(
+      135deg,
+      rgba(43, 76, 126, 0.94) 0%,
+      rgba(31, 31, 32, 0.9) 100%
+    ),
+    url(./assets/login.webp);
 }
 
 .register_img_section {
-  background: linear-gradient(rgba(2, 2, 2, 0.7), rgba(0, 0, 0, 0.7)),
-    url(./assets/register.webp) center center/cover;
+  background-image: linear-gradient(
+      135deg,
+      rgba(43, 76, 126, 0.94) 0%,
+      rgba(31, 31, 32, 0.9) 100%
+    ),
+    url(./assets/register.webp);
 }
 
 @keyframes float {
@@ -95,4 +111,165 @@ p {
 
 .color-changing-text {
   animation: colorChange 8s infinite;
+}
+
+.postal-eyebrow {
+  @apply text-[10px] font-bold uppercase tracking-[0.35em] text-accent/75;
+}
+
+.postal-eyebrow-dark {
+  @apply text-[10px] font-bold uppercase tracking-[0.35em] text-primary;
+}
+
+.postal-route-line {
+  @apply pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/70 to-transparent;
+}
+
+.postal-mesh-bg {
+  background-color: #2b4c7e;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(220, 224, 230, 0.14) 0%, transparent 42%),
+    radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.08) 0%, transparent 35%),
+    radial-gradient(circle at 60% 85%, rgba(31, 31, 32, 0.35) 0%, transparent 45%),
+    linear-gradient(135deg, #2b4c7e 0%, #1f3a63 48%, #1a3559 100%);
+}
+
+.postal-grid-overlay {
+  background-image:
+    linear-gradient(rgba(220, 224, 230, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(220, 224, 230, 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 20%, transparent 100%);
+}
+
+.postal-panel {
+  @apply rounded-2xl border border-accent/20 bg-white/95 shadow-[0_20px_60px_-24px_rgba(15,28,48,0.45)] backdrop-blur-sm;
+}
+
+.postal-input {
+  @apply flex items-center gap-2 rounded-xl border border-primary/15 bg-accent/25 px-3 py-2.5 transition-all duration-300 focus-within:border-primary/40 focus-within:bg-white focus-within:shadow-[0_0_0_3px_rgba(43,76,126,0.12)];
+}
+
+.postal-input input,
+.postal-input textarea {
+  @apply w-full border-none bg-transparent pl-1 text-secondary outline-none placeholder:text-secondary/45;
+}
+
+.postal-btn-primary {
+  @apply inline-flex items-center justify-center rounded-full border border-accent/30 bg-accent px-6 py-3 text-sm font-bold uppercase tracking-[0.12em] text-primary shadow-[0_4px_14px_rgba(220,224,230,0.25)] transition-all duration-300 hover:-translate-y-0.5 hover:border-white/40 hover:bg-white hover:shadow-[0_8px_24px_rgba(220,224,230,0.35)];
+}
+
+.postal-btn-ghost {
+  @apply inline-flex items-center justify-center rounded-full border border-white/35 bg-white/5 px-6 py-3 text-sm font-bold uppercase tracking-[0.12em] text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/15;
+}
+
+.postal-auth-shell {
+  @apply relative min-h-[calc(100dvh-5.5rem)] overflow-hidden bg-gradient-to-br from-accent via-accent/95 to-accent/80;
+}
+
+.postal-auth-panel {
+  @apply postal-panel relative overflow-hidden p-6 sm:p-8;
+}
+
+.postal-auth-panel::before {
+  content: "";
+  @apply postal-route-line;
+}
+
+.postal-auth-aside {
+  @apply relative hidden overflow-hidden lg:flex lg:w-1/2;
+}
+
+.postal-auth-aside-overlay {
+  @apply absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/80 to-secondary/85;
+}
+
+.postal-stagger-1 {
+  animation: postalFadeUp 0.7s ease-out 0.1s both;
+}
+
+.postal-stagger-2 {
+  animation: postalFadeUp 0.7s ease-out 0.22s both;
+}
+
+.postal-stagger-3 {
+  animation: postalFadeUp 0.7s ease-out 0.34s both;
+}
+
+.postal-stagger-4 {
+  animation: postalFadeUp 0.7s ease-out 0.46s both;
+}
+
+@keyframes postalFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.postal-section {
+  @apply relative overflow-hidden px-6 py-20 sm:px-8 lg:px-12 lg:py-28;
+}
+
+.postal-section-inner {
+  @apply relative z-10 mx-auto max-w-7xl;
+}
+
+.postal-feature-card {
+  @apply relative overflow-hidden rounded-2xl border border-accent/20 bg-white/95 p-8 shadow-[0_12px_40px_-20px_rgba(15,28,48,0.35)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/25 hover:shadow-[0_20px_50px_-18px_rgba(15,28,48,0.45)];
+}
+
+.postal-feature-card::before {
+  content: "";
+  @apply postal-route-line opacity-0 transition-opacity duration-300;
+}
+
+.postal-feature-card:hover::before {
+  @apply opacity-100;
+}
+
+.postal-price-card {
+  @apply relative flex w-full max-w-sm flex-col overflow-hidden rounded-2xl border border-accent/25 bg-white/95 p-6 shadow-[0_16px_48px_-20px_rgba(15,28,48,0.4)] backdrop-blur-sm;
+}
+
+.postal-price-card-featured {
+  @apply border-primary/40 shadow-[0_24px_60px_-18px_rgba(43,76,126,0.45)] lg:scale-[1.03];
+}
+
+.postal-price-tier {
+  @apply mb-2 text-[10px] font-bold uppercase tracking-[0.35em] text-primary/70;
+}
+
+.postal-check-item {
+  @apply mb-2 flex items-center gap-2 text-sm text-secondary/80;
+}
+
+.postal-dashboard-shell {
+  @apply min-h-dvh bg-gradient-to-br from-accent/60 via-accent to-accent/85 dark:from-secondary dark:via-secondary dark:to-primary/50;
+}
+
+.postal-dashboard-card {
+  @apply relative overflow-hidden rounded-2xl border border-primary/10 bg-white/95 p-6 shadow-[0_12px_40px_-20px_rgba(15,28,48,0.18)] backdrop-blur-sm dark:border-accent/15 dark:bg-primary/90 sm:p-8;
+}
+
+.postal-dashboard-card::before {
+  content: "";
+  @apply postal-route-line;
+}
+
+.postal-dashboard-title {
+  @apply text-lg font-bold uppercase tracking-[0.06em] text-secondary dark:text-white;
+}
+
+.postal-dashboard-stat {
+  @apply text-base text-secondary/75 dark:text-accent/85;
+}
+
+.postal-dashboard-stat strong,
+.postal-dashboard-stat span {
+  @apply font-bold;
 }

@@ -18,7 +18,11 @@ Open [http://localhost:3000](http://localhost:3000).
 |---|---|
 | `NEXT_PUBLIC_API_URL` | `/api` for local dev (proxied to backend); full API URL in production |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Optional Cloudflare Turnstile |
-| `NEXT_PUBLIC_MAILPREX_FORM_TOKEN` | Optional token for the demo form on the landing page |
+| `MAILPREX_FORM_TOKEN` | Server-only form token for the landing contact form |
+| `MAILPREX_EMAIL_DESTINY` | Inbox that receives landing form submissions |
+| `MAILPREX_API_SEND_URL` | Optional; defaults to `{API_URL}/email/send` |
+
+The landing form posts to `/api/contact`, which injects the token on the server so it never reaches the browser.
 
 Local dev **must** use `NEXT_PUBLIC_API_URL=/api` so httpOnly auth cookies work via the Next.js rewrite.
 

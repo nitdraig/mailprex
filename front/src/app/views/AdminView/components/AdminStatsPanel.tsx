@@ -1,71 +1,93 @@
 "use client";
 
 import { AdminPlatformStats } from "@/app/api/admin";
+import AdminStatCard from "./AdminStatCard";
 
 type AdminStatsPanelProps = {
   stats: AdminPlatformStats | null;
   loading: boolean;
 };
 
-const StatCard = ({
-  label,
-  value,
-  hint,
-}: {
-  label: string;
-  value: string | number;
-  hint?: string;
-}) => (
-  <div className="postal-dashboard-card">
-    <p className="postal-dashboard-label">{label}</p>
-    <p className="postal-dashboard-stat mt-1">{value}</p>
-    {hint ? <p className="postal-dashboard-muted mt-1 text-xs">{hint}</p> : null}
-  </div>
-);
-
 const AdminStatsPanel = ({ stats, loading }: AdminStatsPanelProps) => {
   if (loading) {
     return (
-      <p className="postal-dashboard-muted">Loading platform analytics…</p>
+      <div className="postal-dashboard-card">
+        <p className="postal-dashboard-muted">Loading platform analytics…</p>
+      </div>
     );
   }
 
   if (!stats) {
     return (
-      <p className="postal-dashboard-muted">Could not load platform analytics.</p>
+      <div className="postal-dashboard-empty">
+        Could not load platform analytics.
+      </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <p className="postal-dashboard-label mb-1">Deployment</p>
-        <p className="postal-dashboard-title capitalize">{stats.mode} mode</p>
+    <div className="space-y-4">
+      <div className="postal-dashboard-card">
+        <p className="postal-dashboard-label">Deployment</p>
+        <p className="postal-dashboard-stat-value mt-2 capitalize">
+          {stats.mode} mode
+        </p>
+        <p className="postal-dashboard-muted mt-1 text-sm">
+          Runtime environment for this Mailprex instance.
+        </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Total users" value={stats.users.total} />
-        <StatCard label="Verified users" value={stats.users.verified} />
-        <StatCard
+        <AdminStatCard label="Total users" value={stats.users.total} />
+        <AdminStatCard
+          label="Verified users"
+          value={stats.users.verified}
+          valueClassName="text-emerald-600 dark:text-emerald-400"
+        />
+        <AdminStatCard
           label="Signups (30d)"
           value={stats.users.signupsLast30d}
         />
-        <StatCard label="Total sends" value={stats.sends.total} />
-        <StatCard label="Sends (24h)" value={stats.sends.last24h} />
-        <StatCard label="Sends (30d)" value={stats.sends.last30d} />
-        <StatCard label="Failed sends" value={stats.sends.failed} />
-        <StatCard
+        <AdminStatCard label="Total sends" value={stats.sends.total} />
+        <AdminStatCard
+          label="Sends (24h)"
+          value={stats.sends.last24h}
+          valueClassName="text-primary dark:text-accent"
+        />
+        <AdminStatCard label="Sends (30d)" value={stats.sends.last30d} />
+        <AdminStatCard
+          label="Failed sends"
+          value={stats.sends.failed}
+          valueClassName="text-rose-600 dark:text-rose-400"
+        />
+        <AdminStatCard
           label="Sent OK"
           value={stats.sends.byStatus.sent ?? 0}
+          valueClassName="text-emerald-600 dark:text-emerald-400"
         />
       </div>
 
       <div className="postal-dashboard-card">
-        <p className="postal-dashboard-label mb-3">Users by plan</p>
-        <div className="grid gap-3 sm:grid-cols-3">
-          <StatCard label="Free" value={stats.users.byPlan.free} />
-          <StatCard label="Pro" value={stats.users.byPlan.standard} />
-          <StatCard label="Business" value={stats.users.byPlan.business} />
+        <p className="postal-dashboard-label mb-4">Users by plan</p>
+        <div className="grid gap-4 sm:grid-cols-3">
+          <div>
+            <p className="postal-dashboard-muted mb-1 text-sm">Free</p>
+            <p className="postal-dashboard-stat-value">
+              {stats.users.byPlan.free}
+            </p>
+          </div>
+          <div>
+            <p className="postal-dashboard-muted mb-1 text-sm">Pro</p>
+            <p className="postal-dashboard-stat-value text-primary dark:text-accent">
+              {stats.users.byPlan.standard}
+            </p>
+          </div>
+          <div>
+            <p className="postal-dashboard-muted mb-1 text-sm">Business</p>
+            <p className="postal-dashboard-stat-value">
+              {stats.users.byPlan.business}
+            </p>
+          </div>
         </div>
       </div>
     </div>

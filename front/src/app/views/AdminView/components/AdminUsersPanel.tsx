@@ -2,6 +2,7 @@
 
 import { AdminUser, Pagination } from "@/app/api/admin";
 import { format } from "date-fns";
+import AdminPagination from "./AdminPagination";
 
 type AdminUsersPanelProps = {
   users: AdminUser[];
@@ -33,59 +34,62 @@ const AdminUsersPanel = ({
 }: AdminUsersPanelProps) => {
   return (
     <div className="space-y-4">
-      <form
-        className="flex flex-col gap-3 sm:flex-row"
-        onSubmit={(event) => {
-          event.preventDefault();
-          onSearchSubmit();
-        }}
-      >
-        <input
-          type="search"
-          value={search}
-          onChange={(event) => onSearchChange(event.target.value)}
-          placeholder="Search by name or email"
-          className="postal-input flex-1 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm dark:border-white/10 dark:bg-[#0f1729]"
-        />
-        <button type="submit" className="postal-btn-primary px-4 py-2 text-sm">
-          Search
-        </button>
-      </form>
+      <div className="postal-dashboard-card">
+        <p className="postal-dashboard-label mb-3">Search users</p>
+        <form
+          className="flex flex-col gap-3 sm:flex-row"
+          onSubmit={(event) => {
+            event.preventDefault();
+            onSearchSubmit();
+          }}
+        >
+          <input
+            type="search"
+            value={search}
+            onChange={(event) => onSearchChange(event.target.value)}
+            placeholder="Name or email"
+            className="postal-dashboard-field flex-1"
+          />
+          <button type="submit" className="postal-dashboard-btn sm:shrink-0">
+            Search
+          </button>
+        </form>
+      </div>
 
       <div className="postal-dashboard-card overflow-x-auto">
         {loading ? (
-          <p className="postal-dashboard-muted">Loading users…</p>
+          <p className="postal-dashboard-muted p-4">Loading users…</p>
         ) : users.length === 0 ? (
-          <p className="postal-dashboard-empty">No users found.</p>
+          <div className="postal-dashboard-empty m-4">No users found.</div>
         ) : (
-          <table className="min-w-full text-left text-sm">
+          <table className="postal-dashboard-table min-w-full">
             <thead>
-              <tr className="border-b border-slate-200/80 dark:border-white/10">
-                <th className="px-2 py-2 font-medium">User</th>
-                <th className="px-2 py-2 font-medium">Plan</th>
-                <th className="px-2 py-2 font-medium">Usage</th>
-                <th className="px-2 py-2 font-medium">Status</th>
-                <th className="px-2 py-2 font-medium">Actions</th>
+              <tr>
+                <th>User</th>
+                <th>Plan</th>
+                <th>Usage</th>
+                <th>Status</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {users.map((user) => (
-                <tr
-                  key={user._id}
-                  className="border-b border-slate-100 dark:border-white/[0.06]"
-                >
-                  <td className="px-2 py-3 align-top">
-                    <p className="font-medium text-slate-900 dark:text-white">
+                <tr key={user._id}>
+                  <td>
+                    <p className="font-semibold text-slate-900 dark:text-white">
                       {user.name} {user.lastName}
                     </p>
-                    <p className="postal-dashboard-muted text-xs">{user.email}</p>
+                    <p className="postal-dashboard-muted text-xs">
+                      {user.email}
+                    </p>
                     {user.createdAt ? (
                       <p className="postal-dashboard-muted text-xs">
-                        Joined {format(new Date(user.createdAt), "dd MMM yyyy")}
+                        Joined{" "}
+                        {format(new Date(user.createdAt), "dd MMM yyyy")}
                       </p>
                     ) : null}
                   </td>
-                  <td className="px-2 py-3 align-top">
+                  <td>
                     <select
                       value={user.userType}
                       onChange={(event) =>
@@ -93,47 +97,50 @@ const AdminUsersPanel = ({
                           userType: event.target.value as AdminUser["userType"],
                         })
                       }
-                      className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs dark:border-white/10 dark:bg-[#0f1729]"
+                      className="postal-dashboard-field py-1.5 text-xs"
                     >
                       <option value="free">Free</option>
                       <option value="standard">Pro</option>
                       <option value="business">Business</option>
                     </select>
                   </td>
-                  <td className="px-2 py-3 align-top">
-                    <p>{user.requestCount} sends</p>
+                  <td>
+                    <p className="font-medium">{user.requestCount} sends</p>
                     <button
                       type="button"
-                      className="text-xs text-primary hover:underline"
+                      className="mt-1 text-xs font-medium text-primary hover:underline dark:text-accent"
                       onClick={() => onUpdateUser(user._id, { requestCount: 0 })}
                     >
                       Reset count
                     </button>
                   </td>
-                  <td className="px-2 py-3 align-top">
-                    <label className="flex items-center gap-2 text-xs">
+                  <td>
+                    <label className="flex items-center gap-2 text-sm">
                       <input
                         type="checkbox"
                         checked={user.verified}
                         onChange={(event) =>
-                          onUpdateUser(user._id, { verified: event.target.checked })
+                          onUpdateUser(user._id, {
+                            verified: event.target.checked,
+                          })
                         }
+                        className="rounded border-slate-300 dark:border-white/20"
                       />
                       Verified
                     </label>
                   </td>
-                  <td className="px-2 py-3 align-top">
-                    <div className="flex flex-col gap-1">
+                  <td>
+                    <div className="flex flex-col gap-1.5">
                       <button
                         type="button"
-                        className="text-left text-xs text-amber-600 hover:underline dark:text-amber-400"
+                        className="text-left text-xs font-medium text-amber-600 hover:underline dark:text-amber-400"
                         onClick={() => onRevokeToken(user._id)}
                       >
                         Revoke token
                       </button>
                       <button
                         type="button"
-                        className="text-left text-xs text-red-600 hover:underline dark:text-red-400"
+                        className="text-left text-xs font-medium text-red-600 hover:underline dark:text-red-400"
                         onClick={() => onDeleteUser(user._id)}
                       >
                         Delete user
@@ -147,30 +154,12 @@ const AdminUsersPanel = ({
         )}
       </div>
 
-      {pagination && pagination.pages > 1 ? (
-        <div className="flex items-center justify-between gap-3">
-          <p className="postal-dashboard-muted text-xs">
-            Page {pagination.page} of {pagination.pages} · {pagination.total} users
-          </p>
-          <div className="flex gap-2">
-            <button
-              type="button"
-              disabled={pagination.page <= 1}
-              className="postal-btn-primary px-3 py-1 text-xs disabled:opacity-50"
-              onClick={() => onPageChange(pagination.page - 1)}
-            >
-              Previous
-            </button>
-            <button
-              type="button"
-              disabled={pagination.page >= pagination.pages}
-              className="postal-btn-primary px-3 py-1 text-xs disabled:opacity-50"
-              onClick={() => onPageChange(pagination.page + 1)}
-            >
-              Next
-            </button>
-          </div>
-        </div>
+      {pagination ? (
+        <AdminPagination
+          pagination={pagination}
+          itemLabel="users"
+          onPageChange={onPageChange}
+        />
       ) : null}
     </div>
   );

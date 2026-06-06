@@ -111,39 +111,37 @@ const UserCard = ({ userData, lastEmailDate, compact = false }: UserCardProps) =
       <div
         className={
           compact
-            ? "flex w-full flex-col items-center gap-3 lg:flex-row lg:items-center lg:gap-4"
+            ? "flex w-full items-center gap-4"
             : ""
         }
       >
         <div
-          className={`relative flex shrink-0 items-center justify-center rounded-full border border-primary/15 bg-primary/5 dark:border-accent/20 dark:bg-white/5 ${
-            compact ? "size-20 lg:size-[4.5rem]" : "mx-auto size-32"
+          className={`relative flex shrink-0 items-center justify-center rounded-full ring-2 ring-slate-200 dark:ring-white/10 ${
+            compact ? "size-[4.5rem]" : "mx-auto size-32"
           }`}
         >
           <img
-            className={`rounded-full object-cover ${compact ? "size-[4.25rem] lg:size-16" : "size-28"}`}
+            className={`rounded-full object-cover ${compact ? "size-16" : "size-28"}`}
             src={profilePhoto}
             alt="Profile picture"
           />
           <button
             type="button"
-            className="absolute -right-1 top-0 rounded-full border border-accent/30 bg-primary px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white transition-colors hover:bg-primary/85"
+            className="absolute -bottom-1 -right-1 rounded-full bg-primary px-2 py-0.5 text-[10px] font-medium text-white shadow-sm transition-colors hover:bg-primary/90 dark:bg-accent dark:text-primary"
             onClick={openModal}
           >
             Edit
           </button>
         </div>
         <div
-          className={`relative z-10 space-y-1 text-center ${compact ? "min-w-0 lg:text-left" : "mt-6"}`}
+          className={`relative z-10 min-w-0 flex-1 space-y-0.5 ${compact ? "text-left" : "mt-6 text-center"}`}
         >
-          <p className="postal-eyebrow-dark">Profile</p>
-          <h2 className={`postal-dashboard-title ${compact ? "text-base" : ""}`}>
+          <p className="postal-dashboard-label">Profile</p>
+          <h2 className="postal-dashboard-title capitalize">
             {userData?.name} {userData?.lastName}
           </h2>
-          <p className={`postal-dashboard-stat ${compact ? "text-sm" : ""}`}>
-            <span className="block truncate font-semibold text-primary dark:text-accent">
-              {userData?.email}
-            </span>
+          <p className="postal-dashboard-stat truncate">
+            {userData?.email}
           </p>
           {!compact ? (
             <p className="text-sm text-secondary/60 dark:text-accent/70">

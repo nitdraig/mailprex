@@ -19,6 +19,10 @@ export const getFormToken = async (): Promise<FormTokenStatus> => {
     return data as FormTokenStatus;
   }
 
+  if (response.status === 401 || response.status === 403) {
+    return { hasToken: false };
+  }
+
   throw new Error(data.message ?? "Failed to fetch form token");
 };
 

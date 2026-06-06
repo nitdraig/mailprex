@@ -8,57 +8,47 @@ type LastSentCardProps = {
   compact?: boolean;
 };
 
-const LastSentCard = ({ lastEmailDate, compact = false }: LastSentCardProps) => {
+const LastSentCard = ({ lastEmailDate }: LastSentCardProps) => {
   return (
-    <div
-      className={`grid h-full w-full gap-4 ${compact ? "lg:grid-cols-[1fr_auto] lg:items-center lg:gap-3" : "sm:grid-cols-2"}`}
-    >
-      <div className="flex flex-col justify-center">
-        <p className="postal-eyebrow-dark mb-0.5">Activity</p>
-        <h2 className={`postal-dashboard-title ${compact ? "text-base" : "mb-2"}`}>
-          Last delivery
-        </h2>
-        <p
-          className={`font-semibold text-primary dark:text-accent ${compact ? "text-sm" : "text-lg"}`}
-        >
+    <div className="flex h-full w-full flex-col justify-between">
+      <div>
+        <p className="postal-dashboard-label mb-1">Activity</p>
+        <h2 className="postal-dashboard-title mb-1">Last delivery</h2>
+        <p className="text-lg font-medium text-primary dark:text-accent">
           {lastEmailDate || "No sends yet"}
         </p>
       </div>
 
-      <div
-        className={`relative flex flex-col justify-center gap-3 ${compact ? "min-w-[9.5rem] border-l border-primary/10 pl-3 dark:border-accent/15" : "gap-5 border-t border-primary/10 pt-6 sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0 dark:border-accent/15"}`}
-      >
-        <div className="flex items-center justify-end gap-2">
-          <span className="rounded-md border border-primary/15 bg-white/70 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-secondary dark:border-accent/20 dark:bg-white/5 dark:text-accent">
-            Web
-          </span>
+      <div className="mt-4 flex items-center justify-between gap-2 rounded-lg bg-slate-50 px-3 py-3 dark:bg-white/[0.04]">
+        <div className="flex flex-col items-center gap-1">
           <img
-            className="h-6 w-6 rounded-full border border-primary/15 object-cover dark:border-accent/20"
+            className="h-7 w-7 rounded-full border border-slate-200 object-cover dark:border-white/10"
             src={defaultAvatar.src}
             alt="Your website"
           />
+          <span className="postal-dashboard-muted">Web</span>
         </div>
 
-        <div className="flex items-center justify-center gap-2">
+        <div className="h-px flex-1 bg-slate-300 dark:bg-white/10" />
+
+        <div className="flex flex-col items-center gap-1">
           <img
-            className="h-7 w-7 rounded-full border border-primary/15 object-cover dark:border-accent/20"
+            className="h-8 w-8 rounded-full border border-slate-200 object-cover dark:border-white/10"
             src={MAILPREX_LOGO}
             alt="Mailprex"
           />
-          <span className="rounded-md border border-primary/15 bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary dark:border-accent/20 dark:bg-white/10 dark:text-accent">
-            Mailprex
-          </span>
+          <span className="postal-dashboard-muted">Mailprex</span>
         </div>
 
-        <div className="flex items-center justify-end gap-2">
-          <span className="rounded-md border border-primary/15 bg-white/70 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-secondary dark:border-accent/20 dark:bg-white/5 dark:text-accent">
-            Inbox
-          </span>
+        <div className="h-px flex-1 bg-slate-300 dark:bg-white/10" />
+
+        <div className="flex flex-col items-center gap-1">
           <img
-            className="h-6 w-6 rounded-full border border-primary/15 object-cover dark:border-accent/20"
+            className="h-7 w-7 rounded-full border border-slate-200 object-cover dark:border-white/10"
             src={defaultAvatar.src}
-            alt="Your email inbox"
+            alt="Your inbox"
           />
+          <span className="postal-dashboard-muted">Inbox</span>
         </div>
       </div>
     </div>

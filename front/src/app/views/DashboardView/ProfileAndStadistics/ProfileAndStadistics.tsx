@@ -108,20 +108,13 @@ const ProfileAndStadisticView = () => {
   }, [userData]);
 
   return (
-    <section className="mx-auto flex h-full max-w-7xl flex-col lg:min-h-0">
-      <div className="mb-3 shrink-0 lg:hidden">
-        <p className="postal-eyebrow-dark mb-1">Welcome back</p>
-        <h2 className="text-2xl font-bold uppercase tracking-[0.05em] text-primary dark:text-white">
-          {userData?.name}
-        </h2>
-      </div>
-
-      <div className="grid flex-1 grid-cols-1 gap-3 lg:min-h-0 lg:grid-cols-12 lg:grid-rows-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-        <div className="postal-dashboard-card lg:col-span-3 lg:flex lg:min-h-0 lg:items-center">
+    <section className="mx-auto flex h-full max-w-6xl flex-col lg:min-h-0">
+      <div className="grid min-h-0 flex-1 grid-cols-1 gap-3 lg:grid-cols-12 lg:grid-rows-2 lg:gap-3">
+        <div className="postal-dashboard-card lg:col-span-4 lg:flex lg:items-center">
           <UserCard userData={userData} lastEmailDate={lastEmailDate} compact />
         </div>
 
-        <div className="postal-dashboard-card flex min-h-0 flex-col lg:col-span-9 lg:overflow-y-auto">
+        <div className="postal-dashboard-card flex min-h-0 flex-col lg:col-span-8 lg:overflow-y-auto">
           {legacyToken && hasToken && !revealedToken ? (
             <LegacyTokenBanner onRegenerate={generateToken} />
           ) : null}
@@ -137,7 +130,7 @@ const ProfileAndStadisticView = () => {
           />
         </div>
 
-        <div className="postal-dashboard-card lg:col-span-4 lg:flex lg:items-center">
+        <div className="postal-dashboard-card lg:col-span-4 lg:flex lg:items-stretch">
           <EmailStats
             sentEmails={sentEmails}
             remainingEmails={remainingEmails}
@@ -145,11 +138,11 @@ const ProfileAndStadisticView = () => {
           />
         </div>
 
-        <div className="postal-dashboard-card lg:col-span-4 lg:flex lg:items-center">
+        <div className="postal-dashboard-card lg:col-span-4 lg:flex lg:items-stretch">
           <UserPlanCard userPlan={userData?.userType} compact />
         </div>
 
-        <div className="postal-dashboard-card lg:col-span-4 lg:flex lg:items-center">
+        <div className="postal-dashboard-card lg:col-span-4 lg:flex lg:items-stretch">
           <LastSentCard lastEmailDate={lastEmailDate} compact />
         </div>
       </div>

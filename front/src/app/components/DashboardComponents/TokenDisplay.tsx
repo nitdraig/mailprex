@@ -18,28 +18,26 @@ const TokenDisplay: React.FC<TokenDisplayProps> = ({
   compact = false,
 }) => (
   <div
-    className={`rounded-xl border border-primary/15 bg-primary dark:border-accent/20 dark:bg-primary/95 ${compact ? "p-3" : "rounded-2xl p-5"}`}
+    className={`rounded-lg border border-primary/20 bg-[#1e3354] ${compact ? "p-3" : "p-4"} dark:border-white/10 dark:bg-[#0f1c2e]`}
   >
     {revealedToken ? (
       <>
-        <p className="mb-1 text-xs font-semibold text-amber-100">
+        <p className="mb-2 text-xs font-medium text-amber-200/90">
           Copy now — it will not be shown again.
         </p>
-        <p className="mb-3 break-all font-mono text-xs text-white">
+        <p className="mb-3 break-all rounded-md bg-black/20 px-2 py-2 font-mono text-xs text-white">
           {revealedToken}
         </p>
         <CopyButtonDashboard code={revealedToken} compact={compact} />
       </>
     ) : (
       <>
-        <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-accent/80">
-          Active token
-        </p>
-        <p className="mb-2 break-all font-mono text-sm text-white lg:text-base">
+        <p className="postal-dashboard-label mb-1 text-slate-400">Active token</p>
+        <p className="mb-3 break-all rounded-md bg-black/20 px-2 py-2 font-mono text-sm text-white">
           {prefix ?? "mk_live_…"}
         </p>
         {!compact ? (
-          <p className="mb-4 text-sm text-accent/80">
+          <p className="postal-dashboard-muted mb-3 text-slate-400">
             Full token is only shown once when generated.
           </p>
         ) : null}
@@ -47,7 +45,7 @@ const TokenDisplay: React.FC<TokenDisplayProps> = ({
           <button
             type="button"
             onClick={onRegenerate}
-            className="rounded-lg border border-accent/30 bg-accent px-3 py-1.5 text-xs font-bold text-primary transition-colors hover:bg-white"
+            className="rounded-lg bg-white px-3 py-1.5 text-xs font-semibold text-primary transition-colors hover:bg-accent"
           >
             Regenerate
           </button>

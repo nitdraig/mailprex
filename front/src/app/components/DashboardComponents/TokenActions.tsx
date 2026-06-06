@@ -1,4 +1,5 @@
 import React from "react";
+import { HiOutlineKey } from "react-icons/hi";
 import TokenDisplay from "./TokenDisplay";
 
 interface TokenActionsProps {
@@ -31,16 +32,18 @@ const TokenActions: React.FC<TokenActionsProps> = ({
   }
 
   return (
-    <div className="text-center sm:text-left">
-      <p className={`postal-dashboard-stat mb-3 font-semibold ${compact ? "text-sm" : ""}`}>
-        There is no form token yet.
+    <div className="postal-dashboard-empty h-full min-h-[9rem]">
+      <HiOutlineKey className="mb-2 text-3xl text-slate-400 dark:text-slate-500" />
+      <p className="postal-dashboard-title mb-1">No token yet</p>
+      <p className="postal-dashboard-muted mb-4 max-w-xs">
+        Generate a private token to connect forms from your website.
       </p>
       <button
         type="button"
         onClick={generateFormToken}
-        className="postal-btn-primary !rounded-xl !py-2 !text-xs !normal-case !tracking-normal"
+        className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary/90 dark:bg-accent dark:text-primary dark:hover:bg-white"
       >
-        Generate Form Token
+        Generate token
       </button>
     </div>
   );

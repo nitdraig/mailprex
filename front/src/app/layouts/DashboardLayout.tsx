@@ -35,21 +35,15 @@ const DashboardLayout = ({ children }: LayoutProps) => {
         />
 
         <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-          <header className="shrink-0 border-b border-primary/10 bg-white/75 px-4 py-2.5 backdrop-blur-md dark:border-accent/15 dark:bg-primary/85 sm:px-6">
-            <div className="flex items-center justify-between gap-3">
+          <header className="shrink-0 border-b border-slate-200/80 bg-white/90 px-4 py-3 backdrop-blur-md dark:border-white/[0.06] dark:bg-[#121d30]/95 sm:px-6">
+            <div className="flex items-center justify-between gap-4">
               <div className="min-w-0">
-                <p className="postal-eyebrow-dark hidden lg:block">
-                  Delivery hub
-                </p>
-                <h1 className="truncate text-lg font-bold uppercase tracking-[0.06em] text-primary dark:text-white lg:text-xl">
-                  Dashboard
-                  {userData?.name ? (
-                    <span className="hidden font-semibold normal-case tracking-normal text-secondary/70 dark:text-accent/80 lg:inline">
-                      {" "}
-                      · {userData.name}
-                    </span>
-                  ) : null}
+                <h1 className="truncate text-lg font-semibold text-slate-900 dark:text-white">
+                  Hello, {userData?.name ?? "there"}
                 </h1>
+                <p className="postal-dashboard-muted mt-0.5">
+                  Manage tokens, usage, and deliveries
+                </p>
               </div>
               <ProfileMenu
                 photo={userData?.photo}
@@ -59,7 +53,7 @@ const DashboardLayout = ({ children }: LayoutProps) => {
             </div>
           </header>
 
-          <main className="flex min-h-0 flex-1 flex-col overflow-y-auto px-4 py-4 lg:overflow-hidden lg:px-6 lg:py-3">
+          <main className="flex min-h-0 flex-1 flex-col overflow-y-auto px-4 py-4 lg:overflow-hidden lg:px-6 lg:py-4">
             {children}
           </main>
         </div>

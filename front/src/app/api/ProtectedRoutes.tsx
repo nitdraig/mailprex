@@ -20,7 +20,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
     return (
       <div className="postal-dashboard-shell flex min-h-dvh items-center justify-center">
         <div className="postal-dashboard-card text-center">
-          <p className="postal-eyebrow-dark mb-2">Loading</p>
+          <p className="postal-dashboard-label mb-2">Loading</p>
           <p className="postal-dashboard-title">Preparing your dashboard</p>
         </div>
       </div>

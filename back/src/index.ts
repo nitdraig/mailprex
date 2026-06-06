@@ -22,16 +22,36 @@ const PORT: number = parseInt(process.env.PORT ?? "5000", 10);
 
 app.set("trust proxy", 1);
 
-const defaultCorsOrigins = ["https://mailprex.excelso.xyz"];
+const defaultCorsOrigins = [
+  "https://mailprex.excelso.xyz",
+  "https://www.mailprex.excelso.xyz",
+  "http://localhost:3000",
+];
 
-const allowedCorsOrigins = process.env.CORS_ORIGINS
-  ? process.env.CORS_ORIGINS.split(",").map((origin) => origin.trim())
-  : defaultCorsOrigins;
+const envCorsOrigins = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(",")
+      .map((origin) => origin.trim())
+      .filter(Boolean)
+  : [];
+
+const allowedCorsOrigins = [
+  ...new Set([...defaultCorsOrigins, ...envCorsOrigins]),
+];
+
+const isOriginAllowed = (origin: string | undefined): boolean => {
+  if (!origin) {
+    return true;
+  }
+  if (allowedCorsOrigins.includes("*")) {
+    return true;
+  }
+  return allowedCorsOrigins.includes(origin);
+};
 
 const appCorsOptions: CorsOptions = {
   origin(origin, callback) {
-    if (!origin || allowedCorsOrigins.includes(origin)) {
-      callback(null, true);
+    if (isOriginAllowed(origin)) {
+      callback(null, origin || true);
       return;
     }
     callback(null, false);
@@ -40,6 +60,14 @@ const appCorsOptions: CorsOptions = {
   methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   optionsSuccessStatus: 204,
+};
+
+const applyCors = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  cors(appCorsOptions)(req, res, next);
 };
 
 const emailRateLimiter = rateLimit({
@@ -55,7 +83,7 @@ app.options(/.*/, (req: Request, res: Response, next: NextFunction) => {
     cors({ origin: "*" })(req, res, next);
     return;
   }
-  cors(appCorsOptions)(req, res, next);
+  applyCors(req, res, next);
 });
 
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -63,7 +91,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     next();
     return;
   }
-  cors(appCorsOptions)(req, res, next);
+  applyCors(req, res, next);
 });
 
 app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
@@ -77,7 +105,7 @@ app.use(
       objectSrc: ["'none'"],
       upgradeInsecureRequests: [],
     },
-  }),
+  })
 );
 
 if (process.env.NODE_ENV === "production") {
@@ -86,19 +114,28 @@ if (process.env.NODE_ENV === "production") {
       maxAge: 31536000,
       includeSubDomains: true,
       preload: true,
-    }),
+    })
   );
 }
 
 app.post(
   "/billing/gumroad/ping",
   express.urlencoded({ extended: true }),
-  gumroadPing,
+  gumroadPing
 );
 
 app.use(cookieParser());
 app.use(morgan("combined"));
 app.use(bodyParser.json({ limit: "25kb" }));
+
+app.use(async (_req: Request, _res: Response, next: NextFunction) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 
 app.get("/", (_req: Request, res: Response) => {
   res.send(`
@@ -119,26 +156,37 @@ app.use("/billing", billingRoutes);
 app.use("/verify", emailVerify);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
-  if (req.path !== "/") {
-    return res.status(404).send(`
-    <title>404 | Mailprex API</title>
-     <div style="font-family: Arial, sans-serif; text-align: center; margin-top: 50px;">
-        <h1>Not Found</h1>
-        <p>For more information, see the <a href="https://docs.mailprex.excelso.xyz" style="color: #2b4c7e;">Documentation</a></p>
-        <a href="https://mailprex.excelso.xyz" style="color: #2b4c7e;"> -> Mailprex Web <- </a>
-     </div>
-  `);
+  if (req.path === "/") {
+    next();
+    return;
   }
-  next();
+
+  applyCors(req, res, () => {
+    res.status(404).json({ message: "Not found" });
+  });
 });
 
-connectDB();
-
-app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
-  console.error(err);
-  res.status(500).json({ error: "Something went wrong!" });
+app.use((err: unknown, req: Request, res: Response, _next: NextFunction) => {
+  applyCors(req, res, () => {
+    console.error(err);
+    if (res.headersSent) {
+      return;
+    }
+    res.status(500).json({ error: "Something went wrong!" });
+  });
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor Express iniciado en el puerto ${PORT}`);
-});
+if (!process.env.VERCEL) {
+  connectDB()
+    .then(() => {
+      app.listen(PORT, () => {
+        console.log(`Servidor Express iniciado en el puerto ${PORT}`);
+      });
+    })
+    .catch((error) => {
+      console.error("Failed to start server:", error);
+      process.exit(1);
+    });
+}
+
+export default app;

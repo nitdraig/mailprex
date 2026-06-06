@@ -105,7 +105,9 @@ const AdminUsersPanel = ({
                     </select>
                   </td>
                   <td>
-                    <p className="font-medium">{user.requestCount} sends</p>
+                    <p className="font-medium text-slate-800 dark:text-slate-100">
+                      {user.requestCount} sends
+                    </p>
                     <button
                       type="button"
                       className="mt-1 text-xs font-medium text-primary hover:underline dark:text-accent"
@@ -115,7 +117,7 @@ const AdminUsersPanel = ({
                     </button>
                   </td>
                   <td>
-                    <label className="flex items-center gap-2 text-sm">
+                    <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-100">
                       <input
                         type="checkbox"
                         checked={user.verified}
@@ -124,7 +126,7 @@ const AdminUsersPanel = ({
                             verified: event.target.checked,
                           })
                         }
-                        className="rounded border-slate-300 dark:border-white/20"
+                        className="size-4 rounded border-slate-300 accent-primary dark:border-white/30 dark:accent-accent"
                       />
                       Verified
                     </label>

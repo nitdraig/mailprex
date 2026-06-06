@@ -65,12 +65,16 @@ const AdminSendsPanel = ({
             <tbody>
               {sends.map((send) => (
                 <tr key={send.id}>
-                  <td className="text-xs text-slate-600 dark:text-slate-400">
+                  <td className="text-xs text-slate-600 dark:text-slate-300">
                     {format(new Date(send.createdAt), "dd MMM yyyy HH:mm")}
                   </td>
-                  <td>{send.webName}</td>
-                  <td>{send.to}</td>
-                  <td className="postal-dashboard-muted">
+                  <td className="text-slate-800 dark:text-slate-100">
+                    {send.webName}
+                  </td>
+                  <td className="text-slate-800 dark:text-slate-100">
+                    {send.to}
+                  </td>
+                  <td className="text-slate-600 dark:text-slate-300">
                     {send.user?.email ?? "—"}
                   </td>
                   <td>

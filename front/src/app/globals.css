@@ -249,35 +249,72 @@ p {
 }
 
 .postal-dashboard-shell {
-  @apply h-dvh max-h-dvh overflow-hidden bg-[#eef1f5] dark:bg-[#0c1524];
+  @apply h-dvh max-h-dvh overflow-hidden bg-[#eef1f5] text-slate-900;
+}
+
+.dark .postal-dashboard-shell {
+  @apply bg-[#0c1524] text-slate-100;
+  color-scheme: dark;
 }
 
 .postal-dashboard-card {
-  @apply relative overflow-hidden rounded-xl border border-slate-200/90 bg-white p-4 shadow-sm dark:border-white/[0.08] dark:bg-[#162236];
+  @apply relative overflow-hidden rounded-xl border border-slate-200/90 bg-white p-4 text-slate-900 shadow-sm;
+}
+
+.dark .postal-dashboard-card {
+  @apply border-white/[0.12] bg-[#162236] text-slate-100;
 }
 
 .postal-dashboard-label {
-  @apply text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400;
+  @apply text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-600;
+}
+
+.dark .postal-dashboard-label {
+  @apply text-slate-300;
 }
 
 .postal-dashboard-title {
-  @apply text-base font-semibold leading-tight text-slate-900 dark:text-slate-50;
+  @apply text-base font-semibold leading-tight text-slate-900;
+}
+
+.dark .postal-dashboard-title {
+  @apply text-slate-50;
 }
 
 .postal-dashboard-stat {
-  @apply text-sm leading-snug text-slate-600 dark:text-slate-300;
+  @apply text-sm leading-snug text-slate-600;
+}
+
+.dark .postal-dashboard-stat {
+  @apply text-slate-200;
 }
 
 .postal-dashboard-muted {
-  @apply text-sm leading-snug text-slate-500 dark:text-slate-400;
+  @apply text-sm leading-snug text-slate-500;
+}
+
+.dark .postal-dashboard-muted {
+  @apply text-slate-300;
 }
 
 .postal-dashboard-empty {
-  @apply flex items-center justify-center gap-3 rounded-lg border border-dashed border-slate-300/90 bg-slate-50/80 px-4 py-8 text-sm text-slate-500 dark:border-white/10 dark:bg-white/[0.03] dark:text-slate-400;
+  @apply flex items-center justify-center gap-3 rounded-lg border border-dashed border-slate-300/90 bg-slate-50/80 px-4 py-8 text-sm text-slate-500;
+}
+
+.dark .postal-dashboard-empty {
+  @apply border-white/15 bg-white/[0.04] text-slate-300;
 }
 
 .postal-dashboard-field {
-  @apply w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition-colors focus:border-primary/40 focus:ring-2 focus:ring-primary/15 dark:border-white/10 dark:bg-[#0f1729] dark:text-white;
+  @apply w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition-colors placeholder:text-slate-400 focus:border-primary/40 focus:ring-2 focus:ring-primary/15;
+}
+
+.dark .postal-dashboard-field {
+  @apply border-white/20 bg-[#1e2f4a] text-slate-100 placeholder:text-slate-400 focus:border-accent/50 focus:ring-accent/20;
+}
+
+.dark .postal-dashboard-field option {
+  @apply bg-[#162236] text-slate-100;
 }
 
 .postal-dashboard-btn {
@@ -285,7 +322,11 @@ p {
 }
 
 .postal-dashboard-btn-ghost {
-  @apply inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-white/10 dark:text-slate-200 dark:hover:bg-white/5;
+  @apply inline-flex items-center justify-center rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.dark .postal-dashboard-btn-ghost {
+  @apply border-white/20 text-slate-100 hover:bg-white/10;
 }
 
 .postal-dashboard-tab {
@@ -297,17 +338,33 @@ p {
 }
 
 .postal-dashboard-tab-inactive {
-  @apply bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-white/10 dark:text-slate-200 dark:hover:bg-white/15;
+  @apply bg-slate-100 text-slate-700 hover:bg-slate-200;
+}
+
+.dark .postal-dashboard-tab-inactive {
+  @apply bg-white/10 text-slate-100 hover:bg-white/15;
 }
 
 .postal-dashboard-table th {
-  @apply border-b border-slate-200/80 px-3 py-2 text-left text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500 dark:border-white/10 dark:text-slate-400;
+  @apply border-b border-slate-200/80 px-3 py-2 text-left text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-600;
+}
+
+.dark .postal-dashboard-table th {
+  @apply border-white/15 text-slate-300;
 }
 
 .postal-dashboard-table td {
-  @apply border-b border-slate-100 px-3 py-3 align-top text-sm text-slate-800 dark:border-white/[0.06] dark:text-slate-200;
+  @apply border-b border-slate-100 px-3 py-3 align-top text-sm text-slate-800;
+}
+
+.dark .postal-dashboard-table td {
+  @apply border-white/[0.08] text-slate-100;
 }
 
 .postal-dashboard-stat-value {
-  @apply text-2xl font-semibold leading-none text-slate-900 dark:text-slate-50;
+  @apply text-2xl font-semibold leading-none text-slate-900;
+}
+
+.dark .postal-dashboard-stat-value {
+  @apply text-slate-50;
 }

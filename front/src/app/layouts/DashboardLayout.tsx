@@ -38,7 +38,7 @@ const DashboardLayout = ({ children }: LayoutProps) => {
         />
 
         <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-          <header className="shrink-0 border-b border-slate-200/80 bg-white/90 px-4 py-3 backdrop-blur-md dark:border-white/[0.06] dark:bg-[#121d30]/95">
+          <header className="shrink-0 border-b border-slate-200/80 bg-white/90 px-4 py-3 text-slate-900 backdrop-blur-md dark:border-white/[0.1] dark:bg-[#121d30]/95 dark:text-slate-100">
             <div className="flex items-center justify-between gap-3">
               <h1 className="min-w-0 truncate text-base font-semibold text-slate-900 dark:text-white">
                 {isAdminRoute ? (

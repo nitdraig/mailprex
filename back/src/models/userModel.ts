@@ -6,6 +6,7 @@ export interface IUser {
   email: string;
   password: string;
   photo: string;
+  googleId?: string;
   formToken?: string;
   formTokenHash?: string;
   formTokenPrefix?: string;
@@ -27,19 +28,10 @@ const userSchema = new Schema<IUser>({
   email: { type: String, required: true, unique: true },
   photo: { type: String, required: false },
   password: { type: String, required: true },
-  formToken: {
-    type: String,
-    unique: true,
-    required: false,
-    sparse: true,
-  },
+  googleId: { type: String, required: false, unique: true, sparse: true },
+  formToken: { type: String, required: false },
   formTokenHash: { type: String, required: false },
-  formTokenPrefix: {
-    type: String,
-    unique: true,
-    required: false,
-    sparse: true,
-  },
+  formTokenPrefix: { type: String, required: false },
   userType: {
     type: String,
     enum: ["free", "standard", "business"],
@@ -57,5 +49,8 @@ const userSchema = new Schema<IUser>({
     default: "none",
   },
 });
+
+userSchema.index({ formToken: 1 }, { unique: true, sparse: true });
+userSchema.index({ formTokenPrefix: 1 }, { unique: true, sparse: true });
 
 export default mongoose.model<IUser>("User", userSchema);

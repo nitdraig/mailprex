@@ -7,6 +7,7 @@ import {
   register,
   verifyAccount,
 } from "../controllers/authController";
+import { loginWithGoogle } from "../controllers/googleAuthController";
 import { authenticateToken } from "../middlewares/authMiddleware";
 import { authRateLimiter } from "../middlewares/authRateLimiter";
 import { requireSignupAllowed } from "../middlewares/modeMiddleware";
@@ -42,6 +43,7 @@ router.post(
   loginValidators,
   login
 );
+router.post("/google", authRateLimiter, loginWithGoogle);
 router.post("/logout", logout);
 router.get("/me", authenticateToken, getMe);
 router.get("/verify", verifyAccount);

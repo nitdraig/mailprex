@@ -249,11 +249,11 @@ p {
 }
 
 .postal-dashboard-shell {
-  @apply min-h-dvh bg-gradient-to-br from-accent/60 via-accent to-accent/85 dark:from-secondary dark:via-secondary dark:to-primary/50;
+  @apply h-dvh max-h-dvh overflow-hidden bg-gradient-to-br from-accent/60 via-accent to-accent/85 dark:from-secondary dark:via-secondary dark:to-primary/50;
 }
 
 .postal-dashboard-card {
-  @apply relative overflow-hidden rounded-2xl border border-primary/10 bg-white/95 p-6 shadow-[0_12px_40px_-20px_rgba(15,28,48,0.18)] backdrop-blur-sm dark:border-accent/15 dark:bg-primary/90 sm:p-8;
+  @apply relative overflow-hidden rounded-2xl border border-primary/10 bg-white/95 p-4 shadow-[0_12px_40px_-20px_rgba(15,28,48,0.18)] backdrop-blur-sm dark:border-accent/15 dark:bg-primary/90 lg:p-4;
 }
 
 .postal-dashboard-card::before {

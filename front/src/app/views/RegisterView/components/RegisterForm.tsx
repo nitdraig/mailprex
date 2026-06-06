@@ -5,11 +5,14 @@ import {
   AiOutlineEyeInvisible,
   AiTwotoneEdit,
 } from "react-icons/ai";
+import AuthDivider from "@/app/components/AuthDivider";
+import GoogleSignInButton from "@/app/components/GoogleSignInButton";
 import SVGLock from "../../LoginView/components/SVG/SVGLock";
 import SVGAmail from "../../LoginView/components/SVG/SVGAmail";
 
 type RegisterFormProps = {
   handleSubmit: (e: React.FormEvent) => void;
+  handleGoogleSignIn?: (credential: string) => void | Promise<void>;
   error: string | null;
   success: string | null;
   name: string;
@@ -23,10 +26,13 @@ type RegisterFormProps = {
   setPassword: (value: string) => void;
   setRepeatPassword: (value: string) => void;
   captcha?: React.ReactNode;
+  googleAuthEnabled?: boolean;
+  googleLoading?: boolean;
 };
 
 const RegisterForm = ({
   handleSubmit,
+  handleGoogleSignIn,
   error,
   success,
   name,
@@ -40,6 +46,8 @@ const RegisterForm = ({
   setPassword,
   setRepeatPassword,
   captcha,
+  googleAuthEnabled = false,
+  googleLoading = false,
 }: RegisterFormProps) => {
   const [passwordError, setPasswordError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -176,6 +184,17 @@ const RegisterForm = ({
       <button type="submit" className="postal-btn-primary mt-5 w-full">
         Register
       </button>
+
+      {googleAuthEnabled && handleGoogleSignIn ? (
+        <>
+          <AuthDivider />
+          <GoogleSignInButton
+            onSuccess={handleGoogleSignIn}
+            onError={(message) => console.error(message)}
+            disabled={googleLoading}
+          />
+        </>
+      ) : null}
 
       <div className="mt-5 text-center">
         <Link

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import React from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import AuthDivider from "@/app/components/AuthDivider";
+import GoogleSignInButton from "@/app/components/GoogleSignInButton";
 import SVGAmail from "./SVG/SVGAmail";
 import SVGLock from "./SVG/SVGLock";
 
@@ -10,10 +12,14 @@ type LoginFormProps = {
   handleEmailChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handlePasswordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleGoogleSignIn?: (credential: string) => void | Promise<void>;
+  onGoogleError?: (message: string) => void;
   error: string;
   showPassword: boolean;
   togglePasswordVisibility: () => void;
   captcha?: React.ReactNode;
+  googleAuthEnabled?: boolean;
+  googleLoading?: boolean;
 };
 
 const LoginForm = ({
@@ -22,10 +28,14 @@ const LoginForm = ({
   handleEmailChange,
   handlePasswordChange,
   handleSubmit,
+  handleGoogleSignIn,
+  onGoogleError,
   error,
   showPassword,
   togglePasswordVisibility,
   captcha,
+  googleAuthEnabled = false,
+  googleLoading = false,
 }: LoginFormProps) => {
   return (
     <form className="postal-auth-panel" onSubmit={handleSubmit}>
@@ -80,6 +90,17 @@ const LoginForm = ({
       <button type="submit" className="postal-btn-primary mt-5 w-full">
         Login
       </button>
+
+      {googleAuthEnabled && handleGoogleSignIn ? (
+        <>
+          <AuthDivider />
+          <GoogleSignInButton
+            onSuccess={handleGoogleSignIn}
+            onError={onGoogleError}
+            disabled={googleLoading}
+          />
+        </>
+      ) : null}
 
       <div className="mt-5 text-center">
         <Link

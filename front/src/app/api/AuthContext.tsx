@@ -27,7 +27,7 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
 
   const getUserData = useCallback(async () => {
     try {
-      const response = await authFetch("/auth/user");
+      const response = await authFetch("/auth/me");
       if (!response.ok) {
         throw new Error("Failed to fetch user data");
       }
@@ -41,6 +41,12 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
       setEmail(null);
       setIsAuthenticated(false);
     }
+  }, []);
+
+  const applyUser = useCallback((user: UserData) => {
+    setUserData(user);
+    setEmail(user.email);
+    setIsAuthenticated(true);
   }, []);
 
   useEffect(() => {
@@ -83,10 +89,29 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
     setIsAuthenticated(true);
     setEmail(email);
     if (data.user) {
-      setUserData(data.user);
+      applyUser(data.user as UserData);
     } else {
       await getUserData();
     }
+  };
+
+  const loginWithGoogle = async (credential: string) => {
+    const response = await authFetch("/auth/google", {
+      method: "POST",
+      body: JSON.stringify({ credential }),
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Google sign-in failed");
+    }
+
+    if (data.user) {
+      applyUser(data.user as UserData);
+      return;
+    }
+
+    await getUserData();
   };
 
   const register = async (
@@ -197,6 +222,7 @@ export const AuthProvider: React.FC<{ children?: React.ReactNode }> = ({
         updateUser,
         deleteUser,
         login,
+        loginWithGoogle,
         logout,
         register,
         getUserData,

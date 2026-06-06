@@ -4,9 +4,13 @@ import { toast } from "react-toastify";
 
 interface CopyButtonDashboardProps {
   code: string;
+  compact?: boolean;
 }
 
-const CopyButtonDashboard: React.FC<CopyButtonDashboardProps> = ({ code }) => {
+const CopyButtonDashboard: React.FC<CopyButtonDashboardProps> = ({
+  code,
+  compact = false,
+}) => {
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(code);
@@ -28,7 +32,7 @@ const CopyButtonDashboard: React.FC<CopyButtonDashboardProps> = ({ code }) => {
     <button
       type="button"
       onClick={handleCopy}
-      className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-accent/30 bg-accent px-4 py-2.5 text-sm font-bold text-primary transition-colors hover:bg-white sm:w-auto"
+      className={`inline-flex items-center justify-center gap-2 rounded-lg border border-accent/30 bg-accent font-bold text-primary transition-colors hover:bg-white ${compact ? "px-3 py-1.5 text-xs" : "w-full px-4 py-2.5 text-sm sm:w-auto"}`}
     >
       <IoCopyOutline className="h-5 w-5" />
       <span>Copy</span>

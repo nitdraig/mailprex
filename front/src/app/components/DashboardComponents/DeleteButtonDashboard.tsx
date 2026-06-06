@@ -3,10 +3,12 @@ import { toast } from "react-toastify";
 
 type DeleteButtonDashboardProps = {
   deleteFormToken: () => void | Promise<void>;
+  compact?: boolean;
 };
 
 const DeleteButtonDashboard = ({
   deleteFormToken,
+  compact = false,
 }: DeleteButtonDashboardProps) => {
   const handleDelete = async () => {
     try {
@@ -28,7 +30,7 @@ const DeleteButtonDashboard = ({
     <button
       type="button"
       onClick={handleDelete}
-      className="rounded-xl border border-red-300/40 bg-red-500/90 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-red-600"
+      className={`rounded-lg border border-red-300/40 bg-red-500/90 font-bold text-white transition-colors hover:bg-red-600 ${compact ? "px-3 py-1.5 text-xs" : "px-4 py-2.5 text-sm"}`}
     >
       Delete
     </button>

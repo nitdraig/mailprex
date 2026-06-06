@@ -63,6 +63,7 @@ export type MailprexPublicConfig = {
   requiresEmailVerification: boolean;
   billingEnabled: boolean;
   billing: MailprexBillingConfig | null;
+  googleAuthEnabled?: boolean;
 };
 
 export const getMailprexConfig = async (): Promise<MailprexPublicConfig> => {

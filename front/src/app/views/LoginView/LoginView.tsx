@@ -9,14 +9,16 @@ import AuthHeader from "@/app/components/AuthHeader";
 import { toast } from "react-toastify";
 
 const LoginView = () => {
-  const { login, isAuthenticated, isAuthReady } = useAuth();
+  const { login, loginWithGoogle, isAuthenticated, isAuthReady } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [captchaToken, setCaptchaToken] = useState("");
   const [error, setError] = useState("");
+  const [googleLoading, setGoogleLoading] = useState(false);
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const captchaRequired = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
+  const googleAuthEnabled = Boolean(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -65,6 +67,25 @@ const LoginView = () => {
     }
   };
 
+  const handleGoogleSignIn = async (credential: string) => {
+    setError("");
+    setGoogleLoading(true);
+    try {
+      await loginWithGoogle(credential);
+      router.replace("/dashboard");
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Google sign-in failed";
+      setError(message);
+      toast.error(message, {
+        position: "bottom-right",
+        autoClose: 5000,
+      });
+    } finally {
+      setGoogleLoading(false);
+    }
+  };
+
   return (
     <div className="flex min-h-dvh flex-col lg:flex-row">
       <aside className="login_img_section relative hidden lg:flex lg:w-1/2">
@@ -100,6 +121,10 @@ const LoginView = () => {
               handleEmailChange={handleEmailChange}
               handlePasswordChange={handlePasswordChange}
               handleSubmit={handleSubmit}
+              handleGoogleSignIn={handleGoogleSignIn}
+              onGoogleError={setError}
+              googleAuthEnabled={googleAuthEnabled}
+              googleLoading={googleLoading}
               error={error}
               togglePasswordVisibility={togglePasswordVisibility}
               captcha={

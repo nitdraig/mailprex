@@ -7,6 +7,7 @@ interface TokenDisplayProps {
   revealedToken?: string | null;
   deleteFormToken: () => void;
   onRegenerate: () => void;
+  compact?: boolean;
 }
 
 const TokenDisplay: React.FC<TokenDisplayProps> = ({
@@ -14,39 +15,46 @@ const TokenDisplay: React.FC<TokenDisplayProps> = ({
   revealedToken,
   deleteFormToken,
   onRegenerate,
+  compact = false,
 }) => (
-  <div className="rounded-2xl border border-primary/15 bg-primary p-5 dark:border-accent/20 dark:bg-primary/95">
+  <div
+    className={`rounded-xl border border-primary/15 bg-primary dark:border-accent/20 dark:bg-primary/95 ${compact ? "p-3" : "rounded-2xl p-5"}`}
+  >
     {revealedToken ? (
       <>
-        <p className="mb-2 text-sm font-semibold text-amber-100">
-          Copy your token now — it will not be shown again.
+        <p className="mb-1 text-xs font-semibold text-amber-100">
+          Copy now — it will not be shown again.
         </p>
-        <p className="mb-4 break-all font-mono text-sm text-white">
+        <p className="mb-3 break-all font-mono text-xs text-white">
           {revealedToken}
         </p>
-        <CopyButtonDashboard code={revealedToken} />
+        <CopyButtonDashboard code={revealedToken} compact={compact} />
       </>
     ) : (
       <>
-        <p className="mb-1 text-sm font-semibold uppercase tracking-[0.1em] text-accent/80">
+        <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-accent/80">
           Active token
         </p>
-        <p className="mb-3 break-all font-mono text-lg text-white">
+        <p className="mb-2 break-all font-mono text-sm text-white lg:text-base">
           {prefix ?? "mk_live_…"}
         </p>
-        <p className="mb-5 text-sm text-accent/80">
-          For security, the full token is only shown once when generated.
-          Regenerate if you need a new copy.
-        </p>
-        <div className="flex flex-col gap-3 sm:flex-row">
+        {!compact ? (
+          <p className="mb-4 text-sm text-accent/80">
+            Full token is only shown once when generated.
+          </p>
+        ) : null}
+        <div className="flex flex-wrap gap-2">
           <button
             type="button"
             onClick={onRegenerate}
-            className="rounded-xl border border-accent/30 bg-accent px-4 py-2.5 text-sm font-bold text-primary transition-colors hover:bg-white"
+            className="rounded-lg border border-accent/30 bg-accent px-3 py-1.5 text-xs font-bold text-primary transition-colors hover:bg-white"
           >
-            Regenerate token
+            Regenerate
           </button>
-          <DeleteButtonDashboard deleteFormToken={deleteFormToken} />
+          <DeleteButtonDashboard
+            deleteFormToken={deleteFormToken}
+            compact={compact}
+          />
         </div>
       </>
     )}

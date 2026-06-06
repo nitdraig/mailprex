@@ -2,6 +2,7 @@ import {
   getBillingPublicConfig,
   isGumroadEnabled,
 } from "./gumroad";
+import { isGoogleAuthEnabled } from "../utils/googleAuth";
 
 export type MailprexMode = "internal" | "public" | "selfhost";
 
@@ -47,4 +48,5 @@ export const getPublicConfig = () => ({
   requiresEmailVerification: requiresEmailVerification(),
   billingEnabled: isGumroadEnabled(),
   billing: getBillingPublicConfig(),
+  googleAuthEnabled: isGoogleAuthEnabled(),
 });

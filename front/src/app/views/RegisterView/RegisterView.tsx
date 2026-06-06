@@ -2,13 +2,15 @@
 
 import React, { useState } from "react";
 import { useAuth } from "@/app/api/AuthContext";
+import { useRouter } from "next/navigation";
 import RegisterForm from "./components/RegisterForm";
 import TurnstileCaptcha from "@/app/components/TurnstileCaptcha";
 import AuthHeader from "@/app/components/AuthHeader";
 import { toast } from "react-toastify";
 
 const RegisterView = () => {
-  const { register } = useAuth();
+  const { register, loginWithGoogle } = useAuth();
+  const router = useRouter();
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -17,7 +19,9 @@ const RegisterView = () => {
   const [captchaToken, setCaptchaToken] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const captchaRequired = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
+  const googleAuthEnabled = Boolean(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,6 +55,20 @@ const RegisterView = () => {
     }
   };
 
+  const handleGoogleSignIn = async (credential: string) => {
+    setError(null);
+    setGoogleLoading(true);
+    try {
+      await loginWithGoogle(credential);
+      router.replace("/dashboard");
+    } catch (error) {
+      setError((error as Error).message);
+      setSuccess(null);
+    } finally {
+      setGoogleLoading(false);
+    }
+  };
+
   return (
     <div className="flex min-h-dvh flex-col lg:flex-row">
       <main className="order-2 flex min-h-dvh flex-1 flex-col bg-gradient-to-b from-accent/40 to-accent/70 lg:order-1 lg:w-1/2 lg:from-white lg:to-accent/20">
@@ -62,6 +80,9 @@ const RegisterView = () => {
           <div className="w-full max-w-lg">
             <RegisterForm
               handleSubmit={handleSubmit}
+              handleGoogleSignIn={handleGoogleSignIn}
+              googleAuthEnabled={googleAuthEnabled}
+              googleLoading={googleLoading}
               error={error}
               success={success}
               name={name}

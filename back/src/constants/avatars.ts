@@ -12,6 +12,13 @@ export const AVATAR_FILES = [
 
 export const DEFAULT_AVATAR_URL = `${SITE_URL}/avatars/${AVATAR_FILES[0]}`;
 
+export const pickDefaultAvatarUrl = (): string => {
+  const file =
+    AVATAR_FILES[Math.floor(Math.random() * AVATAR_FILES.length)] ??
+    AVATAR_FILES[0];
+  return `${SITE_URL}/avatars/${file}`;
+};
+
 export const ALLOWED_AVATAR_URLS = AVATAR_FILES.map(
   (file) => `${SITE_URL}/avatars/${file}`
 );

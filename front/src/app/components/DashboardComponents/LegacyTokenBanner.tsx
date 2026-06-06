@@ -9,20 +9,21 @@ const LegacyTokenBanner: React.FC<LegacyTokenBannerProps> = ({
 }) => (
   <div
     role="alert"
-    className="mb-4 rounded-lg border border-amber-400/60 bg-amber-50 dark:bg-amber-950/40 px-4 py-3 text-sm text-amber-900 dark:text-amber-100"
+    className="mb-2 flex flex-col gap-2 rounded-lg border border-amber-400/60 bg-amber-50 px-3 py-2 text-xs text-amber-900 dark:bg-amber-950/40 dark:text-amber-100 lg:mb-2 lg:flex-row lg:items-center lg:justify-between lg:gap-3"
   >
-    <p className="font-semibold mb-1">Legacy token detected</p>
-    <p className="mb-3 opacity-90">
-      Your form token uses the old UUID format stored in plain text. Regenerate
-      now to migrate to the secure <code className="font-mono">mk_live_</code>{" "}
-      format. Update the token in every site or env var that uses Mailprex.
-    </p>
+    <div className="min-w-0">
+      <p className="font-semibold">Legacy token detected</p>
+      <p className="opacity-90 lg:line-clamp-2">
+        Regenerate to migrate to secure{" "}
+        <code className="font-mono">mk_live_</code> format.
+      </p>
+    </div>
     <button
       type="button"
       onClick={onRegenerate}
-      className="rounded-md bg-amber-600 px-3 py-1.5 text-white font-medium hover:bg-amber-700 transition-colors"
+      className="shrink-0 rounded-md bg-amber-600 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-amber-700"
     >
-      Regenerate secure token
+      Regenerate
     </button>
   </div>
 );

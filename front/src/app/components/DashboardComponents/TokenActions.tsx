@@ -7,6 +7,7 @@ interface TokenActionsProps {
   revealedToken?: string | null;
   generateFormToken: () => void;
   deleteFormToken: () => void;
+  compact?: boolean;
 }
 
 const TokenActions: React.FC<TokenActionsProps> = ({
@@ -15,6 +16,7 @@ const TokenActions: React.FC<TokenActionsProps> = ({
   revealedToken,
   generateFormToken,
   deleteFormToken,
+  compact = false,
 }) => {
   if (hasToken || revealedToken) {
     return (
@@ -23,19 +25,20 @@ const TokenActions: React.FC<TokenActionsProps> = ({
         revealedToken={revealedToken}
         deleteFormToken={deleteFormToken}
         onRegenerate={generateFormToken}
+        compact={compact}
       />
     );
   }
 
   return (
     <div className="text-center sm:text-left">
-      <p className="postal-dashboard-stat mb-4 font-semibold">
+      <p className={`postal-dashboard-stat mb-3 font-semibold ${compact ? "text-sm" : ""}`}>
         There is no form token yet.
       </p>
       <button
         type="button"
         onClick={generateFormToken}
-        className="postal-btn-primary !rounded-xl !normal-case !tracking-normal"
+        className="postal-btn-primary !rounded-xl !py-2 !text-xs !normal-case !tracking-normal"
       >
         Generate Form Token
       </button>

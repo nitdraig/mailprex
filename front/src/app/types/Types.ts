@@ -15,6 +15,7 @@ export type AuthContextType = {
   token: string | null;
   email: string | null;
   login: (email: string, password: string, captchaToken?: string) => Promise<void>;
+  loginWithGoogle: (credential: string) => Promise<void>;
   register: (
     name: string,
     lastName: string,

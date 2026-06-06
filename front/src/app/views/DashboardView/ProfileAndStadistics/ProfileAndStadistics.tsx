@@ -108,26 +108,23 @@ const ProfileAndStadisticView = () => {
   }, [userData]);
 
   return (
-    <section className="mx-auto max-w-6xl">
-      <div className="mb-8 text-center sm:text-left">
-        <p className="postal-eyebrow-dark mb-2">Welcome back</p>
-        <h2 className="text-3xl font-bold uppercase tracking-[0.05em] text-primary dark:text-white sm:text-4xl">
+    <section className="mx-auto flex h-full max-w-7xl flex-col lg:min-h-0">
+      <div className="mb-3 shrink-0 lg:hidden">
+        <p className="postal-eyebrow-dark mb-1">Welcome back</p>
+        <h2 className="text-2xl font-bold uppercase tracking-[0.05em] text-primary dark:text-white">
           {userData?.name}
         </h2>
-        <p className="mt-2 text-secondary/70 dark:text-accent/80">
-          Manage your routes, tokens, and delivery stats.
-        </p>
       </div>
 
-      <div className="grid grid-cols-6 gap-4">
-        <div className="postal-dashboard-card col-span-full sm:col-span-2 lg:col-span-2">
-          <UserCard userData={userData} lastEmailDate={lastEmailDate} />
+      <div className="grid flex-1 grid-cols-1 gap-3 lg:min-h-0 lg:grid-cols-12 lg:grid-rows-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+        <div className="postal-dashboard-card lg:col-span-3 lg:flex lg:min-h-0 lg:items-center">
+          <UserCard userData={userData} lastEmailDate={lastEmailDate} compact />
         </div>
 
-        <div className="postal-dashboard-card col-span-full lg:col-span-4">
-          {legacyToken && hasToken && !revealedToken && (
+        <div className="postal-dashboard-card flex min-h-0 flex-col lg:col-span-9 lg:overflow-y-auto">
+          {legacyToken && hasToken && !revealedToken ? (
             <LegacyTokenBanner onRegenerate={generateToken} />
-          )}
+          ) : null}
           <FormTokenManagmentCard
             hasToken={hasToken}
             tokenPrefix={tokenPrefix}
@@ -136,22 +133,24 @@ const ProfileAndStadisticView = () => {
             error={error}
             generateToken={generateToken}
             handleDeleteToken={handleDeleteToken}
+            compact
           />
         </div>
 
-        <div className="postal-dashboard-card col-span-full lg:col-span-2">
+        <div className="postal-dashboard-card lg:col-span-4 lg:flex lg:items-center">
           <EmailStats
             sentEmails={sentEmails}
             remainingEmails={remainingEmails}
+            compact
           />
         </div>
 
-        <div className="postal-dashboard-card col-span-full flex lg:col-span-2">
-          <UserPlanCard userPlan={userData?.userType} />
+        <div className="postal-dashboard-card lg:col-span-4 lg:flex lg:items-center">
+          <UserPlanCard userPlan={userData?.userType} compact />
         </div>
 
-        <div className="postal-dashboard-card col-span-full sm:col-span-3 lg:col-span-2">
-          <LastSentCard lastEmailDate={lastEmailDate} />
+        <div className="postal-dashboard-card lg:col-span-4 lg:flex lg:items-center">
+          <LastSentCard lastEmailDate={lastEmailDate} compact />
         </div>
       </div>
     </section>

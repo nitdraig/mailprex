@@ -35,7 +35,7 @@ Minimum required body fields for `/email/send`:
 |---|---|
 | `formToken` | Your dashboard token |
 | `webName` | Site or product name (email subject) |
-| `emailDestiny` | **Must match** your Mailprex account email |
+| `emailDestiny` | Inbox that receives the notification email |
 | `fullname` | Sender name from the form |
 | `email` | Sender email from the form |
 | `message` | Message body |
@@ -67,7 +67,7 @@ await fetch("https://api.mailprex.excelso.xyz/email/send", {
 
 Submit the form and check your inbox. If sending fails:
 
-- Confirm `emailDestiny` matches your account email exactly.
+- Confirm `emailDestiny` is a valid recipient address.
 - Confirm the token is the full `mk_live_…` value, not just the dashboard prefix.
 - Check monthly quota on the dashboard (Free: 200/month).
 

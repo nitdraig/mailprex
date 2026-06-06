@@ -99,7 +99,7 @@ const { formData, handleChange, handleSubmit, response } = useMailprex({
 3. Copy the full `mk_live_…` token immediately — it is only shown once.
 4. Store it in `.env` (e.g. `MAILPREX_FORM_TOKEN` or `NEXT_PUBLIC_MAILPREX_FORM_TOKEN`).
 
-`emailDestiny` must match your Mailprex account email.
+`emailDestiny` is the recipient inbox for form notifications (any valid email).
 
 ## API reference
 
@@ -110,7 +110,7 @@ const { formData, handleChange, handleSubmit, response } = useMailprex({
 | `url` | Yes | `POST /email/send` endpoint |
 | `formToken` | Yes | Dashboard token |
 | `webName` | Yes | Site name in email subject |
-| `emailDestiny` | Yes | Account owner inbox |
+| `emailDestiny` | Yes | Recipient inbox |
 | `fields` | Yes | Payload key/value map |
 | `captchaToken` | No | Turnstile token if API requires CAPTCHA |
 

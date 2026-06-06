@@ -1,6 +1,6 @@
 # User fields guide
 
-The `POST /email/send` endpoint accepts JSON and delivers a formatted email to the account owner.
+The `POST /email/send` endpoint accepts JSON and delivers a formatted email to the address you specify in `emailDestiny`.
 
 **Base URL:** `https://api.mailprex.excelso.xyz/email/send`
 
@@ -8,7 +8,7 @@ The `POST /email/send` endpoint accepts JSON and delivers a formatted email to t
 
 | Field | Type | Description |
 |---|---|---|
-| `emailDestiny` | string | Recipient email — **must match** the Mailprex account that owns the token |
+| `emailDestiny` | string | Recipient inbox for the notification email |
 | `fullname` | string | Name entered in the form |
 | `email` | string | Email entered in the form |
 | `message` | string | Message body |
@@ -26,7 +26,6 @@ The `POST /email/send` endpoint accepts JSON and delivers a formatted email to t
 ## Validation and limits
 
 - Invalid or missing token → `401`
-- `emailDestiny` ≠ account email → `403`
 - Monthly quota exceeded → `429`
 - Too many sends to the same recipient per hour → `429`
 

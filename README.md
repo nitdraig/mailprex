@@ -64,7 +64,7 @@ export function ContactForm() {
   const { formData, handleChange, handleSubmit, response } = useMailprex({
     url: "https://api.mailprex.excelso.xyz/email/send",
     webName: "My Site",
-    emailDestiny: "you@example.com", // must match your Mailprex account email
+    emailDestiny: "you@example.com", // inbox that receives form submissions
     formToken: process.env.NEXT_PUBLIC_MAILPREX_FORM_TOKEN!,
   });
 
@@ -126,7 +126,7 @@ Content-Type: application/json
 }
 ```
 
-`emailDestiny` must match the Mailprex account email that owns the token.
+`emailDestiny` is the recipient inbox for each send (any valid email). Rate limits still apply per account and per recipient.
 
 Full reference: [API docs](https://docs.mailprex.excelso.xyz/mailprexAPI)
 

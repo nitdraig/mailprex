@@ -8,7 +8,7 @@ HTTP API for Mailprex form-to-email.
 
 ### `POST /email/send`
 
-Sends a contact form email to the token owner.
+Sends a contact form email to `emailDestiny`.
 
 **Authentication:** `formToken` in JSON body (no cookie).
 
@@ -43,7 +43,6 @@ Sends a contact form email to the token owner.
 |---|---|
 | `400` | Validation failed |
 | `401` | Invalid `formToken` |
-| `403` | `emailDestiny` does not match token owner |
 | `429` | Rate or monthly quota exceeded |
 | `500` | SMTP / server error |
 

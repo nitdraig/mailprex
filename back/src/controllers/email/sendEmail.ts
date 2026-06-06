@@ -38,13 +38,7 @@ export const sendEmail = [
       emailDestiny,
     } = req.body;
 
-    const normalizedDestiny = String(emailDestiny).toLowerCase();
-
-    if (normalizedDestiny !== user.email.toLowerCase()) {
-      return res.status(403).json({
-        message: "Destination email must match the account owner email",
-      });
-    }
+    const normalizedDestiny = String(emailDestiny).toLowerCase().trim();
 
     const safeWebName = escapeHtml(webName);
     const safeFullname = escapeHtml(fullname);

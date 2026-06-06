@@ -30,7 +30,7 @@ Your website form  →  POST /email/send  →  Mailprex API  →  Your inbox
 
 - Tokens are **hashed** in the database; the full secret is shown **once** when generated.
 - Legacy UUID tokens still work — regenerate from the dashboard to migrate.
-- `emailDestiny` in each request must match your account email (anti-relay).
+- `emailDestiny` is the inbox that receives each form notification (any valid email).
 - Optional Cloudflare Turnstile on register, login, and send.
 
 ## Support

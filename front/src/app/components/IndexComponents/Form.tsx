@@ -2,12 +2,18 @@
 
 import Swal from "sweetalert2";
 import { useMailprex } from "usemailprex-react";
+import { useEffect, useRef } from "react";
+
+const isValidEmail = (value: string): boolean =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
 const Form = () => {
   const webName = "Mailprex Landing";
-  const emailDestiny = process.env.NEXT_PUBLIC_EMAIL_DESTINY || "";
-  const url = process.env.NEXT_PUBLIC_API_URL_SEND || "";
-  const formToken = process.env.NEXT_PUBLIC_MAILPREX_FORM_TOKEN || "";
+  const emailDestiny = (process.env.NEXT_PUBLIC_EMAIL_DESTINY || "").trim();
+  const url = (process.env.NEXT_PUBLIC_API_URL_SEND || "").trim();
+  const formToken = (process.env.NEXT_PUBLIC_MAILPREX_FORM_TOKEN || "").trim();
+  const awaitingResponse = useRef(false);
+
   const { formData, handleChange, handleSubmit, response } = useMailprex({
     url,
     webName,
@@ -15,17 +21,57 @@ const Form = () => {
     formToken,
   });
 
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    await handleSubmit(e);
+  useEffect(() => {
+    if (!awaitingResponse.current || response.loading) {
+      return;
+    }
+
+    awaitingResponse.current = false;
+
     if (response.error) {
       Swal.fire({
-        title: "Error sending message. Try again later.",
+        title: "Error sending message",
+        text: response.error,
         icon: "error",
       });
-    } else {
-      Swal.fire({ title: "Message sent successfully!", icon: "success" });
+      return;
     }
+
+    Swal.fire({ title: "Message sent successfully!", icon: "success" });
+  }, [response]);
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!formToken) {
+      Swal.fire({
+        title: "Missing form token",
+        text: "Set NEXT_PUBLIC_MAILPREX_FORM_TOKEN in your environment.",
+        icon: "error",
+      });
+      return;
+    }
+
+    if (!url) {
+      Swal.fire({
+        title: "Missing API URL",
+        text: "Set NEXT_PUBLIC_API_URL_SEND to your /email/send endpoint.",
+        icon: "error",
+      });
+      return;
+    }
+
+    if (!isValidEmail(emailDestiny)) {
+      Swal.fire({
+        title: "Invalid destination email",
+        text: "Set NEXT_PUBLIC_EMAIL_DESTINY to the inbox where form submissions should be delivered.",
+        icon: "error",
+      });
+      return;
+    }
+
+    awaitingResponse.current = true;
+    await handleSubmit(e);
   };
 
   return (

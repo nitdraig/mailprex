@@ -32,15 +32,15 @@ const TokenActions: React.FC<TokenActionsProps> = ({
   }
 
   return (
-    <div className="postal-dashboard-empty py-1.5">
-      <div className="flex min-w-0 items-center gap-1.5">
-        <HiOutlineKey className="shrink-0 text-base text-slate-400" />
-        <p className="postal-dashboard-stat text-[10px]">No token — generate to connect forms.</p>
+    <div className="postal-dashboard-empty">
+      <div className="flex min-w-0 items-center gap-2">
+        <HiOutlineKey className="shrink-0 text-xl text-slate-400" />
+        <p className="postal-dashboard-stat">No token yet — generate one to connect your forms.</p>
       </div>
       <button
         type="button"
         onClick={generateFormToken}
-        className="shrink-0 rounded bg-primary px-2 py-1 text-[10px] font-semibold text-white hover:bg-primary/90 dark:bg-accent dark:text-primary"
+        className="shrink-0 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary/90 dark:bg-accent dark:text-primary"
       >
         Generate
       </button>

@@ -22,11 +22,11 @@ const FormTokenManagmentCard = ({
   handleDeleteToken,
 }: FormTokenManagmentCardProps) => {
   return (
-    <div className="space-y-1.5">
-      <div className="flex items-center justify-between gap-2">
+    <div className="space-y-3">
+      <div className="flex items-center justify-between gap-3">
         <h2 className="postal-dashboard-title">Form token</h2>
         <a
-          className="shrink-0 text-[10px] font-medium text-primary hover:underline dark:text-accent"
+          className="shrink-0 text-sm font-medium text-primary hover:underline dark:text-accent"
           target="_blank"
           rel="noreferrer"
           href="https://docs.mailprex.excelso.xyz"
@@ -35,7 +35,7 @@ const FormTokenManagmentCard = ({
         </a>
       </div>
 
-      {loading ? <p className="postal-dashboard-muted text-[10px]">Loading...</p> : null}
+      {loading ? <p className="postal-dashboard-muted">Loading...</p> : null}
       {error ? (
         <p className="rounded-md border border-red-200 bg-red-50 px-2 py-1 text-xs text-red-600 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300">
           {error}

@@ -10,7 +10,7 @@ type DashboardSideBarProps = {
 };
 
 const iconBtn =
-  "flex h-8 w-8 items-center justify-center rounded text-slate-500 transition-colors hover:bg-slate-200/70 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-slate-100";
+  "flex h-10 w-10 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-200/70 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-slate-100";
 
 const DashboardSideBar = ({
   toggleDarkMode,
@@ -18,10 +18,10 @@ const DashboardSideBar = ({
   onLogout,
 }: DashboardSideBarProps) => {
   return (
-    <aside className="flex w-10 shrink-0 flex-col items-center border-r border-slate-200/80 bg-white py-1.5 dark:border-white/[0.06] dark:bg-[#121d30]">
-      <Link href="/" className="mb-2 p-0.5" aria-label="Back to home">
+    <aside className="flex w-14 shrink-0 flex-col items-center border-r border-slate-200/80 bg-white py-3 dark:border-white/[0.06] dark:bg-[#121d30]">
+      <Link href="/" className="mb-4 p-0.5" aria-label="Back to home">
         <img
-          className="h-6 w-6 rounded-full border border-slate-200 object-cover dark:border-white/10"
+          className="h-8 w-8 rounded-full border border-slate-200 object-cover dark:border-white/10"
           src="https://mailprex.excelso.xyz/logo.webp"
           alt="Mailprex"
         />

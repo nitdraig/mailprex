@@ -81,7 +81,7 @@ const ProfileMenu = ({
           src={resolveProfilePhoto(photo)}
           alt="Profile"
           isBordered
-          size={hideDashboardLink ? "sm" : "md"}
+          size="md"
         />
       </button>
 

@@ -19,15 +19,15 @@ const TokenDisplay: React.FC<TokenDisplayProps> = ({
 }) => (
   <div>
     {revealedToken ? (
-      <p className="mb-1 text-[9px] font-medium text-amber-600 dark:text-amber-300">
+      <p className="mb-2 text-sm font-medium text-amber-600 dark:text-amber-300">
         Copy now — shown only once.
       </p>
     ) : null}
-    <div className="flex flex-wrap items-center gap-1.5 rounded bg-[#1a2f4d] px-2 py-1.5 dark:bg-[#0d1828]">
-      <code className="min-w-0 flex-1 truncate font-mono text-[11px] text-white">
+    <div className="flex flex-wrap items-center gap-2 rounded-lg bg-[#1a2f4d] px-3 py-2.5 dark:bg-[#0d1828]">
+      <code className="min-w-0 flex-1 truncate font-mono text-sm text-white">
         {revealedToken ?? prefix ?? "mk_live_…"}
       </code>
-      <div className="flex shrink-0 gap-1.5">
+      <div className="flex shrink-0 gap-2">
         {revealedToken ? (
           <CopyButtonDashboard code={revealedToken} compact={compact} />
         ) : (
@@ -35,7 +35,7 @@ const TokenDisplay: React.FC<TokenDisplayProps> = ({
             <button
               type="button"
               onClick={onRegenerate}
-              className="rounded bg-white px-2 py-0.5 text-[10px] font-semibold text-primary hover:bg-accent"
+              className="rounded-lg bg-white px-3 py-1.5 text-sm font-semibold text-primary hover:bg-accent"
             >
               Regenerate
             </button>

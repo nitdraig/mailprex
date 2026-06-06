@@ -35,9 +35,9 @@ const DashboardLayout = ({ children }: LayoutProps) => {
         />
 
         <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-          <header className="shrink-0 border-b border-slate-200/80 bg-white/90 px-2.5 py-1.5 backdrop-blur-md dark:border-white/[0.06] dark:bg-[#121d30]/95 sm:px-3">
-            <div className="flex items-center justify-between gap-2">
-              <h1 className="min-w-0 truncate text-xs font-semibold text-slate-900 dark:text-white sm:text-sm">
+          <header className="shrink-0 border-b border-slate-200/80 bg-white/90 px-4 py-3 backdrop-blur-md dark:border-white/[0.06] dark:bg-[#121d30]/95">
+            <div className="flex items-center justify-between gap-3">
+              <h1 className="min-w-0 truncate text-base font-semibold text-slate-900 dark:text-white">
                 Hello, {userData?.name ?? "there"}
                 <span className="postal-dashboard-muted hidden font-normal sm:inline">
                   {" "}
@@ -52,7 +52,7 @@ const DashboardLayout = ({ children }: LayoutProps) => {
             </div>
           </header>
 
-          <main className="flex min-h-0 flex-1 flex-col overflow-y-auto px-2 py-1.5 lg:overflow-hidden lg:px-3 lg:py-1.5">
+          <main className="flex min-h-0 flex-1 flex-col justify-center overflow-y-auto px-4 py-4 lg:overflow-hidden lg:px-6 lg:py-6">
             {children}
           </main>
         </div>

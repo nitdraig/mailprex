@@ -8,20 +8,20 @@ type EmailStatsProps = {
 
 const EmailStats = ({ sentEmails, remainingEmails }: EmailStatsProps) => {
   return (
-    <div>
-      <p className="postal-dashboard-label mb-1">Usage</p>
-      <div className="flex items-baseline gap-4">
-        <div className="flex items-baseline gap-1.5">
-          <span className="postal-dashboard-muted text-[10px]">Sent</span>
-          <span className="text-base font-semibold leading-none text-emerald-600 dark:text-emerald-400">
+    <div className="space-y-3">
+      <p className="postal-dashboard-label">Usage</p>
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <p className="postal-dashboard-muted mb-1 text-sm">Sent</p>
+          <p className="text-2xl font-semibold leading-none text-emerald-600 dark:text-emerald-400">
             {sentEmails}
-          </span>
+          </p>
         </div>
-        <div className="flex items-baseline gap-1.5">
-          <span className="postal-dashboard-muted text-[10px]">Left</span>
-          <span className="text-base font-semibold leading-none text-rose-600 dark:text-rose-400">
+        <div className="text-right">
+          <p className="postal-dashboard-muted mb-1 text-sm">Remaining</p>
+          <p className="text-2xl font-semibold leading-none text-rose-600 dark:text-rose-400">
             {remainingEmails}
-          </span>
+          </p>
         </div>
       </div>
     </div>

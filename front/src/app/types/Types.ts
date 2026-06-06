@@ -7,6 +7,7 @@ export type UserData = {
   userType: "free" | "standard" | "business";
   requestCount: number;
   lastRequest: Date;
+  isAdmin?: boolean;
 };
 
 export type AuthContextType = {

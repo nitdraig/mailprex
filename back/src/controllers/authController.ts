@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 import { transporter } from "../config/transporterConfig";
 import { DEFAULT_AVATAR_URL } from "../constants/avatars";
 import { clearAuthCookie, setAuthCookie } from "../utils/authCookie";
-import { sanitizeUser } from "../utils/sanitizeUser";
+import { sanitizeUser, sanitizeSessionUser } from "../utils/sanitizeUser";
 import { revokeAccessToken, signAccessToken } from "../utils/jwtAuth";
 import { getAuthTokenFromRequest } from "../utils/getAuthToken";
 import { getPublicConfig, requiresEmailVerification } from "../config/mailprexMode";
@@ -136,7 +136,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
     res.status(200).json({
       message: "Successful login",
-      user: sanitizeUser(user),
+      user: sanitizeSessionUser(user),
     });
   } catch (error) {
     console.error("Error during login:", error);
@@ -160,7 +160,7 @@ export const getMe = (req: Request, res: Response): void => {
     return;
   }
 
-  res.status(200).json(sanitizeUser(req.user));
+  res.status(200).json(sanitizeSessionUser(req.user));
 };
 
 export const getConfig = (_req: Request, res: Response): void => {

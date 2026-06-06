@@ -4,7 +4,7 @@ import crypto from "crypto";
 import User from "../models/userModel";
 import { pickDefaultAvatarUrl } from "../constants/avatars";
 import { setAuthCookie } from "../utils/authCookie";
-import { sanitizeUser } from "../utils/sanitizeUser";
+import { sanitizeSessionUser } from "../utils/sanitizeUser";
 import { signAccessToken } from "../utils/jwtAuth";
 import {
   isGoogleAuthEnabled,
@@ -75,7 +75,7 @@ export const loginWithGoogle = async (
 
     res.status(200).json({
       message: "Successful login",
-      user: sanitizeUser(user),
+      user: sanitizeSessionUser(user),
     });
   } catch (error) {
     console.error("Google sign-in failed:", error);

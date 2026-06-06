@@ -18,6 +18,8 @@ export interface IUser {
   gumroadSaleId?: string;
   gumroadSubscriptionId?: string;
   subscriptionStatus?: "active" | "past_due" | "canceled" | "none";
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export type UserDocument = HydratedDocument<IUser>;
@@ -48,7 +50,7 @@ const userSchema = new Schema<IUser>({
     enum: ["active", "past_due", "canceled", "none"],
     default: "none",
   },
-});
+}, { timestamps: true });
 
 userSchema.index({ formToken: 1 }, { unique: true, sparse: true });
 userSchema.index({ formTokenPrefix: 1 }, { unique: true, sparse: true });

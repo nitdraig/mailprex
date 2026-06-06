@@ -32,6 +32,7 @@ const DashboardLayout = ({ children }: LayoutProps) => {
           toggleDarkMode={toggleDarkMode}
           darkMode={darkMode}
           onLogout={handleLogout}
+          isAdmin={userData?.isAdmin}
         />
 
         <div className="flex min-h-0 min-w-0 flex-1 flex-col">

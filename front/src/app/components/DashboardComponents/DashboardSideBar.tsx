@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { CgTemplate } from "react-icons/cg";
-import { FaMoon, FaSignOutAlt } from "react-icons/fa";
+import { FaMoon, FaShieldAlt, FaSignOutAlt } from "react-icons/fa";
 import { IoSunnyOutline } from "react-icons/io5";
+import { MdDashboard } from "react-icons/md";
 
 type DashboardSideBarProps = {
   toggleDarkMode: () => void;
   darkMode: boolean;
   onLogout: () => void;
+  isAdmin?: boolean;
 };
 
 const iconBtn =
@@ -16,6 +18,7 @@ const DashboardSideBar = ({
   toggleDarkMode,
   darkMode,
   onLogout,
+  isAdmin = false,
 }: DashboardSideBarProps) => {
   return (
     <aside className="flex w-14 shrink-0 flex-col items-center border-r border-slate-200/80 bg-white py-3 dark:border-white/[0.06] dark:bg-[#121d30]">
@@ -26,6 +29,16 @@ const DashboardSideBar = ({
           alt="Mailprex"
         />
       </Link>
+
+      <Link href="/dashboard" className={iconBtn} title="Dashboard">
+        <MdDashboard className="text-base" />
+      </Link>
+
+      {isAdmin ? (
+        <Link href="/dashboard/admin" className={iconBtn} title="Admin console">
+          <FaShieldAlt className="text-base" />
+        </Link>
+      ) : null}
 
       <a
         href="https://docs.mailprex.excelso.xyz"

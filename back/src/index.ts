@@ -6,6 +6,7 @@ import emailRoutes from "./routes/emailRoutes";
 import authRoutes from "./routes/authRoutes";
 import tokenRoutes from "./routes/tokenRoutes";
 import billingRoutes from "./routes/billingRoutes";
+import adminRoutes from "./routes/adminRoutes";
 import emailVerify from "./routes/emailVerify";
 import { gumroadPing } from "./controllers/billingController";
 import dotenv from "dotenv";
@@ -153,6 +154,7 @@ app.use("/email", cors({ origin: "*" }), emailRateLimiter, emailRoutes);
 app.use("/auth", authRoutes);
 app.use("/token", tokenRoutes);
 app.use("/billing", billingRoutes);
+app.use("/admin", adminRoutes);
 app.use("/verify", emailVerify);
 
 app.use((req: Request, res: Response, next: NextFunction) => {

@@ -17,45 +17,36 @@ const TokenDisplay: React.FC<TokenDisplayProps> = ({
   onRegenerate,
   compact = false,
 }) => (
-  <div
-    className={`rounded-lg border border-primary/20 bg-[#1e3354] ${compact ? "p-3" : "p-4"} dark:border-white/10 dark:bg-[#0f1c2e]`}
-  >
+  <div>
     {revealedToken ? (
-      <>
-        <p className="mb-2 text-xs font-medium text-amber-200/90">
-          Copy now — it will not be shown again.
-        </p>
-        <p className="mb-3 break-all rounded-md bg-black/20 px-2 py-2 font-mono text-xs text-white">
-          {revealedToken}
-        </p>
-        <CopyButtonDashboard code={revealedToken} compact={compact} />
-      </>
-    ) : (
-      <>
-        <p className="postal-dashboard-label mb-1 text-slate-400">Active token</p>
-        <p className="mb-3 break-all rounded-md bg-black/20 px-2 py-2 font-mono text-sm text-white">
-          {prefix ?? "mk_live_…"}
-        </p>
-        {!compact ? (
-          <p className="postal-dashboard-muted mb-3 text-slate-400">
-            Full token is only shown once when generated.
-          </p>
-        ) : null}
-        <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={onRegenerate}
-            className="rounded-lg bg-white px-3 py-1.5 text-xs font-semibold text-primary transition-colors hover:bg-accent"
-          >
-            Regenerate
-          </button>
-          <DeleteButtonDashboard
-            deleteFormToken={deleteFormToken}
-            compact={compact}
-          />
-        </div>
-      </>
-    )}
+      <p className="mb-1 text-[9px] font-medium text-amber-600 dark:text-amber-300">
+        Copy now — shown only once.
+      </p>
+    ) : null}
+    <div className="flex flex-wrap items-center gap-1.5 rounded bg-[#1a2f4d] px-2 py-1.5 dark:bg-[#0d1828]">
+      <code className="min-w-0 flex-1 truncate font-mono text-[11px] text-white">
+        {revealedToken ?? prefix ?? "mk_live_…"}
+      </code>
+      <div className="flex shrink-0 gap-1.5">
+        {revealedToken ? (
+          <CopyButtonDashboard code={revealedToken} compact={compact} />
+        ) : (
+          <>
+            <button
+              type="button"
+              onClick={onRegenerate}
+              className="rounded bg-white px-2 py-0.5 text-[10px] font-semibold text-primary hover:bg-accent"
+            >
+              Regenerate
+            </button>
+            <DeleteButtonDashboard
+              deleteFormToken={deleteFormToken}
+              compact={compact}
+            />
+          </>
+        )}
+      </div>
+    </div>
   </div>
 );
 

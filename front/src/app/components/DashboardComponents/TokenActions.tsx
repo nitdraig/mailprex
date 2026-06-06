@@ -32,18 +32,17 @@ const TokenActions: React.FC<TokenActionsProps> = ({
   }
 
   return (
-    <div className="postal-dashboard-empty h-full min-h-[9rem]">
-      <HiOutlineKey className="mb-2 text-3xl text-slate-400 dark:text-slate-500" />
-      <p className="postal-dashboard-title mb-1">No token yet</p>
-      <p className="postal-dashboard-muted mb-4 max-w-xs">
-        Generate a private token to connect forms from your website.
-      </p>
+    <div className="postal-dashboard-empty py-1.5">
+      <div className="flex min-w-0 items-center gap-1.5">
+        <HiOutlineKey className="shrink-0 text-base text-slate-400" />
+        <p className="postal-dashboard-stat text-[10px]">No token — generate to connect forms.</p>
+      </div>
       <button
         type="button"
         onClick={generateFormToken}
-        className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary/90 dark:bg-accent dark:text-primary dark:hover:bg-white"
+        className="shrink-0 rounded bg-primary px-2 py-1 text-[10px] font-semibold text-white hover:bg-primary/90 dark:bg-accent dark:text-primary"
       >
-        Generate token
+        Generate
       </button>
     </div>
   );

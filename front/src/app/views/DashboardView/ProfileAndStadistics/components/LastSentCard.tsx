@@ -10,46 +10,31 @@ type LastSentCardProps = {
 
 const LastSentCard = ({ lastEmailDate }: LastSentCardProps) => {
   return (
-    <div className="flex h-full w-full flex-col justify-between">
-      <div>
-        <p className="postal-dashboard-label mb-1">Activity</p>
-        <h2 className="postal-dashboard-title mb-1">Last delivery</h2>
-        <p className="text-lg font-medium text-primary dark:text-accent">
-          {lastEmailDate || "No sends yet"}
+    <div>
+      <div className="mb-1 flex items-baseline justify-between gap-2">
+        <p className="postal-dashboard-label">Last delivery</p>
+        <p className="text-xs font-medium text-primary dark:text-accent">
+          {lastEmailDate || "—"}
         </p>
       </div>
-
-      <div className="mt-4 flex items-center justify-between gap-2 rounded-lg bg-slate-50 px-3 py-3 dark:bg-white/[0.04]">
-        <div className="flex flex-col items-center gap-1">
-          <img
-            className="h-7 w-7 rounded-full border border-slate-200 object-cover dark:border-white/10"
-            src={defaultAvatar.src}
-            alt="Your website"
-          />
-          <span className="postal-dashboard-muted">Web</span>
-        </div>
-
+      <div className="flex items-center gap-1">
+        <img
+          className="h-4 w-4 rounded-full border border-slate-200 object-cover dark:border-white/10"
+          src={defaultAvatar.src}
+          alt="Web"
+        />
         <div className="h-px flex-1 bg-slate-300 dark:bg-white/10" />
-
-        <div className="flex flex-col items-center gap-1">
-          <img
-            className="h-8 w-8 rounded-full border border-slate-200 object-cover dark:border-white/10"
-            src={MAILPREX_LOGO}
-            alt="Mailprex"
-          />
-          <span className="postal-dashboard-muted">Mailprex</span>
-        </div>
-
+        <img
+          className="h-5 w-5 rounded-full border border-slate-200 object-cover dark:border-white/10"
+          src={MAILPREX_LOGO}
+          alt="Mailprex"
+        />
         <div className="h-px flex-1 bg-slate-300 dark:bg-white/10" />
-
-        <div className="flex flex-col items-center gap-1">
-          <img
-            className="h-7 w-7 rounded-full border border-slate-200 object-cover dark:border-white/10"
-            src={defaultAvatar.src}
-            alt="Your inbox"
-          />
-          <span className="postal-dashboard-muted">Inbox</span>
-        </div>
+        <img
+          className="h-4 w-4 rounded-full border border-slate-200 object-cover dark:border-white/10"
+          src={defaultAvatar.src}
+          alt="Inbox"
+        />
       </div>
     </div>
   );

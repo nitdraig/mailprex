@@ -77,7 +77,12 @@ const ProfileMenu = ({
         onClick={toggleMenu}
         className="rounded-full focus:outline-none focus:ring-2 focus:ring-accent"
       >
-        <Avatar src={resolveProfilePhoto(photo)} alt="Profile" isBordered size="md" />
+        <Avatar
+          src={resolveProfilePhoto(photo)}
+          alt="Profile"
+          isBordered
+          size={hideDashboardLink ? "sm" : "md"}
+        />
       </button>
 
       {open ? (

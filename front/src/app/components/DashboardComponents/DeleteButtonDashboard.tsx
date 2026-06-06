@@ -30,7 +30,7 @@ const DeleteButtonDashboard = ({
     <button
       type="button"
       onClick={handleDelete}
-      className={`rounded-lg border border-red-300/40 bg-red-500/90 font-bold text-white transition-colors hover:bg-red-600 ${compact ? "px-3 py-1.5 text-xs" : "px-4 py-2.5 text-sm"}`}
+      className={`border border-red-300/40 bg-red-500/90 font-semibold text-white transition-colors hover:bg-red-600 ${compact ? "rounded px-2 py-0.5 text-[10px]" : "rounded-lg px-4 py-2.5 text-sm font-bold"}`}
     >
       Delete
     </button>

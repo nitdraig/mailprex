@@ -9,8 +9,8 @@ type DashboardSideBarProps = {
   onLogout: () => void;
 };
 
-const iconButtonClass =
-  "flex h-10 w-10 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-200/70 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-slate-100";
+const iconBtn =
+  "flex h-8 w-8 items-center justify-center rounded text-slate-500 transition-colors hover:bg-slate-200/70 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-slate-100";
 
 const DashboardSideBar = ({
   toggleDarkMode,
@@ -18,53 +18,42 @@ const DashboardSideBar = ({
   onLogout,
 }: DashboardSideBarProps) => {
   return (
-    <aside className="flex w-16 shrink-0 flex-col items-center border-r border-slate-200/80 bg-white py-4 dark:border-white/[0.06] dark:bg-[#121d30] sm:w-[4.5rem]">
-      <Link
-        href="/"
-        className="mb-6 rounded-lg p-1 transition-opacity hover:opacity-80"
-        aria-label="Back to home"
-      >
+    <aside className="flex w-10 shrink-0 flex-col items-center border-r border-slate-200/80 bg-white py-1.5 dark:border-white/[0.06] dark:bg-[#121d30]">
+      <Link href="/" className="mb-2 p-0.5" aria-label="Back to home">
         <img
-          className="h-9 w-9 rounded-full border border-slate-200 object-cover dark:border-white/10"
+          className="h-6 w-6 rounded-full border border-slate-200 object-cover dark:border-white/10"
           src="https://mailprex.excelso.xyz/logo.webp"
           alt="Mailprex"
         />
       </Link>
 
-      <nav aria-label="Dashboard navigation" className="flex flex-col gap-1">
-        <a
-          href="https://docs.mailprex.excelso.xyz"
-          target="_blank"
-          rel="noreferrer"
-          className={iconButtonClass}
-          title="Documentation"
-        >
-          <CgTemplate className="text-lg" />
-        </a>
-      </nav>
+      <a
+        href="https://docs.mailprex.excelso.xyz"
+        target="_blank"
+        rel="noreferrer"
+        className={iconBtn}
+        title="Documentation"
+      >
+        <CgTemplate className="text-base" />
+      </a>
 
-      <div className="mt-auto flex flex-col gap-1">
+      <div className="mt-auto flex flex-col gap-0.5">
         <button
           type="button"
-          className={iconButtonClass}
+          className={iconBtn}
           onClick={toggleDarkMode}
-          aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+          aria-label={darkMode ? "Light mode" : "Dark mode"}
         >
-          {darkMode ? (
-            <IoSunnyOutline className="text-lg" />
-          ) : (
-            <FaMoon className="text-lg" />
-          )}
+          {darkMode ? <IoSunnyOutline /> : <FaMoon />}
         </button>
-
         <button
           type="button"
           onClick={onLogout}
-          className={`${iconButtonClass} hover:bg-red-500/10 hover:text-red-500 dark:hover:text-red-400`}
+          className={`${iconBtn} hover:text-red-500 dark:hover:text-red-400`}
           aria-label="Log out"
           title="Log out"
         >
-          <FaSignOutAlt className="text-lg" />
+          <FaSignOutAlt />
         </button>
       </div>
     </aside>

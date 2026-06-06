@@ -111,36 +111,35 @@ const UserCard = ({ userData, lastEmailDate, compact = false }: UserCardProps) =
       <div
         className={
           compact
-            ? "flex w-full items-center gap-4"
+            ? "flex w-full items-center gap-2.5"
             : ""
         }
       >
         <div
-          className={`relative flex shrink-0 items-center justify-center rounded-full ring-2 ring-slate-200 dark:ring-white/10 ${
-            compact ? "size-[4.5rem]" : "mx-auto size-32"
+          className={`relative shrink-0 rounded-full ring-2 ring-slate-200 dark:ring-white/10 ${
+            compact ? "size-9" : "mx-auto size-32"
           }`}
         >
           <img
-            className={`rounded-full object-cover ${compact ? "size-16" : "size-28"}`}
+            className={`rounded-full object-cover ${compact ? "size-9" : "size-28"}`}
             src={profilePhoto}
             alt="Profile picture"
           />
           <button
             type="button"
-            className="absolute -bottom-1 -right-1 rounded-full bg-primary px-2 py-0.5 text-[10px] font-medium text-white shadow-sm transition-colors hover:bg-primary/90 dark:bg-accent dark:text-primary"
+            className="absolute -bottom-0.5 -right-0.5 rounded-full bg-primary px-1.5 py-px text-[9px] font-medium text-white dark:bg-accent dark:text-primary"
             onClick={openModal}
           >
             Edit
           </button>
         </div>
         <div
-          className={`relative z-10 min-w-0 flex-1 space-y-0.5 ${compact ? "text-left" : "mt-6 text-center"}`}
+          className={`relative z-10 min-w-0 flex-1 ${compact ? "text-left" : "mt-6 space-y-0.5 text-center"}`}
         >
-          <p className="postal-dashboard-label">Profile</p>
-          <h2 className="postal-dashboard-title capitalize">
+          <h2 className="truncate text-xs font-semibold capitalize text-slate-900 dark:text-white">
             {userData?.name} {userData?.lastName}
           </h2>
-          <p className="postal-dashboard-stat truncate">
+          <p className="truncate text-[10px] text-slate-500 dark:text-slate-400">
             {userData?.email}
           </p>
           {!compact ? (

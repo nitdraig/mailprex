@@ -108,13 +108,13 @@ const ProfileAndStadisticView = () => {
   }, [userData]);
 
   return (
-    <section className="mx-auto flex h-full max-w-6xl flex-col lg:min-h-0">
-      <div className="grid min-h-0 flex-1 grid-cols-1 gap-3 lg:grid-cols-12 lg:grid-rows-2 lg:gap-3">
-        <div className="postal-dashboard-card lg:col-span-4 lg:flex lg:items-center">
+    <section className="mx-auto flex h-full w-full max-w-5xl flex-col lg:min-h-0">
+      <div className="grid auto-rows-min grid-cols-1 gap-1.5 lg:min-h-0 lg:flex-1 lg:grid-cols-12 lg:content-start">
+        <div className="postal-dashboard-card lg:col-span-3">
           <UserCard userData={userData} lastEmailDate={lastEmailDate} compact />
         </div>
 
-        <div className="postal-dashboard-card flex min-h-0 flex-col lg:col-span-8 lg:overflow-y-auto">
+        <div className="postal-dashboard-card lg:col-span-9">
           {legacyToken && hasToken && !revealedToken ? (
             <LegacyTokenBanner onRegenerate={generateToken} />
           ) : null}
@@ -130,20 +130,22 @@ const ProfileAndStadisticView = () => {
           />
         </div>
 
-        <div className="postal-dashboard-card lg:col-span-4 lg:flex lg:items-stretch">
-          <EmailStats
-            sentEmails={sentEmails}
-            remainingEmails={remainingEmails}
-            compact
-          />
-        </div>
-
-        <div className="postal-dashboard-card lg:col-span-4 lg:flex lg:items-stretch">
-          <UserPlanCard userPlan={userData?.userType} compact />
-        </div>
-
-        <div className="postal-dashboard-card lg:col-span-4 lg:flex lg:items-stretch">
-          <LastSentCard lastEmailDate={lastEmailDate} compact />
+        <div className="postal-dashboard-card lg:col-span-12">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-slate-200 dark:sm:divide-white/[0.08]">
+            <div className="sm:pr-3">
+              <EmailStats
+                sentEmails={sentEmails}
+                remainingEmails={remainingEmails}
+                compact
+              />
+            </div>
+            <div className="sm:px-3">
+              <UserPlanCard userPlan={userData?.userType} compact />
+            </div>
+            <div className="sm:pl-3">
+              <LastSentCard lastEmailDate={lastEmailDate} compact />
+            </div>
+          </div>
         </div>
       </div>
     </section>

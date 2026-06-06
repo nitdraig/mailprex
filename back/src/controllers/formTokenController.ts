@@ -1,5 +1,6 @@
 import { Response } from "express";
 import User from "../models/userModel";
+import { ensureFormTokenIndexes } from "../bootstrap/ensureFormTokenIndexes";
 import { CustomRequest } from "../types/CustomRequest";
 import {
   createFormTokenCredentials,
@@ -7,6 +8,18 @@ import {
   isLegacyFormToken,
   userHasFormToken,
 } from "../utils/formToken";
+
+async function persistFormToken(userId: unknown, hash: string, prefix: string) {
+  await User.findByIdAndUpdate(userId, {
+    $set: {
+      formTokenHash: hash,
+      formTokenPrefix: prefix,
+    },
+    $unset: {
+      formToken: "",
+    },
+  });
+}
 
 export const generateFormToken = async (req: CustomRequest, res: Response) => {
   try {
@@ -16,15 +29,17 @@ export const generateFormToken = async (req: CustomRequest, res: Response) => {
 
     const { rawToken, prefix, hash } = await createFormTokenCredentials();
 
-    await User.findByIdAndUpdate(req.user._id, {
-      $set: {
-        formTokenHash: hash,
-        formTokenPrefix: prefix,
-      },
-      $unset: {
-        formToken: "",
-      },
-    });
+    try {
+      await persistFormToken(req.user._id, hash, prefix);
+    } catch (error) {
+      const mongoError = error as { code?: number };
+      if (mongoError.code !== 11000) {
+        throw error;
+      }
+
+      await ensureFormTokenIndexes();
+      await persistFormToken(req.user._id, hash, prefix);
+    }
 
     res.status(200).json({
       formToken: rawToken,

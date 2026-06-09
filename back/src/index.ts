@@ -15,6 +15,7 @@ import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import morgan from "morgan";
 import { mailprexMode } from "./config/mailprexMode";
+import { blockScannerPaths } from "./middlewares/blockScannerPaths";
 
 dotenv.config();
 
@@ -118,6 +119,8 @@ if (process.env.NODE_ENV === "production") {
     })
   );
 }
+
+app.use(blockScannerPaths);
 
 app.post(
   "/billing/gumroad/ping",
